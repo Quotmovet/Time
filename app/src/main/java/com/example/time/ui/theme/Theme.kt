@@ -1,6 +1,5 @@
 package com.example.time.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = White,
+    secondary = Gray,
+
+    background = Black,
+    surface = LightGray,
+
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Black,
+    secondary = LightBlack,
+
+    background = White,
+    surface = LightGray,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
