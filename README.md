@@ -11,8 +11,9 @@
 - работа
 
 Используемый стек в приложении:
-- Fragment
-- Koin
+- JetpackCompose
+- Dagger
+- Hilt
 - OkHttp
 - Room
 - SQLite
