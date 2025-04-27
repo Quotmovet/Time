@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -56,4 +59,44 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Splash Api
+    implementation(libs.androidx.core.splashscreen)
+
+    //Compose Navigation
+    implementation (libs.androidx.navigation.compose)
+
+    //Dagger Hilt
+    implementation (libs.hilt.android)
+    ksp(libs.hilt.compiler)
+    implementation (libs.androidx.hilt.navigation.compose)
+
+    //Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    // Compose Coil&Glide
+    implementation(libs.coil.compose)
+    implementation(libs.glide)
+    implementation(libs.glide.compose)
+
+    //Datastore
+    implementation (libs.androidx.datastore.preferences)
+
+    //Compose Foundation
+    implementation (libs.androidx.foundation)
+
+    //Accompanist
+    implementation (libs.accompanist.systemuicontroller)
+
+    //Paging 3
+    implementation (libs.androidx.paging.runtime.ktx)
+    implementation (libs.androidx.paging.compose)
+
+    //Room
+    implementation (libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
+
+
 }
