@@ -1,4 +1,4 @@
-package com.example.time.ui.theme
+package com.example.time.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -12,33 +12,53 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = White,
+    onPrimary = Black, // Цвет текста/иконок на primary
+    primaryContainer = LightBlack, // Контейнер для primary (например, фон кнопок)
+    onPrimaryContainer = White, // Цвет содержимого в primaryContainer
+
     secondary = Gray,
+    onSecondary = Black,
 
     background = Black,
-    surface = LightGray,
+    onBackground = White, // Цвет текста на фоне background
 
+    surface = LightGray,
+    onSurface = Black, // Цвет текста на surface
+    surfaceContainer = LightGray,
+
+    surfaceVariant = Gray, // Вариант поверхности (например, карточки)
+    onSurfaceVariant = White,
+
+    error = Red, // Цвет для ошибок
+    onError = White
 )
 
+
 private val LightColorScheme = lightColorScheme(
-    primary = Black,
-    secondary = LightBlack,
+    primary = White,
+    onPrimary = Black,
+    primaryContainer = LightGray,
+    onPrimaryContainer = Black,
+
+    secondary = Blue,
+    onSecondary = Blue,
 
     background = White,
-    surface = LightGray,
+    onBackground = Black,
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    surface = White,
+    onSurface = Black,
+    surfaceContainer = White,
+
+    surfaceVariant = LightGray,
+    onSurfaceVariant = Black,
+
+    error = Red,
+    onError = White
 )
 
 @Composable
-fun TimeTheme(
+fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
