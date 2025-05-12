@@ -12,19 +12,19 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = White,
-    onPrimary = Black, // Цвет текста/иконок на primary
+    onPrimary = White, // Цвет текста/иконок на primary
     primaryContainer = LightBlack, // Контейнер для primary (например, фон кнопок)
     onPrimaryContainer = White, // Цвет содержимого в primaryContainer
 
-    secondary = Gray,
-    onSecondary = Black,
+    secondary = Blue,
+    onSecondary = Blue,
 
     background = Black,
     onBackground = White, // Цвет текста на фоне background
 
-    surface = LightGray,
-    onSurface = Black, // Цвет текста на surface
-    surfaceContainer = LightGray,
+    surface = Black,
+    onSurface = White, // Цвет текста на surface
+    surfaceContainer = Black,
 
     surfaceVariant = Gray, // Вариант поверхности (например, карточки)
     onSurfaceVariant = White,

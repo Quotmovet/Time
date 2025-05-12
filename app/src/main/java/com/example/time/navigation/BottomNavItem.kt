@@ -11,31 +11,31 @@ sealed class BottomNavItem(
 
     object AlarmScreen : BottomNavItem(
         route = "alarm",
-        iconResId = R.drawable.alarm,
+        iconResId = R.drawable.ic_alarm,
         title = "Alarm"
     )
 
     object TimerScreen : BottomNavItem(
         route = "timer",
-        iconResId = R.drawable.timer,
+        iconResId = R.drawable.ic_timer,
         title = "Timer"
     )
 
     object TimeScreen: BottomNavItem(
         route = "time",
-        iconResId = R.drawable.world_time,
+        iconResId = R.drawable.ic_world_time,
         title = "Time"
     )
 
     object StopwatchScreen : BottomNavItem(
         route = "stopwatch",
-        iconResId = R.drawable.stopwatch,
+        iconResId = R.drawable.ic_stopwatch,
         title = "Stopwatch"
     )
 
     object SleepScreen : BottomNavItem(
         route = "sleep",
-        iconResId = R.drawable.sleep,
+        iconResId = R.drawable.ic_sleep,
         title = "Sleep"
     )
 

@@ -46,7 +46,7 @@ fun BottomNavigationBar(
                             .size(if (isSelected) iconSize * 1.1f else iconSize)
                             .animateContentSize(
                                 animationSpec = tween(
-                                    durationMillis = 300,
+                                    durationMillis = 400,
                                     easing = FastOutSlowInEasing
                                 )
                             )

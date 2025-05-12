@@ -12,6 +12,8 @@ import com.example.time.navigation.BottomNavItem
 import com.example.time.navigation.NavGraph
 import androidx.compose.runtime.getValue
 import com.example.time.presentation.components.navigation.BottomNavigationBar
+import com.example.time.presentation.components.navigation.TopBarMain
+import com.example.time.presentation.components.navigation.TopBarSecondary
 
 @Composable
 fun MainScreen() {
@@ -22,22 +24,39 @@ fun MainScreen() {
     val currentScreen = BottomNavItem.items.find { it.route == currentRoute }
         ?: BottomNavItem.TimeScreen
 
+    val isMainScreen = currentRoute in listOf("alarm", "timer", "time", "stopwatch", "sleep")
+    val hideBottomNavRoutes = listOf("settings", "search")
+    val showBottomNav = !hideBottomNavRoutes.contains(currentRoute)
+
     Scaffold(
+        topBar = {
+            if (isMainScreen) {
+                TopBarMain(
+                    currentScreen = currentScreen,
+                    navController = navController
+                )
+            } else {
+                TopBarSecondary( navController = navController )
+            }
+        },
+
         bottomBar = {
-            BottomNavigationBar(
-                currentScreen = currentScreen,
-                onItemClick = { item ->
-                    if (currentScreen.route != item.route) {
-                        navController.navigate(item.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+            if(showBottomNav) {
+                BottomNavigationBar(
+                    currentScreen = currentScreen,
+                    onItemClick = { item ->
+                        if (currentScreen.route != item.route) {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
                     }
-                }
-            )
+                )
+            }
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {

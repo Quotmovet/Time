@@ -1,4 +1,4 @@
-package com.example.time.presentation.screens.sleepscreen
+package com.example.time.presentation.screens.settingsscreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,13 +10,13 @@ import androidx.compose.ui.Modifier
 import com.example.time.presentation.theme.Dimens.TextSize24
 
 @Composable
-fun SleepScreen() {
+fun SettingsScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Sleep Screen",
+            text = "Settings Screen",
             fontSize = TextSize24,
             color = MaterialTheme.colorScheme.onPrimary
         )
