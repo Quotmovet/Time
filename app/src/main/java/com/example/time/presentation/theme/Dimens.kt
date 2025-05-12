@@ -7,12 +7,15 @@ object Dimens {
 
     // Main dimensions
     val SmallPadding4 = 4.dp
+    val SmallPadding6 = 6.dp
     val SmallPadding8 = 8.dp
+    val SmallPadding10 = 10.dp
     val MediumPadding12 = 12.dp
     val MediumPadding16 = 16.dp
     val MediumPadding18 = 18.dp
     val LargePadding22 = 22.dp
     val LargePadding55 = 55.dp
+    val LargePadding64 = 64.dp
     val LargePadding155 = 155.dp
 
     // Dimensions of typography
