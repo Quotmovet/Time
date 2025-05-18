@@ -1,4 +1,4 @@
-package com.example.time.presentation.theme
+package com.example.time.presentation.common.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -41,7 +41,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimaryContainer = Black,
 
     secondary = Blue,
-    onSecondary = Blue,
+    onSecondary = LightBlue,
 
     background = White,
     onBackground = Black,

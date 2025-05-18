@@ -7,7 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.time.presentation.theme.Dimens.TextSize24
+import com.example.time.presentation.common.Dimens.TextSize24
 
 @Composable
 fun AlarmScreen() {

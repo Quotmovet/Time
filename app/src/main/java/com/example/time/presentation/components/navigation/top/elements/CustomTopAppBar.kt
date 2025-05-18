@@ -1,4 +1,4 @@
-package com.example.time.presentation.common.navigation
+package com.example.time.presentation.components.navigation.top.elements
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import com.example.time.presentation.theme.Dimens.LargePadding64
-import com.example.time.presentation.theme.Dimens.SmallPadding4
-import com.example.time.presentation.theme.Dimens.SmallPadding8
-import com.example.time.util.sizes.responsiveIconSize
+import com.example.time.presentation.common.Dimens.LargePadding64
+import com.example.time.presentation.common.Dimens.SmallPadding4
+import com.example.time.presentation.common.Dimens.SmallPadding8
+import com.example.time.presentation.common.util.sizes.responsiveIconSize
 
 @Composable
 fun CustomTopAppBar(

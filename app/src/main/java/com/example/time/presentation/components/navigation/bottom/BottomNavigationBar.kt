@@ -1,4 +1,4 @@
-package com.example.time.presentation.components.navigation
+package com.example.time.presentation.components.navigation.bottom
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -16,11 +16,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.example.time.navigation.BottomNavItem
-import com.example.time.presentation.theme.Dimens.SmallPadding4
-import com.example.time.util.effects.noRippleInteractionSource
-import com.example.time.util.sizes.responsiveIconSize
-import com.example.time.util.sizes.responsiveTextSize
+import com.example.time.presentation.common.Dimens.SmallPadding4
+import com.example.time.presentation.common.util.effects.noRippleInteractionSource
+import com.example.time.presentation.common.util.sizes.responsiveIconSize
+import com.example.time.presentation.common.util.sizes.responsiveTextSize
 
 @Composable
 fun BottomNavigationBar(
@@ -41,7 +42,7 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.iconResId),
-                        contentDescription = item.title,
+                        contentDescription = stringResource(id = item.title),
                         modifier = Modifier
                             .size(if (isSelected) iconSize * 1.1f else iconSize)
                             .animateContentSize(
@@ -55,7 +56,7 @@ fun BottomNavigationBar(
                 },
                 label = {
                     Text(
-                        text = item.title,
+                        text = stringResource(id = item.title),
                         fontSize = textSize
                     )
                 },

@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Time</string>
+
+    <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="alarm">Alarm</string>
+    <string name="timer">Timer</string>
+    <string name="time">Time</string>
+    <string name="stopwatch">Stopwatch</string>
+    <string name="sleep">Sleep</string>
+
+    <string name="searchCities">Search cities</string>
+
+    <string name="back">Back</string>
 </resources>

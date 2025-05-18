@@ -1,7 +1,7 @@
 package com.example.time.di
 
 import com.example.time.navigation.BottomNavItem
-import com.example.time.navigation.TopNavItem
+import com.example.time.navigation.Screens
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTopNavItems(): List<TopNavItem.SettingsScreen> {
-        return TopNavItem.items
+    fun provideTopNavItems(): List<Screens> {
+        return Screens.items
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Time</string>
+    <string name="search">Поиск</string>
+    <string name="settings">Настройки</string>
+    <string name="searchCities">Поиск города</string>
+    <string name="back">Назад</string>
+    <string name="alarm">Будильник</string>
+    <string name="timer">Таймер</string>
+    <string name="time">Время</string>
+    <string name="stopwatch">Секундомер</string>
+    <string name="sleep">Сон</string>
+</resources>

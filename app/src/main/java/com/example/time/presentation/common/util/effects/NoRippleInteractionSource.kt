@@ -1,4 +1,4 @@
-package com.example.time.util.effects
+package com.example.time.presentation.common.util.effects
 
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource

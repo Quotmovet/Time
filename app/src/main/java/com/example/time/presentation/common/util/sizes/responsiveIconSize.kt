@@ -1,12 +1,12 @@
-package com.example.time.util.sizes
+package com.example.time.presentation.common.util.sizes
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
-import com.example.time.presentation.theme.Dimens.BigIconsSize36
-import com.example.time.presentation.theme.Dimens.BigIconsSize48
-import com.example.time.presentation.theme.Dimens.PrimaryIconsSize
+import com.example.time.presentation.common.Dimens.BigIconsSize36
+import com.example.time.presentation.common.Dimens.BigIconsSize48
+import com.example.time.presentation.common.Dimens.PrimaryIconsSize
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable

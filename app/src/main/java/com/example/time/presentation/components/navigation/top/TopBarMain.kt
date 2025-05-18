@@ -1,4 +1,4 @@
-package com.example.time.presentation.components.navigation
+package com.example.time.presentation.components.navigation.top
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,11 +12,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.time.navigation.BottomNavItem
-import com.example.time.navigation.TopNavItem
-import com.example.time.presentation.theme.Dimens.SmallPadding4
-import com.example.time.util.sizes.responsiveIconSize
+import com.example.time.navigation.Screens
+import com.example.time.presentation.common.Dimens.SmallPadding4
+import com.example.time.presentation.common.util.sizes.responsiveIconSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,20 +31,19 @@ fun TopBarMain(
     TopAppBar(
         title = {
             Text(
-                text = currentScreen.title,
+                text = stringResource(id = currentScreen.title),
                 style = MaterialTheme.typography.titleLarge
             )
         },
         actions = {
-            IconButton( onClick = {
-                navController.navigate(TopNavItem.SettingsScreen.route)
-            } ) {
+            IconButton( onClick = { navController.navigate(Screens.SettingsScreen.route) }
+            ) {
                 Icon(
-                    painter = painterResource(id = TopNavItem.SettingsScreen.iconResId),
+                    painter = painterResource(id = Screens.SettingsScreen.iconResId),
                     modifier = Modifier
                         .size(iconSize)
                         .padding(SmallPadding4),
-                    contentDescription = TopNavItem.SettingsScreen.title
+                    contentDescription = stringResource(id = Screens.SettingsScreen.title)
                 )
             }
         },
