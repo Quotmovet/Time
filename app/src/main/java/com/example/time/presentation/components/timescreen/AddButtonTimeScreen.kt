@@ -29,7 +29,7 @@ fun AddButton(
             modifier = Modifier
                 .padding(SmallPadding4),
             contentDescription = "addButton",
-            tint = MaterialTheme.colorScheme.secondary
+            tint = MaterialTheme.colorScheme.onBackground
         )
     }
 }

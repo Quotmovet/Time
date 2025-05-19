@@ -28,13 +28,13 @@ fun SearchItem(
     Box(
         modifier = Modifier
             .height(SmallSize)
-            .padding(horizontal = SmallPadding12),
+            .padding(horizontal = MediumPadding22),
         contentAlignment = Alignment.Center
     ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MediumPadding22, vertical = SmallPadding10),
+                .padding(horizontal = SmallPadding12, vertical = SmallPadding10),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
@@ -44,7 +44,7 @@ fun SearchItem(
                     .wrapContentHeight(Alignment.CenterVertically),
                 text = "Moscow",
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 modifier = Modifier
@@ -54,16 +54,8 @@ fun SearchItem(
                 text = "19:00",
                 textAlign = TextAlign.End,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewSearchItem(){
-    Theme {
-        SearchItem()
     }
 }

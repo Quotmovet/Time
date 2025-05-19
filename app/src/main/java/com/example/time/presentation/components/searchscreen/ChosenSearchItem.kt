@@ -16,13 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.time.R
-import com.example.time.presentation.common.Dimens.MediumPadding22
+import com.example.time.presentation.common.Dimens.LargePadding34
 import com.example.time.presentation.common.Dimens.SmallPadding10
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.Dimens.SmallSize
-import com.example.time.presentation.common.theme.Theme
 
 @Composable
 fun ChosenSearchItem(
@@ -31,20 +29,20 @@ fun ChosenSearchItem(
     Box(
         modifier = Modifier
             .height(SmallSize)
-            .background(color = MaterialTheme.colorScheme.onSecondary),
+            .background(color = MaterialTheme.colorScheme.onTertiary),
         contentAlignment = Alignment.Center
     ){
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = MediumPadding22, vertical = SmallPadding10),
+                .padding(horizontal = LargePadding34, vertical = SmallPadding10),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 modifier = Modifier.padding(end = SmallPadding4),
                 painter = painterResource(R.drawable.ic_checkmark),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.secondary
+                tint = MaterialTheme.colorScheme.primary
             )
             Text(
                 modifier = Modifier
@@ -53,7 +51,7 @@ fun ChosenSearchItem(
                     .wrapContentHeight(Alignment.CenterVertically),
                 text = "Moscow",
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 modifier = Modifier
@@ -63,16 +61,8 @@ fun ChosenSearchItem(
                 text = "19:00",
                 textAlign = TextAlign.End,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewChosenSearchItem(){
-    Theme {
-        ChosenSearchItem()
     }
 }

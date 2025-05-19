@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.time.navigation.BottomNavItem
 import com.example.time.presentation.common.Dimens.SmallPadding4
+import com.example.time.presentation.common.theme.Theme
 import com.example.time.presentation.common.util.effects.noRippleInteractionSource
 import com.example.time.presentation.common.util.sizes.responsiveIconSize
 import com.example.time.presentation.common.util.sizes.responsiveTextSize
@@ -31,7 +33,10 @@ fun BottomNavigationBar(
     val iconSize = responsiveIconSize()
     val textSize = responsiveTextSize()
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.background,
+
+    ) {
         BottomNavItem.items.forEach { item ->
             val interactionSource = remember { noRippleInteractionSource() }
             val isSelected = currentScreen.route == item.route
@@ -61,10 +66,10 @@ fun BottomNavigationBar(
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.onSecondary,
-                    selectedTextColor = MaterialTheme.colorScheme.onSecondary,
-                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onBackground,
+                    unselectedTextColor = MaterialTheme.colorScheme.onBackground,
                     indicatorColor = Color.Transparent
                 ),
                 interactionSource = interactionSource
