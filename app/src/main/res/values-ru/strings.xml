@@ -10,4 +10,8 @@
     <string name="time">Время</string>
     <string name="stopwatch">Секундомер</string>
     <string name="sleep">Сон</string>
+    <string name="badRequest">Неверный тип запроса, ожидался TimeDataRequest</string>
+    <string name="noInternet">Отсутствует интернет соединение</string>
+    <string name="errorNetwork">Ошибка сети</string>
+    <string name="errorInternal">Внутренняя ошибка</string>
 </resources>

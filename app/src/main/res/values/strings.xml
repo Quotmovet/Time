@@ -12,4 +12,12 @@
     <string name="searchCities">Search cities</string>
 
     <string name="back">Back</string>
+
+    --Сетевые запросы--
+    <string name="badRequest">Bad request type, expected TimeDataRequest</string>
+    <string name="noInternet">No internet</string>
+    <string name="errorNetwork">Error network</string>
+    <string name="errorInternal">Error internal</string>
+
+
 </resources>
