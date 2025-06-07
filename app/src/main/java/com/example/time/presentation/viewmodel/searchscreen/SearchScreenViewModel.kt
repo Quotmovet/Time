@@ -88,17 +88,24 @@ class SearchScreenViewModel @Inject constructor(
     fun insertSelectedTimeData(data: TimeDataModel) {
         viewModelScope.launch(Dispatchers.IO) {
             selectedTimeZoneInteractor.insertSelectedTimeData(data.toEntityFromModel())
+            getSelected()
         }
     }
 
-    fun getFavorites() {
+    fun getSelected() {
         viewModelScope.launch(Dispatchers.IO) {
-            selectedTimeZoneInteractor
-                .getSelectedTimeData()
-                .collect { entities ->
-                    val models = entities.map { it.toModelFromEntity() }
-                    _selectedTimeState.value = updateSelectedTimeZone(models)
-                }
+            selectedTimeZoneInteractor.getSelectedTimeData().collect { entities ->
+                val selected = entities.map { it.toModelFromEntity() }
+
+                // Обновляем избранное состояние
+                _selectedTimeState.value = selected
+
+                // Обновляем флаг isSelected в текущем поисковом списке
+                val updatedTimeZones = updateSelectedTimeZone(selected)
+
+                // Устанавливаем новый список в searchState
+                _searchState.value = _searchState.value.copy(timeZone = updatedTimeZones)
+            }
         }
     }
 
@@ -106,10 +113,15 @@ class SearchScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             selectedTimeZoneInteractor.deleteSelectedTimezone(timezone)
         }
+        getSelected()
     }
 
-    private fun updateSelectedTimeZone(timeZone: List<TimeDataModel>): List<TimeDataModel> {
-        return timeZone.map { it.copy(isSelected = true) }
+    private fun updateSelectedTimeZone(favorites: List<TimeDataModel>): List<TimeDataModel> {
+        val currentTimeZones = _searchState.value.timeZone
+        return currentTimeZones.map { item ->
+            val isFav = favorites.any { it.timeZone == item.timeZone }
+            item.copy(isSelected = isFav)
+        }
     }
 
     private fun postTimeState(){

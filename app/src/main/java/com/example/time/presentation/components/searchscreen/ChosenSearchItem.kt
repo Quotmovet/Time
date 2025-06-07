@@ -1,6 +1,7 @@
 package com.example.time.presentation.components.searchscreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,12 +25,15 @@ import com.example.time.presentation.common.Dimens.SmallSize
 
 @Composable
 fun ChosenSearchItem(
-    // citiesAndTime
+    city: String,
+    time: String,
+    onClick: () -> Unit
 ){
     Box(
         modifier = Modifier
             .height(SmallSize)
-            .background(color = MaterialTheme.colorScheme.onTertiary),
+            .background(color = MaterialTheme.colorScheme.onTertiary)
+            .clickable{ onClick() },
         contentAlignment = Alignment.Center
     ){
         Row(
@@ -49,7 +53,7 @@ fun ChosenSearchItem(
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight(Alignment.CenterVertically),
-                text = "Moscow",
+                text = city,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -58,7 +62,7 @@ fun ChosenSearchItem(
                     .weight(1f)
                     .fillMaxHeight()
                     .wrapContentHeight(Alignment.CenterVertically),
-                text = "19:00",
+                text = time,
                 textAlign = TextAlign.End,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onBackground

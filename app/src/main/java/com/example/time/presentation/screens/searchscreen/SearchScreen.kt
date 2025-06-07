@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.time.presentation.common.Dimens.LargePadding80
 import com.example.time.presentation.common.Dimens.MediumPadding22
+import com.example.time.presentation.components.searchscreen.ChosenSearchItem
 import com.example.time.presentation.components.searchscreen.PlaceholderSearchScreen
 import com.example.time.presentation.components.searchscreen.SearchField
 import com.example.time.presentation.components.searchscreen.SearchItem
@@ -50,6 +51,12 @@ fun SearchScreen(
             searchScreenViewModel.searchDebouncer(searchText)
         }
     }
+
+    LaunchedEffect(Unit) {
+        searchScreenViewModel.getSelected()
+    }
+
+    val selectedTimeZone by searchScreenViewModel.selectedTimeState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -94,9 +101,23 @@ fun SearchScreen(
                 searchState.timeZone.isNotEmpty() -> {
                     Spacer(modifier = Modifier.height(MediumPadding22))
                     LazyColumn {
-                        items(searchState.timeZone.size) { index ->
-                            val timeZone = searchState.timeZone[index]
-                            SearchItem(timeZone.cityName, timeZone.time)
+                        items(searchState.timeZone.size) { timeZone ->
+                            val timeZoneData = searchState.timeZone[timeZone]
+                            val isSelected = selectedTimeZone.any { it.timeZone == timeZoneData.timeZone }
+
+                            if(!isSelected) {
+                                SearchItem(
+                                    timeZoneData.cityName,
+                                    timeZoneData.time,
+                                    onClick = { searchScreenViewModel.insertSelectedTimeData(timeZoneData) }
+                                )
+                            } else {
+                                ChosenSearchItem(
+                                    timeZoneData.cityName,
+                                    timeZoneData.time,
+                                    onClick = { searchScreenViewModel.deleteSelectedTimezone(timeZoneData.timeZone) }
+                                )
+                            }
                         }
                     }
                 }

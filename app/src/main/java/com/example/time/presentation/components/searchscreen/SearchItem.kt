@@ -1,5 +1,6 @@
 package com.example.time.presentation.components.searchscreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -21,13 +22,15 @@ import com.example.time.presentation.common.Dimens.SmallSize
 @Composable
 fun SearchItem(
     city: String,
-    time: String
+    time: String,
+    onClick: () -> Unit
 ){
 
     Box(
         modifier = Modifier
             .height(SmallSize)
-            .padding(horizontal = MediumPadding22),
+            .padding(horizontal = MediumPadding22)
+            .clickable{ onClick() },
         contentAlignment = Alignment.Center
     ){
         Row(
