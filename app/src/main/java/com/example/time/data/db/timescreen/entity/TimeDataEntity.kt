@@ -9,5 +9,6 @@ data class TimeDataEntity (
     val cityName: String,
     val country: String,
     val time: String,
+    val offset: Int,
     val isSelected: Boolean
 )

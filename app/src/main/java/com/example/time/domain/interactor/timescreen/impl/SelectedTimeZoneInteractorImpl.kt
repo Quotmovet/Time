@@ -21,5 +21,4 @@ class SelectedTimeZoneInteractorImpl @Inject constructor(
     override suspend fun deleteSelectedTimezone(timezone: String) {
         selectedTimeZoneRepository.deleteSelectedTimezone(timezone)
     }
-
 }

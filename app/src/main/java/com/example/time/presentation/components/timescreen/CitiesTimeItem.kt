@@ -15,23 +15,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.time.presentation.common.Dimens.MainSize
 import com.example.time.presentation.common.Dimens.MediumPadding16
-import com.example.time.presentation.common.Dimens.MediumPadding22
 import com.example.time.presentation.common.Dimens.PrimaryCorner
 import com.example.time.presentation.common.Dimens.SmallPadding12
-import com.example.time.presentation.common.theme.Theme
 
 @Composable
 fun CitiesTimeItem(
-    // citiesTimeItemElements: CitiesTimeItemElements
+    cityName: String,
+    time: String,
+    offset: String
 ){
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(MainSize)
-            .padding(horizontal = MediumPadding22)
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,
                 shape = RoundedCornerShape(PrimaryCorner)
@@ -48,14 +46,14 @@ fun CitiesTimeItem(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Novosibirsk",
+                    text = cityName,
                     maxLines = 1,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "+4 h.",
+                    text = offset,
                     maxLines = 1,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onBackground
@@ -65,20 +63,12 @@ fun CitiesTimeItem(
             Text(
                 modifier = Modifier
                     .weight(0.3f),
-                text = "15:39",
+                text = time,
                 textAlign = TextAlign.End,
                 maxLines = 1,
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewCitiesTimeItem(){
-    Theme{
-        CitiesTimeItem()
     }
 }

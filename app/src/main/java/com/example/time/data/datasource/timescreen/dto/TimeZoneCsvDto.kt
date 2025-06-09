@@ -1,10 +1,9 @@
-package com.example.time.domain.model.timescreen
+package com.example.time.data.datasource.timescreen.dto
 
-data class TimeDataModel(
+data class TimeZoneCsvDto(
     val timeZone: String,
     val cityName: String,
     val country: String,
-    val time: String,
     val offset: Int,
     var isSelected: Boolean
 )

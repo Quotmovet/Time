@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class TimeDataRepositoryImpl @Inject constructor(
+class NetworkTimeDataRepositoryImpl @Inject constructor(
     private val networkClient: NetworkClient
 ) : TimeDataRepository {
 

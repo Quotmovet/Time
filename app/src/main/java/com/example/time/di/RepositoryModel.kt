@@ -1,11 +1,14 @@
 package com.example.time.di
 
+import com.example.time.data.datasource.timescreen.TimeZoneCsvDataSource
 import com.example.time.data.db.AppDatabase
 import com.example.time.data.network.timescreen.TimeApiNetworkClient
 import com.example.time.data.repositories.timescreen.CurrentTimeRepositoryImpl
+import com.example.time.data.repositories.timescreen.DataSourceTimeRepositoryImpl
 import com.example.time.data.repositories.timescreen.SelectedTimeZoneRepositoryImpl
-import com.example.time.data.repositories.timescreen.TimeDataRepositoryImpl
+import com.example.time.data.repositories.timescreen.NetworkTimeDataRepositoryImpl
 import com.example.time.domain.repositories.timescreen.CurrentTimeRepository
+import com.example.time.domain.repositories.timescreen.DataSourceTimeRepository
 import com.example.time.domain.repositories.timescreen.SelectedTimeZoneRepository
 import com.example.time.domain.repositories.timescreen.TimeDataRepository
 import dagger.Module
@@ -26,7 +29,7 @@ object RepositoryModel {
     fun provideTimeZoneRepository(
         timeApiNetworkClient: TimeApiNetworkClient,
     ): TimeDataRepository {
-        return TimeDataRepositoryImpl(timeApiNetworkClient)
+        return NetworkTimeDataRepositoryImpl(timeApiNetworkClient)
     }
 
     @Provides
@@ -35,6 +38,14 @@ object RepositoryModel {
         appDatabase: AppDatabase
     ): SelectedTimeZoneRepository {
         return SelectedTimeZoneRepositoryImpl(appDatabase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataSourceTimeRepository(
+        timeZoneCsvDataSource: TimeZoneCsvDataSource
+    ): DataSourceTimeRepository {
+        return DataSourceTimeRepositoryImpl(timeZoneCsvDataSource)
     }
 
 }

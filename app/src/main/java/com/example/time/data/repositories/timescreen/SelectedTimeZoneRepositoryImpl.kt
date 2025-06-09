@@ -11,7 +11,6 @@ import javax.inject.Inject
 class SelectedTimeZoneRepositoryImpl @Inject constructor (
     private val appDatabase: AppDatabase
 ): SelectedTimeZoneRepository {
-
     override suspend fun insertSelectedTimeData(data: TimeDataEntity) {
         withContext(Dispatchers.IO) {
             appDatabase.getTimeDataDao().insertSelectedTimeData(data)
@@ -27,5 +26,4 @@ class SelectedTimeZoneRepositoryImpl @Inject constructor (
             appDatabase.getTimeDataDao().deleteSelectedTimezone(timezone)
         }
     }
-
 }

@@ -28,6 +28,6 @@ fun NavGraph(
         composable(BottomNavItem.SleepScreen.route) { SleepScreen() }
 
         composable(Screens.SettingsScreen.route) { SettingsScreen() }
-        composable(Screens.SearchScreen.route) { SearchScreen() }
+        composable(Screens.SearchScreen.route) { SearchScreen(navController) }
     }
 }

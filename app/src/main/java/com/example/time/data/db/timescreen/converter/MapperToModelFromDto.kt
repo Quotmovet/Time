@@ -10,6 +10,7 @@ fun TimeDataDto.toModelFromDto(): TimeDataModel {
         cityName = parseCityName(this.timeZone),
         country = parseCountry(this.timeZone),
         time = formatTime(this.hour, this.minute),
+        offset = 0,
         isSelected = false
     )
 }

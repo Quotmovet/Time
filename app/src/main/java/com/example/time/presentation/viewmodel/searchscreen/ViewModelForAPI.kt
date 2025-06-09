@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time.data.db.timescreen.converter.toEntityFromModel
 import com.example.time.data.db.timescreen.converter.toModelFromEntity
-import com.example.time.domain.interactor.timescreen.DataSourceTimeInteractor
 import com.example.time.domain.interactor.timescreen.SelectedTimeZoneInteractor
+import com.example.time.domain.interactor.timescreen.TimeZoneDataInteractor
 import com.example.time.domain.model.timescreen.TimeDataModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchScreenViewModel @Inject constructor(
-    private val dataSourceTimeInteractor: DataSourceTimeInteractor,
+class ViewModelForAPI @Inject constructor(
+    private val timeZoneDataInteractor: TimeZoneDataInteractor,
     private val selectedTimeZoneInteractor: SelectedTimeZoneInteractor
 ): ViewModel() {
 
@@ -61,25 +61,26 @@ class SearchScreenViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(SEARCH_DELAY)
-            getTimeDataFromDataSource(changedText)
+            searchRequest(changedText)
         }
     }
 
-    // Search
-    fun getTimeDataFromDataSource(newSearchText: String) {
+    // Request
+    fun searchRequest(newSearchText: String) {
         _searchState.value = SearchScreenState(emptyList(), isLoading = true, isFailed = null, isEmpty = false)
 
         viewModelScope.launch {
-            try {
-                dataSourceTimeInteractor.getDataSourceTime(newSearchText).collect { response ->
-                    setTimeState(response)
+            timeZoneDataInteractor.getTimeZone(newSearchText).collect { response ->
+                if(response.isFailed != null) {
+                    _searchState.value = SearchScreenState(
+                        timeZone = emptyList(),
+                        isLoading = false,
+                        isFailed = response.isFailed,
+                        isEmpty = false
+                    )
+                } else {
+                    setTimeState(response.data ?: emptyList())
                 }
-            } catch (e: Exception) {
-                _searchState.value = _searchState.value.copy(
-                    isLoading = false,
-                    isFailed = true,
-                    isEmpty = false
-                )
             }
         }
     }
@@ -87,7 +88,6 @@ class SearchScreenViewModel @Inject constructor(
     fun insertSelectedTimeData(data: TimeDataModel) {
         viewModelScope.launch(Dispatchers.IO) {
             selectedTimeZoneInteractor.insertSelectedTimeData(data.toEntityFromModel())
-            delay(100)
             getSelected()
         }
     }
@@ -110,6 +110,7 @@ class SearchScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             selectedTimeZoneInteractor.deleteSelectedTimezone(timezone)
         }
+        getSelected()
     }
 
     private fun updateSelectedTimeZone(data: List<TimeDataModel>): List<TimeDataModel> {
@@ -130,7 +131,6 @@ class SearchScreenViewModel @Inject constructor(
     }
 
     private fun setTimeState(timeZone: List<TimeDataModel>) {
-        println("Filtered: ${timeZone.size}")
         _searchState.value = SearchScreenState(
             timeZone = timeZone,
             isLoading = false,

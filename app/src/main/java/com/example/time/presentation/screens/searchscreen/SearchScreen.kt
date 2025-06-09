@@ -16,10 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.time.presentation.common.Dimens.LargePadding80
 import com.example.time.presentation.common.Dimens.MediumPadding22
 import com.example.time.presentation.components.searchscreen.ChosenSearchItem
@@ -29,13 +31,16 @@ import com.example.time.presentation.components.searchscreen.SearchItem
 import com.example.time.presentation.components.searchscreen.SearchItemPlaceholder
 import com.example.time.presentation.viewmodel.searchscreen.SearchScreenState
 import com.example.time.presentation.viewmodel.searchscreen.SearchScreenViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen(
+    navController: NavController,
     searchScreenViewModel: SearchScreenViewModel = hiltViewModel()
 ) {
 
     var searchText by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
 
     val searchState by searchScreenViewModel.searchState.collectAsState(
         SearchScreenState(
@@ -52,7 +57,7 @@ fun SearchScreen(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(true) {
         searchScreenViewModel.getSelected()
     }
 
@@ -109,7 +114,13 @@ fun SearchScreen(
                                 SearchItem(
                                     timeZoneData.cityName,
                                     timeZoneData.time,
-                                    onClick = { searchScreenViewModel.insertSelectedTimeData(timeZoneData) }
+                                    onClick = {
+                                        searchScreenViewModel.insertSelectedTimeData(timeZoneData)
+                                        coroutineScope.launch {
+                                            searchScreenViewModel.insertSelectedTimeData(timeZoneData)
+                                            navController.popBackStack()
+                                        }
+                                    }
                                 )
                             } else {
                                 ChosenSearchItem(
