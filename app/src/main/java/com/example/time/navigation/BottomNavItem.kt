@@ -1,42 +1,43 @@
 package com.example.time.navigation
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.example.time.R
 
 sealed class BottomNavItem(
     val route: String,
     @DrawableRes val iconResId: Int,
-    val title: String
+    @StringRes val title: Int
 ) {
 
     object AlarmScreen : BottomNavItem(
         route = "alarm",
         iconResId = R.drawable.ic_alarm,
-        title = "Alarm"
+        title = R.string.alarm
     )
 
     object TimerScreen : BottomNavItem(
         route = "timer",
         iconResId = R.drawable.ic_timer,
-        title = "Timer"
+        title = R.string.timer
     )
 
-    object TimeScreen: BottomNavItem(
+    object TimeScreen : BottomNavItem(
         route = "time",
         iconResId = R.drawable.ic_world_time,
-        title = "Time"
+        title = R.string.time
     )
 
     object StopwatchScreen : BottomNavItem(
         route = "stopwatch",
         iconResId = R.drawable.ic_stopwatch,
-        title = "Stopwatch"
+        title = R.string.stopwatch
     )
 
     object SleepScreen : BottomNavItem(
         route = "sleep",
         iconResId = R.drawable.ic_sleep,
-        title = "Sleep"
+        title = R.string.sleep
     )
 
     companion object {

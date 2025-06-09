@@ -45,25 +45,44 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
+    implementation (libs.androidx.foundation)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.runtime.livedata)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.kotlinx.serialization.json)
+
+    //Material&UI
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material)
     implementation(libs.androidx.material3.window.size.class1.android)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation (libs.accompanist.systemuicontroller)
+
+    //Compose
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+
+    //Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    implementation(libs.mockito.core)
+    implementation(libs.mockwebserver)
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.androidx.core.testing)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Splash Api
+    //Splashscreen
     implementation(libs.androidx.core.splashscreen)
+
+    //time4j
+    implementation(libs.time4j.android)
 
     //Compose Navigation
     implementation (libs.androidx.navigation.compose)
@@ -76,6 +95,8 @@ dependencies {
     //Retrofit
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
 
     // Compose Coil&Glide
     implementation(libs.coil.compose)
@@ -85,12 +106,6 @@ dependencies {
     //Datastore
     implementation (libs.androidx.datastore.preferences)
 
-    //Compose Foundation
-    implementation (libs.androidx.foundation)
-
-    //Accompanist
-    implementation (libs.accompanist.systemuicontroller)
-
     //Paging 3
     implementation (libs.androidx.paging.runtime.ktx)
     implementation (libs.androidx.paging.compose)
@@ -99,6 +114,6 @@ dependencies {
     implementation (libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation (libs.androidx.room.ktx)
-
+    testImplementation(kotlin("test"))
 
 }

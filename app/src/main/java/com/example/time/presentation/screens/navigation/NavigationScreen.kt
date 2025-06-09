@@ -11,9 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.time.navigation.BottomNavItem
 import com.example.time.navigation.NavGraph
 import androidx.compose.runtime.getValue
-import com.example.time.presentation.components.navigation.BottomNavigationBar
-import com.example.time.presentation.components.navigation.TopBarMain
-import com.example.time.presentation.components.navigation.TopBarSecondary
+import com.example.time.presentation.components.navigation.bottom.BottomNavigationBar
+import com.example.time.presentation.components.navigation.top.TopBarMain
+import com.example.time.presentation.components.navigation.top.TopBarSecondary
 
 @Composable
 fun MainScreen() {
@@ -25,18 +25,24 @@ fun MainScreen() {
         ?: BottomNavItem.TimeScreen
 
     val isMainScreen = currentRoute in listOf("alarm", "timer", "time", "stopwatch", "sleep")
+
     val hideBottomNavRoutes = listOf("settings", "search")
+    val hideTopNavRoutes = listOf("search")
+
     val showBottomNav = !hideBottomNavRoutes.contains(currentRoute)
+    val showTopNav = !hideTopNavRoutes.contains(currentRoute)
 
     Scaffold(
         topBar = {
-            if (isMainScreen) {
-                TopBarMain(
-                    currentScreen = currentScreen,
-                    navController = navController
-                )
-            } else {
-                TopBarSecondary( navController = navController )
+            if(showTopNav) {
+                if (isMainScreen) {
+                    TopBarMain(
+                        currentScreen = currentScreen,
+                        navController = navController
+                    )
+                } else {
+                    TopBarSecondary( navController = navController )
+                }
             }
         },
 
