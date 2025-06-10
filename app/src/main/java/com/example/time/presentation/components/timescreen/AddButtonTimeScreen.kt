@@ -1,6 +1,7 @@
 package com.example.time.presentation.components.timescreen
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.example.time.R
 import com.example.time.navigation.Screens
+import com.example.time.presentation.common.Dimens.LargeIconsSize118
 import com.example.time.presentation.common.Dimens.SmallPadding4
 
 @Composable
@@ -17,7 +19,6 @@ fun AddButton(
     modifier: Modifier,
     navController: NavController
 ){
-
     IconButton(
         onClick = {
             navController.navigate(Screens.SearchScreen.route)
@@ -27,7 +28,8 @@ fun AddButton(
         Icon(
             painter = painterResource(id = R.drawable.ic_add_button),
             modifier = Modifier
-                .padding(SmallPadding4),
+                .padding(SmallPadding4)
+                .size(LargeIconsSize118),
             contentDescription = "addButton",
             tint = MaterialTheme.colorScheme.onBackground
         )

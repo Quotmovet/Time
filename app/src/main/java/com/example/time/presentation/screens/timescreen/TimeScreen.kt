@@ -2,6 +2,9 @@
 
 package com.example.time.presentation.screens.timescreen
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -30,12 +33,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.time.presentation.common.Dimens.LargeIconsSize64
 import com.example.time.presentation.common.Dimens.LargePadding34
 import com.example.time.presentation.common.Dimens.LargePadding45
-import com.example.time.presentation.common.Dimens.LargePadding80
 import com.example.time.presentation.common.Dimens.MainSize
 import com.example.time.presentation.common.Dimens.MediumPadding24
 import com.example.time.presentation.common.Dimens.MediumPadding16
@@ -54,18 +59,42 @@ fun TimeScreen(
     viewModel: TimeScreenViewModel = hiltViewModel()
 ) {
 
+    // Получение сведений о текущем времени
     val currentTime by viewModel.currentTime
     val currentDate by viewModel.currentDate
 
     val selectedTimeZones by viewModel.selectedTimeState.collectAsState()
 
+    // Состояние для текущего количества элементов
+    val itemCount = selectedTimeZones.size
+    val shouldShowOverlay = itemCount > 4
+
+    // Анимация высоты фона
+    val animatedHeight by animateFloatAsState(
+        targetValue = if (shouldShowOverlay) 80f else 0f,
+        animationSpec = tween(
+            durationMillis = 600,
+            easing = FastOutSlowInEasing
+        )
+    )
+
+    // Анимация прозрачности фона
+    val animatedAlpha by animateFloatAsState(
+        targetValue = if (shouldShowOverlay) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = 600,
+            easing = FastOutSlowInEasing
+        )
+    )
+
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
     ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = LargePadding80)
         ) {
             item {
                 Spacer(modifier = Modifier.height(LargePadding34))
@@ -85,6 +114,7 @@ fun TimeScreen(
                     }
                 )
 
+                // Удаление посредством свайпа
                 SwipeToDismiss(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -123,12 +153,31 @@ fun TimeScreen(
             }
         }
 
+        // Затемнение снизу
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(animatedHeight.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Black.copy(alpha = 0.1f * animatedAlpha),
+                            Color.Black.copy(alpha = 0.3f * animatedAlpha)
+                        ),
+                        startY = 0f,
+                        endY = Float.POSITIVE_INFINITY
+                    )
+                )
+        )
+
         AddButton(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = MediumPadding24)
                 .size(LargeIconsSize64),
-            navController
+            navController = navController
         )
     }
 }
