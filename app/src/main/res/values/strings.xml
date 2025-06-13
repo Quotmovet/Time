@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Time</string>
 
+    --Общее--
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="alarm">Alarm</string>
@@ -8,6 +9,29 @@
     <string name="time">Time</string>
     <string name="stopwatch">Stopwatch</string>
     <string name="sleep">Sleep</string>
+    <string name="sound">Sound</string>
+    <string name="vibration">Vibration</string>
+    <string name="delete">Delete</string>
+    <string name="choose_time">Choose time</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="name">Name</string>
+
+    --Дни недели (сокращенные)--
+    <string name="M">M</string>
+    <string name="Tu">Tu</string>
+    <string name="W">W</string>
+    <string name="Th">Th</string>
+    <string name="F">F</string>
+    <string name="Sa">Sa</string>
+    <string name="Su">Su</string>
+    <string name="Mon">Mon</string>
+    <string name="Tue">Tue</string>
+    <string name="Wed">Wed</string>
+    <string name="Thu">Thu</string>
+    <string name="Fri">Fri</string>
+    <string name="Sut">Sut</string>
+    <string name="Sun">Sun</string>
 
     <string name="searchCities">Search cities</string>
 

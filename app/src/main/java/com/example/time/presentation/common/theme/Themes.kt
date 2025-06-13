@@ -30,10 +30,10 @@ private val DarkColorScheme = darkColorScheme(
     surfaceVariant = SurfaceVariantD,
     onSurfaceVariant = OnSurfaceVariantD,
 
-    error = ErrorLD,
-    onError = OnErrorLD,
-    errorContainer = ErrorContainerLD,
-    onErrorContainer = OnErrorContainerLD,
+    error = ErrorLD, // Red
+    onError = OnErrorLD, // White
+    errorContainer = ErrorContainerLD, // LightRed
+    onErrorContainer = OnErrorContainerLD, // White
 
     outline = OutlineD,
     outlineVariant = OutlineVariantD
@@ -41,32 +41,32 @@ private val DarkColorScheme = darkColorScheme(
 
 
 private val LightColorScheme = lightColorScheme(
-    primary = PrimaryL,
-    onPrimary = OnPrimaryL,
-    primaryContainer = PrimaryContainerL,
-    onPrimaryContainer = OnPrimaryContainerL,
+    primary = PrimaryL, // Blue
+    onPrimary = OnPrimaryL, // White
+    primaryContainer = PrimaryContainerL, // LightGray
+    onPrimaryContainer = OnPrimaryContainerL, // Gray
 
-    secondary = SecondaryL,
-    onSecondary = OnSecondaryL,
+    secondary = SecondaryL, // MiddleBlue
+    onSecondary = OnSecondaryL, // White
 
-    tertiary = TertiaryL,
-    onTertiary = OnTertiaryL,
+    tertiary = TertiaryL, // LightBlack
+    onTertiary = OnTertiaryL, // LightBlue
 
-    background = BackgroundL,
-    onBackground = OnBackgroundL,
+    background = BackgroundL, // White
+    onBackground = OnBackgroundL, // Black
 
-    surface = SurfaceL,
-    onSurface = OnSurfaceL,
-    surfaceVariant = SurfaceVariantL,
-    onSurfaceVariant = OnSurfaceVariantL,
+    surface = SurfaceL, // LightGray
+    onSurface = OnSurfaceL, // Black
+    surfaceVariant = SurfaceVariantL, // LightBlue
+    onSurfaceVariant = OnSurfaceVariantL, // Black
 
-    error = ErrorLD,
-    onError = OnErrorLD,
-    errorContainer = ErrorContainerLD,
-    onErrorContainer = OnErrorContainerLD,
+    error = ErrorLD, // Red
+    onError = OnErrorLD, // White
+    errorContainer = ErrorContainerLD, // LightRed
+    onErrorContainer = OnErrorContainerLD, // White
 
-    outline = OutlineL,
-    outlineVariant = OutlineVariantL
+    outline = OutlineL, // Blue
+    outlineVariant = OutlineVariantL // MiddleBlue
 )
 
 @Composable
