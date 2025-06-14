@@ -1,5 +1,7 @@
 package com.example.time.di
 
+import com.example.time.domain.interactor.alarmscreen.AlarmScreenInteractor
+import com.example.time.domain.interactor.alarmscreen.impl.AlarmScreenInteractorImpl
 import com.example.time.domain.interactor.timescreen.DataSourceTimeInteractor
 import com.example.time.domain.interactor.timescreen.SelectedTimeZoneInteractor
 import com.example.time.domain.interactor.timescreen.TimeZoneDataInteractor
@@ -29,5 +31,11 @@ abstract class DomainModule {
     abstract fun bindDataSourceTimeInteractor(
         dataSourceTimeInteractor: DataSourceTimeInteractorImpl
     ): DataSourceTimeInteractor
+
+
+    @Binds
+    abstract fun bindAlarmScreenInteractor(
+        alarmScreenInteractor: AlarmScreenInteractorImpl
+    ): AlarmScreenInteractor
 
 }

@@ -16,7 +16,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
-import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,34 +29,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.time.R
 import com.example.time.presentation.common.Dimens.LargePadding30
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.Dimens.TextSize48
 import com.example.time.presentation.common.theme.Geist
-import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmClock(
+    timeState: TimePickerState,
     onDismiss: () -> Unit,
-    onConfirm: (hour: Int, minute: Int) -> Unit
+    onConfirm: () -> Unit
 ) {
     var showKeyboardInput by remember { mutableStateOf(false) }
 
     val keyboard = painterResource(R.drawable.ic_keyboard)
     val clock = painterResource(R.drawable.ic_world_time)
-
-    var hour by remember { mutableStateOf("") }
-    var minute by remember { mutableStateOf("") }
-
-    val now = Calendar.getInstance()
-    val timeState = rememberTimePickerState(
-        initialHour = now.get(Calendar.HOUR_OF_DAY),
-        initialMinute = now.get(Calendar.MINUTE),
-        is24Hour = true
-    )
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -66,20 +55,22 @@ fun AlarmClock(
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
-                },
+        },
         text = {
-            if (showKeyboardInput) {
-                CompositionLocalProvider(
-                    LocalTextStyle provides TextStyle(
-                        fontFamily = Geist,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = TextSize48
-                    )
-                ) {
+            CompositionLocalProvider(
+                LocalTextStyle provides TextStyle(
+                    fontFamily = Geist,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = TextSize48
+                )
+            ) {
+                if (showKeyboardInput) {
                     TimeInput(
-                        modifier = Modifier.fillMaxWidth().padding(start = LargePadding30),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = LargePadding30),
                         state = timeState,
-                        colors = TimePickerDefaults.colors (
+                        colors = TimePickerDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.background,
                             clockDialColor = MaterialTheme.colorScheme.primaryContainer,
                             timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.tertiary,
@@ -89,19 +80,13 @@ fun AlarmClock(
                             periodSelectorBorderColor = MaterialTheme.colorScheme.primary
                         )
                     )
-                }
-            } else {
-                CompositionLocalProvider(
-                    LocalTextStyle provides TextStyle(
-                        fontFamily = Geist,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = TextSize48
-                    )
-                ) {
+                } else {
                     TimePicker(
-                        modifier = Modifier.fillMaxWidth().padding(start = SmallPadding4),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = SmallPadding4),
                         state = timeState,
-                        colors = TimePickerDefaults.colors (
+                        colors = TimePickerDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.background,
                             clockDialColor = MaterialTheme.colorScheme.primaryContainer,
                             timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.tertiary,
@@ -132,11 +117,7 @@ fun AlarmClock(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                TextButton(onClick = {
-                    val h = hour.toIntOrNull() ?: 0
-                    val m = minute.toIntOrNull() ?: 0
-                    onConfirm(h, m)
-                }) {
+                TextButton(onClick = onConfirm) {
                     Text(
                         text = stringResource(R.string.ok),
                         style = MaterialTheme.typography.labelLarge,
@@ -155,14 +136,5 @@ fun AlarmClock(
         containerColor = MaterialTheme.colorScheme.background,
         textContentColor = MaterialTheme.colorScheme.onBackground,
         iconContentColor = MaterialTheme.colorScheme.onBackground,
-    )
-}
-
-@Preview
-@Composable
-fun AlarmClockPreview() {
-    AlarmClock(
-        onConfirm = { _, _ -> },
-        onDismiss = {}
     )
 }

@@ -2,6 +2,7 @@ package com.example.time.presentation.components.alarmscreen.main
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.time.R
 import com.example.time.presentation.common.Dimens.BigIconsSize34
+import com.example.time.presentation.common.Dimens.MediumPadding14
 import com.example.time.presentation.common.Dimens.MediumPadding16
 import com.example.time.presentation.common.Dimens.MediumPadding22
 import com.example.time.presentation.common.Dimens.MediumPadding24
@@ -59,13 +61,17 @@ fun AlarmItem(
     time: String,
     days: String,
     name: String,
-    isChecked: Boolean,
+    isActivated: Boolean,
+    isVibration: Boolean,
+    selectedDays: Set<Int>,
     onCheckedChange: (Boolean) -> Unit,
-    onClick: () -> Unit,
+    onDayToggle: (Int) -> Unit,
+    onClickForCard: () -> Unit,
+    onNameChange: (String) -> Unit,
+    onVibrationChange: (Boolean) -> Unit
 ) {
 
     var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(targetValue = if (expanded) 180f else 0f, label = "")
 
     var showDialog by remember { mutableStateOf(false) }
@@ -75,7 +81,7 @@ fun AlarmItem(
             .fillMaxWidth()
             .padding(horizontal = MediumPadding22)
             .clip(RoundedCornerShape(PrimaryCorner))
-            .animateContentSize(),
+            .animateContentSize(animationSpec = tween(300)),
         shape = RoundedCornerShape(PrimaryCorner),
         elevation = CardDefaults.cardElevation(SmallPadding4),
         colors = CardDefaults.cardColors(
@@ -83,7 +89,7 @@ fun AlarmItem(
         ),
         onClick = {
             expanded = !expanded
-            onClick()
+            onClickForCard()
         }
     ) {
 
@@ -104,10 +110,9 @@ fun AlarmItem(
                 }
 
                 Spacer(modifier = Modifier.height(SmallPadding10))
-                TimeRow(time, days, isChecked, onCheckedChange)
+                TimeRow(time, days, isActivated, onCheckedChange)
 
             } else {
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -162,13 +167,31 @@ fun AlarmItem(
                 }
 
                 Spacer(modifier = Modifier.height(SmallPadding10))
-                TimeRow(time, days, isChecked, onCheckedChange)
+                TimeRow(time, days, isActivated, onCheckedChange)
 
                 Spacer(modifier = Modifier.padding(top = MediumPadding16))
-                WeekDaysRow()
+                WeekDaysRow(
+                    selectedDays = selectedDays,
+                    onDayToggle = onDayToggle
+                )
 
                 Spacer(modifier = Modifier.height(MediumPadding24))
-                AlarmActionsColumn(selected = selected, onToggleSelected = { selected = !selected })
+                AlarmActionsColumn(
+                    isVibration = isVibration,
+                    onToggleSelected = onVibrationChange
+                )
+
+                if (showDialog) {
+                    LabelDialog(
+                        text = name,
+                        onTextChange = { newName -> onNameChange(newName) },
+                        onDismiss = { showDialog = false },
+                        onConfirm = { label ->
+                            onNameChange(label)
+                            showDialog = false
+                        }
+                    )
+                }
             }
         }
     }
@@ -178,7 +201,7 @@ fun AlarmItem(
 private fun TimeRow(
     time: String,
     days: String,
-    isChecked: Boolean,
+    isActivated: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ){
     Row(
@@ -196,14 +219,10 @@ private fun TimeRow(
         Box(
             modifier = Modifier.weight(1f)
         ) {
-            Text(
-                text = days,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.fillMaxWidth())
+            FormattedDays(days = days)
         }
         Switch(
-            checked = isChecked,
+            checked = isActivated,
             onCheckedChange = onCheckedChange,
             modifier = Modifier
                 .size(BigIconsSize34)
@@ -222,27 +241,38 @@ private fun TimeRow(
 }
 
 @Composable
-private fun WeekDaysRow() {
+private fun WeekDaysRow(
+    selectedDays: Set<Int>,
+    onDayToggle: (Int) -> Unit
+) {
     val daysList = listOf(
         R.string.M, R.string.Tu, R.string.W,
         R.string.Th, R.string.F, R.string.Sa, R.string.Su
     )
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
         daysList.forEachIndexed { index, resId ->
-            WeekDays(stringResource(resId))
+            val isSelected = selectedDays.contains(index)
+            WeekDays(
+                letter = stringResource(resId),
+                selected = isSelected,
+                onClick = { onDayToggle(index) }
+            )
+
             if (index != daysList.lastIndex) {
-                Spacer(modifier = Modifier.width(SmallPadding10))
+                Spacer(modifier = Modifier.width(MediumPadding14))
             }
         }
     }
 }
 
 @Composable
-private fun AlarmActionsColumn(selected: Boolean, onToggleSelected: (Boolean) -> Unit) {
+private fun AlarmActionsColumn(
+    isVibration: Boolean,
+    onToggleSelected: (Boolean) -> Unit
+) {
     Column {
         Row {
             Icon(
@@ -281,8 +311,8 @@ private fun AlarmActionsColumn(selected: Boolean, onToggleSelected: (Boolean) ->
                     .align(Alignment.CenterVertically)
             )
             CheckRadioButton(
-                selected = selected,
-                onClick = { onToggleSelected(!selected) },
+                selected = isVibration,
+                onClick = { onToggleSelected(!isVibration) },
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
         }
@@ -307,4 +337,33 @@ private fun AlarmActionsColumn(selected: Boolean, onToggleSelected: (Boolean) ->
             )
         }
     }
+}
+
+@Composable
+private fun FormattedDays(days: String) {
+    if (days.isBlank()) return
+
+    val dayNames = listOf(
+        R.string.Mon, R.string.Tue, R.string.Wed,
+        R.string.Thu, R.string.Fri, R.string.Sat, R.string.Sun
+    )
+
+    val indices = days
+        .split(",")
+        .mapNotNull { it.toIntOrNull() }
+        .filter { it in dayNames.indices }
+        .sorted()
+
+    val dayStrings = indices.map { index ->
+        stringResource(id = dayNames[index])
+    }
+
+    val result = dayStrings.joinToString(", ")
+
+    Text(
+        text = result,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.onBackground,
+        modifier = Modifier.fillMaxWidth()
+    )
 }

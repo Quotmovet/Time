@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,62 +26,95 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.example.time.domain.model.alarmscreen.AlarmModel
 import com.example.time.presentation.common.Dimens.LargeIconsSize64
 import com.example.time.presentation.common.Dimens.LargePadding60
+import com.example.time.presentation.common.Dimens.MediumPadding16
 import com.example.time.presentation.common.Dimens.MediumPadding24
 import com.example.time.presentation.components.alarmscreen.additional.AddButtonAlarmScreen
 import com.example.time.presentation.components.alarmscreen.main.AlarmClock
 import com.example.time.presentation.components.alarmscreen.main.AlarmItem
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmScreenViewModel
+import java.util.Calendar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmScreen(
-    navController: NavController,
     viewModel: AlarmScreenViewModel = hiltViewModel()
 ) {
 
+    val alarmState by viewModel.alarmState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
+
+    val shouldShowOverlay = alarmState.size > 3
+
+    val animatedHeight by animateFloatAsState(
+        targetValue = if (shouldShowOverlay) 80f else 0f,
+        animationSpec = tween(600, easing = FastOutSlowInEasing)
+    )
+
+    val animatedAlpha by animateFloatAsState(
+        targetValue = if (shouldShowOverlay) 1f else 0f,
+        animationSpec = tween(600, easing = FastOutSlowInEasing)
+    )
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
-        // Состояние для текущего количества элементов
-        val itemCount = 4
-        val shouldShowOverlay = itemCount > 4
-
-        // Анимация высоты фона
-        val animatedHeight by animateFloatAsState(
-            targetValue = if (shouldShowOverlay) 80f else 0f,
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = FastOutSlowInEasing
-            )
-        )
-
-        // Анимация прозрачности фона
-        val animatedAlpha by animateFloatAsState(
-            targetValue = if (shouldShowOverlay) 1f else 0f,
-            animationSpec = tween(
-                durationMillis = 600,
-                easing = FastOutSlowInEasing
-            )
-        )
-
         Spacer(modifier = Modifier.padding(top = LargePadding60))
 
-        AlarmItem(
-            time = "8:30",
-            days = "Mon, Tue, Wed, Thu, Fri, Sat, Sun",
-            name = "Alarm",
-            isChecked = true,
-            onCheckedChange = {},
-            onClick = {}
-            )
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            items(alarmState.size) { index ->
+                val alarm = alarmState[index]
 
-        // Затемнение снизу
+                val selectedDays = remember(alarm.id) {
+                    alarm.days
+                        .split(",")
+                        .filter { it.isNotBlank() }.mapNotNull { it.trim().toIntOrNull() }
+                        .toSet()
+                }
+
+                var currentDays by remember(alarm.id) { mutableStateOf(selectedDays) }
+                var isVibration by remember(alarm.id) { mutableStateOf(alarm.isVibration) }
+                var alarmName by remember(alarm.id) { mutableStateOf(alarm.name) }
+
+                Spacer(modifier = Modifier.height(MediumPadding16))
+                AlarmItem(
+                    time = "${alarm.hour}:${alarm.minute.toString().padStart(2, '0')}",
+                    days = alarm.days,
+                    name = alarmName,
+                    isActivated = alarm.isActivated,
+                    isVibration = isVibration,
+                    selectedDays = currentDays,
+
+                    onCheckedChange = { isChecked ->
+                        viewModel.insertAlarm(alarm.copy(isActivated = isChecked))
+                    },
+
+                    onDayToggle = { day ->
+                        val updated = currentDays.toMutableSet().apply {
+                            if (contains(day)) remove(day) else add(day)
+                        }
+                        currentDays = updated
+                        val daysStr = updated.sorted().joinToString(",")
+                        viewModel.insertAlarm(alarm.copy(days = daysStr))
+                    },
+                    onClickForCard = {
+                        viewModel.insertAlarm(alarm.copy(isActivated = !alarm.isActivated))
+                    },
+                    onNameChange = { newName ->
+                        alarmName = newName
+                        viewModel.insertAlarm(alarm.copy(name = newName))
+                    },
+                    onVibrationChange = { newVibration ->
+                        isVibration = newVibration
+                        viewModel.insertAlarm(alarm.copy(isVibration = newVibration))
+                    },
+                )
+            }
+        }
+
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -89,9 +126,7 @@ fun AlarmScreen(
                             Color.Transparent,
                             Color.Black.copy(alpha = 0.1f * animatedAlpha),
                             Color.Black.copy(alpha = 0.3f * animatedAlpha)
-                        ),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY
+                        )
                     )
                 )
         )
@@ -105,10 +140,29 @@ fun AlarmScreen(
         )
 
         if (showDialog) {
+            val timeState = rememberTimePickerState(
+                initialHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                initialMinute = Calendar.getInstance().get(Calendar.MINUTE),
+                is24Hour = true
+            )
+
             AlarmClock(
+                timeState = timeState,
                 onDismiss = { showDialog = false },
-                onConfirm = { h, m ->
+                onConfirm = {
                     showDialog = false
+                    viewModel.insertAlarm(
+                        AlarmModel(
+                            id = 0,
+                            hour = timeState.hour,
+                            minute = timeState.minute,
+                            name = "",
+                            isActivated = true,
+                            isVibration = true,
+                            days = "",
+                            sound = ""
+                        )
+                    )
                 }
             )
         }

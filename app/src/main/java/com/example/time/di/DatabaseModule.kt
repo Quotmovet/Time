@@ -3,6 +3,7 @@ package com.example.time.di
 import android.content.Context
 import androidx.room.Room
 import com.example.time.data.db.AppDatabase
+import com.example.time.data.db.alarmscreen.dao.AlarmDao
 import com.example.time.data.db.timescreen.dao.TimeDataDao
 import dagger.Module
 import dagger.Provides
@@ -23,7 +24,7 @@ object DatabaseModule {
             AppDatabase::class.java,
             "time-database"
         )
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(false)
             .build()
     }
 
@@ -31,4 +32,10 @@ object DatabaseModule {
     fun provideTimeDataDao(database: AppDatabase): TimeDataDao {
         return database.getTimeDataDao()
     }
+
+    @Provides
+    fun provideAlarmDao(database: AppDatabase): AlarmDao {
+        return database.getAlarmDao()
+    }
+
 }

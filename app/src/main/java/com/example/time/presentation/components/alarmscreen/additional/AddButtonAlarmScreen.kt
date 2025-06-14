@@ -13,7 +13,10 @@ import com.example.time.presentation.common.Dimens.LargeIconsSize118
 import com.example.time.presentation.common.Dimens.SmallPadding4
 
 @Composable
-fun AddButtonAlarmScreen(modifier: Modifier, onClick: () -> Unit) {
+fun AddButtonAlarmScreen(
+    modifier: Modifier,
+    onClick: () -> Unit)
+{
     IconButton(
         onClick = onClick,
         modifier = modifier

@@ -11,18 +11,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.time.presentation.common.Dimens.BigIconsSize44
+import com.example.time.presentation.common.Dimens.BigIconsSize36
 
 @Composable
-fun WeekDays(letter: String) {
-    var selected by remember { mutableStateOf(false) }
-
+fun WeekDays(
+    letter: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
     val backgroundColor by animateColorAsState(
         targetValue = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
         animationSpec = tween(500, easing = FastOutSlowInEasing),
@@ -36,9 +34,9 @@ fun WeekDays(letter: String) {
     )
 
     IconButton(
-        onClick = { selected = !selected },
+        onClick = onClick,
         modifier = Modifier
-            .size(BigIconsSize44)
+            .size(BigIconsSize36)
             .clip(CircleShape)
             .background(backgroundColor)
     ) {
@@ -48,10 +46,4 @@ fun WeekDays(letter: String) {
             style = MaterialTheme.typography.titleMedium
         )
     }
-}
-
-@Preview
-@Composable
-fun WeekDaysPreview(){
-    WeekDays("M")
 }

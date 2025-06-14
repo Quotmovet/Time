@@ -21,7 +21,7 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(BottomNavItem.AlarmScreen.route) { AlarmScreen(navController) }
+        composable(BottomNavItem.AlarmScreen.route) { AlarmScreen() }
         composable(BottomNavItem.TimerScreen.route) { TimerScreen() }
         composable(BottomNavItem.TimeScreen.route) { TimeScreen(navController) }
         composable(BottomNavItem.StopwatchScreen.route) { StopwatchScreen() }

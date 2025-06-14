@@ -4,6 +4,7 @@
     <string name="search">Поиск</string>
     <string name="settings">Настройки</string>
     <string name="delete">Удалить</string>
+    <string name="Sat">Сб</string>
     <string name="Sun">Вс</string>
     <string name="searchCities">Поиск города</string>
     <string name="back">Назад</string>
@@ -33,6 +34,5 @@
     <string name="Wed">Ср</string>
     <string name="Thu">Чт</string>
     <string name="Fri">Пт</string>
-    <string name="Sut">Сб</string>
     <string name="cancel">Отмена</string>
 </resources>

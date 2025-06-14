@@ -17,6 +17,7 @@ object Dimens {
     val MediumPadding22 = 22.dp
     val MediumPadding20 = 20.dp
     val MediumPadding16 = 16.dp
+    val MediumPadding14 = 14.dp
 
     val SmallPadding12 = 12.dp
     val SmallPadding10 = 10.dp
@@ -41,7 +42,6 @@ object Dimens {
     val SmallIconsSize16 = 16.dp
     val BigIconsSize34 = 34.dp
     val BigIconsSize36 = 36.dp
-    val BigIconsSize44 = 40.dp
     val BigIconsSize48 = 48.dp
     val LargeIconsSize64 = 64.dp
     val LargeIconsSize118 = 118.dp
