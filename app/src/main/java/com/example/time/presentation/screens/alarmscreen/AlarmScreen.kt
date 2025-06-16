@@ -1,5 +1,10 @@
 package com.example.time.presentation.screens.alarmscreen
 
+import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -37,6 +42,7 @@ import com.example.time.presentation.components.alarmscreen.main.AlarmItem
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmScreenViewModel
 import java.util.Calendar
 
+@Suppress("DEPRECATION")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmScreen(
@@ -45,6 +51,25 @@ fun AlarmScreen(
 
     val alarmState by viewModel.alarmState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
+    var selectedAlarm by remember { mutableStateOf<AlarmModel?>(null) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val uri = result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+        val alarm = selectedAlarm
+        if (uri != null && alarm != null) {
+            viewModel.insertAlarm(alarm.copy(sound = uri.toString()))
+            selectedAlarm = null
+        }
+    }
+
+    val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+        putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+        putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Alarm Sound")
+        putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+        putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+    }
 
     val shouldShowOverlay = alarmState.size > 3
 
@@ -81,6 +106,7 @@ fun AlarmScreen(
 
                 Spacer(modifier = Modifier.height(MediumPadding16))
                 AlarmItem(
+                    id = alarm.id,
                     time = "${alarm.hour}:${alarm.minute.toString().padStart(2, '0')}",
                     days = alarm.days,
                     name = alarmName,
@@ -100,17 +126,21 @@ fun AlarmScreen(
                         val daysStr = updated.sorted().joinToString(",")
                         viewModel.insertAlarm(alarm.copy(days = daysStr))
                     },
-                    onClickForCard = {
-                        viewModel.insertAlarm(alarm.copy(isActivated = !alarm.isActivated))
-                    },
                     onNameChange = { newName ->
                         alarmName = newName
                         viewModel.insertAlarm(alarm.copy(name = newName))
+                    },
+                    onSoundChange = {
+                        selectedAlarm = alarm
+                        launcher.launch(intent)
                     },
                     onVibrationChange = { newVibration ->
                         isVibration = newVibration
                         viewModel.insertAlarm(alarm.copy(isVibration = newVibration))
                     },
+                    onDelete = {
+                        viewModel.deleteAlarm(alarm)
+                    }
                 )
             }
         }

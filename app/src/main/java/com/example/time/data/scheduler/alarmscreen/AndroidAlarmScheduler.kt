@@ -30,6 +30,7 @@ class AndroidAlarmScheduler @Inject constructor (private val context: Context): 
 
         val intent = Intent(context, AlarmReceiver::class.java).apply {
             putExtra("EXTRA_MESSAGE", alarm.id)
+            putExtra("EXTRA_SOUND_URI", alarm.sound)
         }
 
         val pendingIntent = PendingIntent.getBroadcast(

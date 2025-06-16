@@ -1,8 +1,10 @@
 package com.example.time.presentation.components.alarmscreen.main
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,6 +60,7 @@ import com.example.time.presentation.components.alarmscreen.additional.WeekDays
 
 @Composable
 fun AlarmItem(
+    id: Int,
     time: String,
     days: String,
     name: String,
@@ -66,15 +69,21 @@ fun AlarmItem(
     selectedDays: Set<Int>,
     onCheckedChange: (Boolean) -> Unit,
     onDayToggle: (Int) -> Unit,
-    onClickForCard: () -> Unit,
     onNameChange: (String) -> Unit,
-    onVibrationChange: (Boolean) -> Unit
+    onSoundChange: (Int) -> Unit,
+    onVibrationChange: (Boolean) -> Unit,
+    onDelete: () -> Unit
 ) {
 
     var expanded by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(targetValue = if (expanded) 180f else 0f, label = "")
 
     var showDialog by remember { mutableStateOf(false) }
+
+    val animatedPaddingStart by animateDpAsState(
+        targetValue = if (expanded) SmallPadding6 else 0.dp,
+        label = "labelPaddingAnimation"
+    )
 
     Card(
         modifier = Modifier
@@ -89,7 +98,6 @@ fun AlarmItem(
         ),
         onClick = {
             expanded = !expanded
-            onClickForCard()
         }
     ) {
 
@@ -99,6 +107,29 @@ fun AlarmItem(
                 Row(
                     modifier = Modifier.align(alignment = Alignment.End)
                 ) {
+
+                    if(name != "") {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(SmallIconsSize16)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = name,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .padding(start = animatedPaddingStart)
+                                )
+                            }
+                        }
+                    }
+
                     Icon(
                         modifier = Modifier
                             .size(SmallIconsSize16)
@@ -109,7 +140,7 @@ fun AlarmItem(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(SmallPadding10))
+                Spacer(modifier = Modifier.height(SmallPadding4))
                 TimeRow(time, days, isActivated, onCheckedChange)
 
             } else {
@@ -133,15 +164,24 @@ fun AlarmItem(
                     ) {
                         TextButton(
                             onClick = { showDialog = true },
-                            contentPadding = PaddingValues(2.dp),
-                            modifier = Modifier.align(Alignment.CenterStart)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterStart),
+                            contentPadding = PaddingValues(0.dp)
                         ) {
-                            Text(
-                                text = name,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                modifier = Modifier.align(alignment = Alignment.Top)
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = if (name.isNotEmpty()) name else stringResource(R.string.name),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .padding(start = animatedPaddingStart)
+                                )
+                            }
                         }
                     }
 
@@ -166,7 +206,7 @@ fun AlarmItem(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(SmallPadding10))
+                Spacer(modifier = Modifier.height(SmallPadding4))
                 TimeRow(time, days, isActivated, onCheckedChange)
 
                 Spacer(modifier = Modifier.padding(top = MediumPadding16))
@@ -177,8 +217,11 @@ fun AlarmItem(
 
                 Spacer(modifier = Modifier.height(MediumPadding24))
                 AlarmActionsColumn(
+                    id = id,
+                    onSoundChange = onSoundChange,
                     isVibration = isVibration,
-                    onToggleSelected = onVibrationChange
+                    onToggleSelected = onVibrationChange,
+                    onDelete = onDelete
                 )
 
                 if (showDialog) {
@@ -270,11 +313,18 @@ private fun WeekDaysRow(
 
 @Composable
 private fun AlarmActionsColumn(
+    id: Int,
+    onSoundChange: (Int) -> Unit,
     isVibration: Boolean,
-    onToggleSelected: (Boolean) -> Unit
+    onToggleSelected: (Boolean) -> Unit,
+    onDelete: () -> Unit
 ) {
     Column {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable { onSoundChange(id) }
+        ) {
             Icon(
                 painter = painterResource(R.drawable.ic_bell),
                 contentDescription = null,
@@ -287,7 +337,6 @@ private fun AlarmActionsColumn(
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .padding(start = SmallPadding10)
-                    .weight(1f)
                     .align(Alignment.CenterVertically)
             )
         }
@@ -319,7 +368,11 @@ private fun AlarmActionsColumn(
 
         Spacer(modifier = Modifier.height(SmallPadding8))
 
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable { onDelete() }
+        ) {
             Icon(
                 painter = painterResource(R.drawable.ic_clean),
                 contentDescription = null,
@@ -330,10 +383,7 @@ private fun AlarmActionsColumn(
                 text = stringResource(R.string.delete),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier
-                    .padding(start = SmallPadding10)
-                    .weight(1f)
-                    .align(Alignment.CenterVertically)
+                modifier = Modifier.padding(start = SmallPadding10)
             )
         }
     }

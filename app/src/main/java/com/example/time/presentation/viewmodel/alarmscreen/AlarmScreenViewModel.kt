@@ -37,20 +37,31 @@ class AlarmScreenViewModel @Inject constructor(
         }
     }
 
+    fun deleteAlarm(alarm: AlarmModel) {
+        val alarmId = alarm.id
+        viewModelScope.launch {
+            alarmScreenInteractor.deleteAlarmById(alarmId)
+            alarmScheduler.cancel(alarm)
+        }
+    }
+
+    /*
+    fun updateSound(alarmId: Int, soundUri: String) {
+        viewModelScope.launch {
+            val alarm = alarmScreenInteractor.getAlarmById(alarmId)
+            val updated = alarm.copy(sound = soundUri)
+            insertAlarm(updated)
+        }
+    }
+
+     */
+
     private fun observeAlarms() {
         viewModelScope.launch {
             alarmScreenInteractor.getAllAlarms()
                 .collect { alarms ->
                     _alarmState.value = alarms
                 }
-        }
-    }
-
-    private fun deleteAlarm(alarm: AlarmModel) {
-        val alarmId = alarm.id
-        viewModelScope.launch {
-            alarmScreenInteractor.deleteAlarmById(alarmId)
-            alarmScheduler.cancel(alarm)
         }
     }
 

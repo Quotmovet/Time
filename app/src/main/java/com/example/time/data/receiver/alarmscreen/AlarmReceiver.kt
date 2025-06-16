@@ -8,7 +8,10 @@ import com.example.time.data.service.alarmscreen.AlarmService
 
 class AlarmReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val alarmIntent = Intent(context, AlarmService::class.java)
+        val soundUri = intent.getStringExtra("EXTRA_SOUND_URI")
+        val alarmIntent = Intent(context, AlarmService::class.java).apply {
+            putExtra("EXTRA_SOUND_URI", soundUri)
+        }
         ContextCompat.startForegroundService(context, alarmIntent)
     }
 }
