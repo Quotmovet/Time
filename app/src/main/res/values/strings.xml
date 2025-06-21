@@ -16,6 +16,9 @@
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
     <string name="name">Name</string>
+    <string name="alarmIsActivate">Alarm clock activated</string>
+    <string name="alarmIsDelete">Alarm delete</string>
+    <string name="alarmSoundIsChange">Alarm sound is change</string>
 
     --Дни недели (сокращенные)--
     <string name="M">M</string>

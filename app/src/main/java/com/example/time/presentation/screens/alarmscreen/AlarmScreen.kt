@@ -3,6 +3,7 @@ package com.example.time.presentation.screens.alarmscreen
 import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -29,8 +30,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.time.R
 import com.example.time.domain.model.alarmscreen.AlarmModel
 import com.example.time.presentation.common.Dimens.LargeIconsSize64
 import com.example.time.presentation.common.Dimens.LargePadding60
@@ -52,6 +55,7 @@ fun AlarmScreen(
     val alarmState by viewModel.alarmState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     var selectedAlarm by remember { mutableStateOf<AlarmModel?>(null) }
+    val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -116,6 +120,7 @@ fun AlarmScreen(
 
                     onCheckedChange = { isChecked ->
                         viewModel.insertAlarm(alarm.copy(isActivated = isChecked))
+                        if (isChecked) Toast.makeText(context, R.string.alarmIsActivate, Toast.LENGTH_SHORT).show()
                     },
 
                     onDayToggle = { day ->
@@ -140,6 +145,7 @@ fun AlarmScreen(
                     },
                     onDelete = {
                         viewModel.deleteAlarm(alarm)
+                        Toast.makeText(context, R.string.alarmIsDelete, Toast.LENGTH_SHORT).show()
                     }
                 )
             }

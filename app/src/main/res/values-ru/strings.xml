@@ -22,6 +22,9 @@
     <string name="choose_time">Выберите время</string>
     <string name="ok">Ок</string>
     <string name="name">Название</string>
+    <string name="alarmIsActivate">Будильник активирован</string>
+    <string name="alarmIsDelete">Будильник удален</string>
+    <string name="alarmSoundIsChange">Мелодия для будильника выбрана</string>
     <string name="M">П</string>
     <string name="Tu">В</string>
     <string name="W">С</string>
