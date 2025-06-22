@@ -13,6 +13,7 @@ import com.example.time.domain.scheduler.alarmscreen.AlarmScheduler
 import java.util.Calendar
 import javax.inject.Inject
 import androidx.core.net.toUri
+import java.util.Date
 
 class AndroidAlarmScheduler @Inject constructor (private val context: Context): AlarmScheduler {
 
@@ -47,7 +48,7 @@ class AndroidAlarmScheduler @Inject constructor (private val context: Context): 
             }
 
             val intent = Intent(context, AlarmReceiver::class.java).apply {
-                putExtra("EXTRA_MESSAGE", alarm.id)
+                putExtra("EXTRA_ALARM_ID", alarm.id)
                 putExtra("EXTRA_SOUND_URI", alarm.sound)
             }
 
@@ -90,6 +91,46 @@ class AndroidAlarmScheduler @Inject constructor (private val context: Context): 
         }
     }
 
+    override fun cancelForDay(alarm: AlarmModel, dayOfWeek: Int) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmReceiver::class.java)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            alarm.id * 10 + dayOfWeek,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        alarmManager.cancel(pendingIntent)
+        Log.d("AlarmScheduler", "Cancelled alarm ${alarm.id} only for day $dayOfWeek")
+    }
+
+    override fun schedulePostponeOnce(alarm: AlarmModel, triggerAtMillis: Long) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            putExtra("EXTRA_ALARM_ID", alarm.id)
+            putExtra("EXTRA_SOUND_URI", alarm.sound)
+        }
+
+        val requestCode = alarm.id * 1000 + 1 // уникальный временный ID
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            requestCode,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            triggerAtMillis,
+            pendingIntent
+        )
+
+        Log.d("AlarmScheduler", "Scheduled one-time alarm ${alarm.id} at ${Date(triggerAtMillis)}")
+    }
+
     private fun convertToCalendarDay(day: Int): Int {
         return when (day) {
             0 -> Calendar.MONDAY
@@ -102,5 +143,4 @@ class AndroidAlarmScheduler @Inject constructor (private val context: Context): 
             else -> Calendar.MONDAY // fallback
         }
     }
-
 }

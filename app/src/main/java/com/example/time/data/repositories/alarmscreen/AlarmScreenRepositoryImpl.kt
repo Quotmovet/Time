@@ -30,6 +30,13 @@ class AlarmScreenRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun getAlarmById(id: Int): AlarmModel {
+        return withContext(Dispatchers.IO) {
+            val alarmEntity = appDatabase.getAlarmDao().getAlarmById(id)
+            alarmEntity.toModelFromEntity()
+        }
+    }
+
     override suspend fun deleteAlarmById(id: Int) {
         withContext(Dispatchers.IO) {
             appDatabase.getAlarmDao().deleteAlarmById(id)

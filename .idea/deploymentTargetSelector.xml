@@ -13,16 +13,7 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="WeekDaysPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="AlarmItemPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="CheckRadioButtonPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="AlarmClockPreview">
+      <SelectionState runConfigName="AlarmScreenDuringAlarmPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

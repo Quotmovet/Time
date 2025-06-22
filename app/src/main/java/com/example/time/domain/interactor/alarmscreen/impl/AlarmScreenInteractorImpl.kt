@@ -18,6 +18,10 @@ class AlarmScreenInteractorImpl @Inject constructor (
         return alarmScreenRepository.getAllAlarms()
     }
 
+    override suspend fun getAlarmById(id: Int): AlarmModel {
+        return alarmScreenRepository.getAlarmById(id)
+    }
+
     override suspend fun deleteAlarmById(id: Int) {
         alarmScreenRepository.deleteAlarmById(id)
     }

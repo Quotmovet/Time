@@ -17,6 +17,9 @@ interface AlarmDao {
     @Query("SELECT * FROM alarms")
     fun getAllAlarms(): Flow<List<AlarmEntity>>
 
+    @Query("SELECT * FROM alarms WHERE id = :id")
+    suspend fun getAlarmById(id: Int): AlarmEntity
+
     @Update
     suspend fun updateAlarm(alarm: AlarmEntity)
 

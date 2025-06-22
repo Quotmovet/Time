@@ -9,7 +9,7 @@ object Dimens {
     val LargePadding80 = 80.dp
     val LargePadding64 = 64.dp
     val LargePadding60 = 60.dp
-    val LargePadding45 = 45.dp
+    val LargePadding46 = 46.dp
     val LargePadding34 = 34.dp
     val LargePadding30 = 30.dp
 
@@ -42,9 +42,12 @@ object Dimens {
     val SmallIconsSize16 = 16.dp
     val BigIconsSize34 = 34.dp
     val BigIconsSize36 = 36.dp
+    val BigIconsSize44 = 44.dp
     val BigIconsSize48 = 48.dp
     val LargeIconsSize64 = 64.dp
+    val LargeIconsSize78 = 78.dp
     val LargeIconsSize118 = 118.dp
+    val LargeIconsSize134 = 134.dp
 
     // ContainerSizes
     val LargeSize = 105.dp
@@ -56,5 +59,8 @@ object Dimens {
 
     // Width
     val PrimaryWidth = 2.dp
+
+    // Offset
+    val Offset30 = 30.dp
 
 }

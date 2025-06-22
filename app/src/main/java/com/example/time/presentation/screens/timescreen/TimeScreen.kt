@@ -40,7 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.time.presentation.common.Dimens.LargeIconsSize64
 import com.example.time.presentation.common.Dimens.LargePadding34
-import com.example.time.presentation.common.Dimens.LargePadding45
+import com.example.time.presentation.common.Dimens.LargePadding46
 import com.example.time.presentation.common.Dimens.MainSize
 import com.example.time.presentation.common.Dimens.MediumPadding24
 import com.example.time.presentation.common.Dimens.MediumPadding16
@@ -99,7 +99,7 @@ fun TimeScreen(
             item {
                 Spacer(modifier = Modifier.height(LargePadding34))
                 MainClock(currentTime, currentDate)
-                Spacer(modifier = Modifier.height(LargePadding45))
+                Spacer(modifier = Modifier.height(LargePadding46))
             }
 
             items(selectedTimeZones.size) { timeZoneModel ->

@@ -45,17 +45,6 @@ class AlarmScreenViewModel @Inject constructor(
         }
     }
 
-    /*
-    fun updateSound(alarmId: Int, soundUri: String) {
-        viewModelScope.launch {
-            val alarm = alarmScreenInteractor.getAlarmById(alarmId)
-            val updated = alarm.copy(sound = soundUri)
-            insertAlarm(updated)
-        }
-    }
-
-     */
-
     private fun observeAlarms() {
         viewModelScope.launch {
             alarmScreenInteractor.getAllAlarms()
@@ -64,5 +53,4 @@ class AlarmScreenViewModel @Inject constructor(
                 }
         }
     }
-
 }

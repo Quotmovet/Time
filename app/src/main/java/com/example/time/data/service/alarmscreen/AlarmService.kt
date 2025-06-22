@@ -3,6 +3,7 @@ package com.example.time.data.service.alarmscreen
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.media.AudioAttributes
@@ -13,6 +14,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.time.R
 import androidx.core.net.toUri
+import com.example.time.presentation.activity.alarmscreen.AlarmActivity
 
 class AlarmService : Service() {
 
@@ -23,7 +25,10 @@ class AlarmService : Service() {
         val soundUri = soundUriString?.toUri()
             ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
 
-        startForeground(1, createNotification())
+        val alarmId = intent?.getIntExtra("EXTRA_ALARM_ID", -1)
+        Log.d("AlarmService", "alarmId: $alarmId, soundUri: $soundUri")
+
+        startForeground(1, createNotification(alarmId ?: -1))
 
         mediaPlayer = MediaPlayer().apply {
             try {
@@ -55,20 +60,45 @@ class AlarmService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private fun createNotification(): Notification {
+    private fun createNotification(alarmId: Int): Notification {
         val channelId = "alarm_channel"
+        val channelName = "Alarm Notifications"
+        val notificationManager = getSystemService(NotificationManager::class.java)
+
         val channel = NotificationChannel(
             channelId,
-            "Alarm",
+            channelName,
             NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            enableLights(true)
+            enableVibration(true)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+        }
+
+        notificationManager.createNotificationChannel(channel)
+
+        val fullScreenIntent = Intent(this, AlarmActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("EXTRA_ALARM_ID", alarmId)
+        }
+
+        val fullScreenPendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            fullScreenIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-        val manager = getSystemService(NotificationManager::class.java)
-        manager.createNotificationChannel(channel)
 
         return NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Alarm")
-            .setContentText("Wake up!")
             .setSmallIcon(R.drawable.ic_alarm)
+            .setContentTitle("Будильник")
+            .setContentText("Пора вставать!")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setFullScreenIntent(fullScreenPendingIntent, true)
+            .setAutoCancel(true)
             .build()
     }
 }
