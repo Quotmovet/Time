@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Time</string>
 
-    --Общее--
+    --Common--
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="alarm">Alarm</string>
@@ -16,11 +16,14 @@
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
     <string name="name">Name</string>
+
+    --Alarm--
     <string name="alarmIsActivate">Alarm clock activated</string>
     <string name="alarmIsDelete">Alarm delete</string>
     <string name="alarmSoundIsChange">Alarm sound is change</string>
+    <string name="alarmNotifications">Alarm Notifications</string>
 
-    --Дни недели (сокращенные)--
+    --Week days--
     <string name="M">M</string>
     <string name="Tu">Tu</string>
     <string name="W">W</string>
@@ -40,7 +43,7 @@
 
     <string name="back">Back</string>
 
-    --Сетевые запросы--
+    --Network request--
     <string name="badRequest">Bad request type, expected TimeDataRequest</string>
     <string name="noInternet">No internet</string>
     <string name="errorNetwork">Error network</string>

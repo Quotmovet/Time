@@ -9,27 +9,49 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.os.Build
 import android.os.IBinder
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.time.R
 import androidx.core.net.toUri
 import com.example.time.presentation.activity.alarmscreen.AlarmActivity
+import com.example.time.presentation.common.util.Constants.ALARM_CHANEL_ID
+import com.example.time.presentation.common.util.Constants.EXTRA_ALARM_ID
+import com.example.time.presentation.common.util.Constants.EXTRA_ALARM_NAME
+import com.example.time.presentation.common.util.Constants.EXTRA_SOUND_URI
 
 class AlarmService : Service() {
 
     private var mediaPlayer: MediaPlayer? = null
+    private var vibrator: Vibrator? = null
 
+    @Suppress("DEPRECATION")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val soundUriString = intent?.getStringExtra("EXTRA_SOUND_URI")
+        val soundUriString = intent?.getStringExtra(EXTRA_SOUND_URI)
         val soundUri = soundUriString?.toUri()
             ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
 
-        val alarmId = intent?.getIntExtra("EXTRA_ALARM_ID", -1)
-        Log.d("AlarmService", "alarmId: $alarmId, soundUri: $soundUri")
+        val alarmId = intent?.getIntExtra(EXTRA_ALARM_ID, -1) ?: -1
+        val alarmName = intent?.getStringExtra(EXTRA_ALARM_NAME) ?: getString(R.string.alarm)
+        Log.d("AlarmService", "alarmId: $alarmId, soundUri: $soundUri, alarmName: $alarmName")
 
-        startForeground(1, createNotification(alarmId ?: -1))
+        // Start foreground service
+        startForeground(1, createNotification(alarmId, alarmName))
 
+        // Start vibration
+        vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val pattern = longArrayOf(0, 500, 300, 500, 300, 1000)
+            val effect = VibrationEffect.createWaveform(pattern, 1)
+            vibrator?.vibrate(effect)
+        } else {
+            vibrator?.vibrate(longArrayOf(0, 500, 300, 500, 300, 1000), 0)
+        }
+
+        // Start playing alarm sound
         mediaPlayer = MediaPlayer().apply {
             try {
                 setDataSource(this@AlarmService, soundUri)
@@ -55,14 +77,15 @@ class AlarmService : Service() {
         mediaPlayer?.stop()
         mediaPlayer?.release()
         mediaPlayer = null
+        vibrator?.cancel()
         super.onDestroy()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
-    private fun createNotification(alarmId: Int): Notification {
-        val channelId = "alarm_channel"
-        val channelName = "Alarm Notifications"
+    private fun createNotification(alarmId: Int, alarmName: String): Notification {
+        val channelId = ALARM_CHANEL_ID
+        val channelName = getString(R.string.alarmNotifications)
         val notificationManager = getSystemService(NotificationManager::class.java)
 
         val channel = NotificationChannel(
@@ -81,7 +104,7 @@ class AlarmService : Service() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or
                     Intent.FLAG_ACTIVITY_SINGLE_TOP
-            putExtra("EXTRA_ALARM_ID", alarmId)
+            putExtra(EXTRA_ALARM_ID, alarmId)
         }
 
         val fullScreenPendingIntent = PendingIntent.getActivity(
@@ -93,8 +116,7 @@ class AlarmService : Service() {
 
         return NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_alarm)
-            .setContentTitle("Будильник")
-            .setContentText("Пора вставать!")
+            .setContentTitle(alarmName)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setFullScreenIntent(fullScreenPendingIntent, true)

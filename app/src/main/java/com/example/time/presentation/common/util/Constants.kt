@@ -18,4 +18,12 @@ object Constants {
     const val TOO_MANY_REQUESTS = 429
     const val INTERNAL_SERVER_ERROR = 500
 
+    // Alarm
+    const val ALARM_CHANEL_ID = "ALARM_CHANEL_ID"
+
+    // Intent
+    const val EXTRA_ALARM_ID = "EXTRA_ALARM_ID"
+    const val EXTRA_SOUND_URI = "EXTRA_SOUND_URI"
+    const val EXTRA_ALARM_NAME = "EXTRA_ALARM_NAME"
+
 }

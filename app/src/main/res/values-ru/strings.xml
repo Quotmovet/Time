@@ -25,6 +25,7 @@
     <string name="alarmIsActivate">Будильник активирован</string>
     <string name="alarmIsDelete">Будильник удален</string>
     <string name="alarmSoundIsChange">Мелодия для будильника выбрана</string>
+    <string name="alarmNotifications">Уведомление будильника</string>
     <string name="M">П</string>
     <string name="Tu">В</string>
     <string name="W">С</string>

@@ -10,6 +10,9 @@ import android.util.Log
 import com.example.time.data.receiver.alarmscreen.AlarmReceiver
 import com.example.time.domain.model.alarmscreen.AlarmModel
 import com.example.time.domain.scheduler.alarmscreen.AlarmScheduler
+import com.example.time.presentation.common.util.Constants.EXTRA_ALARM_ID
+import com.example.time.presentation.common.util.Constants.EXTRA_ALARM_NAME
+import com.example.time.presentation.common.util.Constants.EXTRA_SOUND_URI
 import java.util.Calendar
 import javax.inject.Inject
 import androidx.core.net.toUri
@@ -48,8 +51,9 @@ class AndroidAlarmScheduler @Inject constructor (private val context: Context): 
             }
 
             val intent = Intent(context, AlarmReceiver::class.java).apply {
-                putExtra("EXTRA_ALARM_ID", alarm.id)
-                putExtra("EXTRA_SOUND_URI", alarm.sound)
+                putExtra(EXTRA_ALARM_ID, alarm.id)
+                putExtra(EXTRA_SOUND_URI, alarm.sound)
+                putExtra(EXTRA_ALARM_NAME, alarm.name)
             }
 
             val pendingIntent = PendingIntent.getBroadcast(
@@ -110,8 +114,9 @@ class AndroidAlarmScheduler @Inject constructor (private val context: Context): 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            putExtra("EXTRA_ALARM_ID", alarm.id)
-            putExtra("EXTRA_SOUND_URI", alarm.sound)
+            putExtra(EXTRA_ALARM_ID, alarm.id)
+            putExtra(EXTRA_SOUND_URI, alarm.sound)
+            putExtra(EXTRA_ALARM_NAME, alarm.name)
         }
 
         val requestCode = alarm.id * 1000 + 1 // уникальный временный ID
