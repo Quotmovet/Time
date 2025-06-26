@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.example.time.presentation.common.Dimens.LargePadding64
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.Dimens.SmallPadding8
-import com.example.time.presentation.common.util.sizes.responsiveIconSize
+import com.example.time.presentation.common.util.sizes.rememberResponsiveSizes
 
 @Composable
 fun CustomTopAppBar(
@@ -26,7 +26,7 @@ fun CustomTopAppBar(
     icon: Painter,
     onIconClick: () -> Unit
 ) {
-    val iconSize = responsiveIconSize()
+    val iconSize = rememberResponsiveSizes()
 
     Row(
         modifier = Modifier
@@ -39,7 +39,7 @@ fun CustomTopAppBar(
             Icon(
                 painter = icon,
                 modifier = Modifier
-                    .size(iconSize)
+                    .size(iconSize.iconSize)
                     .padding(SmallPadding4),
                 contentDescription = null
             )

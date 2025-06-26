@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import com.example.time.navigation.BottomNavItem
 import com.example.time.navigation.Screens
 import com.example.time.presentation.common.Dimens.SmallPadding4
-import com.example.time.presentation.common.util.sizes.responsiveIconSize
+import com.example.time.presentation.common.util.sizes.rememberResponsiveSizes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +26,7 @@ fun TopBarMain(
     navController: NavController
 ) {
 
-    val iconSize = responsiveIconSize()
+    val iconSize = rememberResponsiveSizes()
 
     TopAppBar(
         title = {
@@ -41,7 +41,7 @@ fun TopBarMain(
                 Icon(
                     painter = painterResource(id = Screens.SettingsScreen.iconResId),
                     modifier = Modifier
-                        .size(iconSize)
+                        .size(iconSize.iconSize)
                         .padding(SmallPadding4),
                     contentDescription = stringResource(id = Screens.SettingsScreen.title)
                 )
