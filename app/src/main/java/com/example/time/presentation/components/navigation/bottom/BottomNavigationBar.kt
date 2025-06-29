@@ -18,10 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.time.navigation.BottomNavItem
+import com.example.time.app.navigation.BottomNavItem
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.util.effects.noRippleInteractionSource
-import com.example.time.presentation.common.util.sizes.rememberResponsiveSizes
+import com.example.time.presentation.common.util.sizes.main.rememberResponsiveSizes
 
 @Composable
 fun BottomNavigationBar(

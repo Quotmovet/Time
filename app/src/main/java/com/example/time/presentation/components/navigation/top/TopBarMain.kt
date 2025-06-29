@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.example.time.navigation.BottomNavItem
-import com.example.time.navigation.Screens
+import com.example.time.app.navigation.BottomNavItem
+import com.example.time.app.navigation.Screens
 import com.example.time.presentation.common.Dimens.SmallPadding4
-import com.example.time.presentation.common.util.sizes.rememberResponsiveSizes
+import com.example.time.presentation.common.util.sizes.main.rememberResponsiveSizes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

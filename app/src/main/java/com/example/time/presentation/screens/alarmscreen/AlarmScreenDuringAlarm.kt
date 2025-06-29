@@ -25,10 +25,10 @@ fun AlarmScreenDuringAlarm(
 ) {
     val alarm by viewModel.alarm
     val currentDate by viewModel.currentDate
+    val currentTime by viewModel.currentTime
 
     val context = LocalContext.current
     val activity = context as? Activity
-
 
     LaunchedEffect(alarmId) {
         viewModel.getAlarmById(alarmId)
@@ -43,7 +43,7 @@ fun AlarmScreenDuringAlarm(
         if (alarm != null) {
             AlarmInformationOnDuring(
                 alarmName = alarm?.name ?: stringResource(R.string.alarm),
-                alarmTime = "${alarm?.hour}:${alarm?.minute.toString().padStart(2, '0')}",
+                alarmTime = currentTime,
                 alarmDate = currentDate
             )
 

@@ -70,7 +70,7 @@ fun AlarmScreen(
 
     val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
         putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
-        putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Alarm Sound")
+        putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.select_alarm_sound)
         putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
         putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
     }
@@ -120,7 +120,7 @@ fun AlarmScreen(
 
                     onCheckedChange = { isChecked ->
                         viewModel.insertAlarm(alarm.copy(isActivated = isChecked))
-                        if (isChecked) Toast.makeText(context, R.string.alarmIsActivate, Toast.LENGTH_SHORT).show()
+                        if (isChecked) Toast.makeText(context, R.string.alarm_is_activate, Toast.LENGTH_SHORT).show()
                     },
 
                     onDayToggle = { day ->
@@ -145,7 +145,7 @@ fun AlarmScreen(
                     },
                     onDelete = {
                         viewModel.deleteAlarm(alarm)
-                        Toast.makeText(context, R.string.alarmIsDelete, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.alarm_is_delete, Toast.LENGTH_SHORT).show()
                     }
                 )
             }

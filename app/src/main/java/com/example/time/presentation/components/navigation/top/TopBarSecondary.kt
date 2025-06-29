@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.example.time.navigation.Screens
+import com.example.time.app.navigation.Screens
 import com.example.time.presentation.components.navigation.top.elements.CustomTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)

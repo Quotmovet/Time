@@ -6,12 +6,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.time.data.service.alarmscreen.AlarmService
 import com.example.time.domain.interactor.alarmscreen.AlarmScreenInteractor
 import com.example.time.domain.model.alarmscreen.AlarmModel
-import com.example.time.domain.scheduler.alarmscreen.AlarmScheduler
+import com.example.time.domain.scheduler.alarmscreen.AlarmScreenScheduler
 import com.example.time.domain.usecase.timescreen.GetCurrentDateUseCase
+import com.example.time.domain.usecase.timescreen.GetCurrentTimeUseCase
 import com.example.time.presentation.common.util.formater.toCalendarDay
+import com.example.time.presentation.service.alarmscreen.AlarmService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -22,12 +23,16 @@ import javax.inject.Inject
 class AlarmViewModelDuringAlarm @Inject constructor(
     application: Application,
     getCurrentDateUseCase: GetCurrentDateUseCase,
+    getCurrentTimeUseCase: GetCurrentTimeUseCase,
     private val alarmScreenInteractor: AlarmScreenInteractor,
-    private val alarmScheduler: AlarmScheduler
+    private val alarmScreenScheduler: AlarmScreenScheduler
 ): AndroidViewModel(application) {
 
     private val _currentDate = mutableStateOf(getCurrentDateUseCase())
     val currentDate: State<String> = _currentDate
+
+    private val _currentTime = mutableStateOf(getCurrentTimeUseCase())
+    val currentTime: State<String> = _currentTime
 
     private val _alarm = mutableStateOf<AlarmModel?>(null)
     val alarm: State<AlarmModel?> = _alarm
@@ -42,7 +47,7 @@ class AlarmViewModelDuringAlarm @Inject constructor(
         _alarm.value?.let { alarm ->
             viewModelScope.launch {
                 val today = LocalDate.now().dayOfWeek.toCalendarDay()
-                alarmScheduler.cancelForDay(alarm, today)
+                alarmScreenScheduler.cancelForDay(alarm, today)
                 stopAlarmService()
             }
         }
@@ -54,7 +59,7 @@ class AlarmViewModelDuringAlarm @Inject constructor(
                 val newTime = Calendar.getInstance().apply {
                     add(Calendar.MINUTE, 5)
                 }
-                alarmScheduler.schedulePostponeOnce(alarm, newTime.timeInMillis)
+                alarmScreenScheduler.schedulePostponeOnce(alarm, newTime.timeInMillis)
                 stopAlarmService()
             }
         }

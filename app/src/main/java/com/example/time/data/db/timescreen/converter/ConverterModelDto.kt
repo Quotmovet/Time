@@ -1,6 +1,7 @@
 package com.example.time.data.db.timescreen.converter
 
 import android.annotation.SuppressLint
+import com.example.time.R
 import com.example.time.data.dto.timescreen.TimeDataDto
 import com.example.time.domain.model.timescreen.TimeDataModel
 
@@ -20,14 +21,14 @@ private fun parseCityName(timeZone: String): String {
         timeZone.substringAfterLast('/').replace("_", " ")
     } else {
         timeZone.replace("_", " ")
-    }.ifEmpty { "Unknown City" }
+    }.ifEmpty { R.string.unknown_city.toString() }
 }
 
 private fun parseCountry(timeZone: String): String {
     return if (timeZone.contains('/')) {
         timeZone.substringBefore('/').replace("_", " ")
     } else {
-        "Unknown Country"
+        R.string.unknown_country.toString()
     }
 }
 

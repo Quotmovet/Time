@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time.domain.usecase.timescreen.GetCurrentDateUseCase
 import com.example.time.domain.usecase.timescreen.GetCurrentTimeUseCase
-import com.example.time.presentation.common.util.Constants.ONE_MINUTE
-import com.example.time.presentation.common.util.Constants.ONE_SECOND
+import com.example.time.app.globalconstants.Constants.ONE_MINUTE
+import com.example.time.app.globalconstants.Constants.ONE_SECOND
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State

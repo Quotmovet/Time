@@ -36,7 +36,7 @@ fun PlaceholderSearchScreen() {
             Text(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally),
-                text = stringResource(R.string.searchCities),
+                text = stringResource(R.string.search_cities),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.tertiary
             )

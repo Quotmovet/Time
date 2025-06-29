@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Surface
 import com.example.time.presentation.common.theme.Theme
+import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
 import com.example.time.presentation.screens.alarmscreen.AlarmScreenDuringAlarm
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +31,7 @@ class AlarmActivity : ComponentActivity() {
             )
         }
 
-        val alarmId = intent.getIntExtra("EXTRA_ALARM_ID", -1)
+        val alarmId = intent.getIntExtra(EXTRA_ALARM_ID, -1)
 
         setContent {
             Theme(

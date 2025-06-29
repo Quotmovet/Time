@@ -42,7 +42,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.time.R
 import com.example.time.presentation.common.Dimens.BigIconsSize34
-import com.example.time.presentation.common.Dimens.MediumPadding14
 import com.example.time.presentation.common.Dimens.MediumPadding16
 import com.example.time.presentation.common.Dimens.MediumPadding22
 import com.example.time.presentation.common.Dimens.MediumPadding24
@@ -54,6 +53,7 @@ import com.example.time.presentation.common.Dimens.SmallPadding12
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.Dimens.SmallPadding6
 import com.example.time.presentation.common.Dimens.SmallPadding8
+import com.example.time.presentation.common.util.sizes.alarmscreen.rememberWeekDaySizes
 import com.example.time.presentation.components.alarmscreen.additional.CheckRadioButton
 import com.example.time.presentation.components.alarmscreen.additional.LabelDialog
 import com.example.time.presentation.components.alarmscreen.additional.WeekDays
@@ -288,25 +288,25 @@ private fun WeekDaysRow(
     selectedDays: Set<Int>,
     onDayToggle: (Int) -> Unit
 ) {
+    val responsiveWeekDaySizes = rememberWeekDaySizes()
+
     val daysList = listOf(
         R.string.M, R.string.Tu, R.string.W,
         R.string.Th, R.string.F, R.string.Sa, R.string.Su
     )
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         daysList.forEachIndexed { index, resId ->
             val isSelected = selectedDays.contains(index)
             WeekDays(
                 letter = stringResource(resId),
                 selected = isSelected,
-                onClick = { onDayToggle(index) }
+                onClick = { onDayToggle(index) },
+                weekDaySizes = responsiveWeekDaySizes
             )
-
-            if (index != daysList.lastIndex) {
-                Spacer(modifier = Modifier.width(MediumPadding14))
-            }
         }
     }
 }
@@ -391,8 +391,6 @@ private fun AlarmActionsColumn(
 
 @Composable
 private fun FormattedDays(days: String) {
-    if (days.isBlank()) return
-
     val dayNames = listOf(
         R.string.Mon, R.string.Tue, R.string.Wed,
         R.string.Thu, R.string.Fri, R.string.Sat, R.string.Sun
@@ -404,16 +402,24 @@ private fun FormattedDays(days: String) {
         .filter { it in dayNames.indices }
         .sorted()
 
-    val dayStrings = indices.map { index ->
-        stringResource(id = dayNames[index])
+    if (indices.isEmpty()) {
+        Text(
+            text = stringResource(R.string.day_is_not_selected),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.fillMaxWidth()
+        )
+    } else {
+        val dayStrings = indices.map { index ->
+            stringResource(id = dayNames[index])
+        }
+
+        val result = dayStrings.joinToString(", ")
+        Text(
+            text = result,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
-
-    val result = dayStrings.joinToString(", ")
-
-    Text(
-        text = result,
-        style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.fillMaxWidth()
-    )
 }

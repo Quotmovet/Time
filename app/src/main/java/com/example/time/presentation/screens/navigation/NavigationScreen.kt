@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.time.navigation.BottomNavItem
-import com.example.time.navigation.NavGraph
+import com.example.time.app.navigation.BottomNavItem
+import com.example.time.app.navigation.NavGraph
 import androidx.compose.runtime.getValue
 import com.example.time.presentation.components.navigation.bottom.BottomNavigationBar
 import com.example.time.presentation.components.navigation.top.TopBarMain

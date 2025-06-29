@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time.domain.interactor.alarmscreen.AlarmScreenInteractor
 import com.example.time.domain.model.alarmscreen.AlarmModel
-import com.example.time.domain.scheduler.alarmscreen.AlarmScheduler
+import com.example.time.domain.scheduler.alarmscreen.AlarmScreenScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AlarmScreenViewModel @Inject constructor(
     private val alarmScreenInteractor: AlarmScreenInteractor,
-    private val alarmScheduler: AlarmScheduler
+    private val alarmScreenScheduler: AlarmScreenScheduler
 ): ViewModel() {
 
     private val _alarmState = MutableStateFlow<List<AlarmModel>>(emptyList())
@@ -30,9 +30,9 @@ class AlarmScreenViewModel @Inject constructor(
             alarmScreenInteractor.insertAlarm(alarm)
 
             if (alarm.isActivated) {
-                alarmScheduler.schedule(alarm)
+                alarmScreenScheduler.schedule(alarm)
             } else {
-                alarmScheduler.cancel(alarm)
+                alarmScreenScheduler.cancel(alarm)
             }
         }
     }
@@ -41,7 +41,7 @@ class AlarmScreenViewModel @Inject constructor(
         val alarmId = alarm.id
         viewModelScope.launch {
             alarmScreenInteractor.deleteAlarmById(alarmId)
-            alarmScheduler.cancel(alarm)
+            alarmScreenScheduler.cancel(alarm)
         }
     }
 

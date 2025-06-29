@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.example.time.presentation.common.Dimens.LargePadding64
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.Dimens.SmallPadding8
-import com.example.time.presentation.common.util.sizes.rememberResponsiveSizes
+import com.example.time.presentation.common.util.sizes.main.rememberResponsiveSizes
 
 @Composable
 fun CustomTopAppBar(

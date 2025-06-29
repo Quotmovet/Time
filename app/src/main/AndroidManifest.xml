@@ -49,14 +49,16 @@
             android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:excludeFromRecents="true"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <receiver
-            android:name=".data.receiver.alarmscreen.AlarmReceiver"
+            android:name=".app.receiver.alarmscreen.AlarmReceiver"
             android:exported="false" />
 
         <service
-            android:name=".data.service.alarmscreen.AlarmService"
+            android:name=".presentation.service.alarmscreen.AlarmService"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
     </application>

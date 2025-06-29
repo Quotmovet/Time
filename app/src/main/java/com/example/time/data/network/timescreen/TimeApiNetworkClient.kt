@@ -6,10 +6,10 @@ import com.example.time.data.dto.Response
 import com.example.time.data.dto.timescreen.ResponseWithResults
 import com.example.time.data.dto.timescreen.TimeDataRequest
 import com.example.time.data.network.NetworkClient
-import com.example.time.presentation.common.util.Constants.BAD_REQUEST
-import com.example.time.presentation.common.util.Constants.INTERNAL_SERVER_ERROR
-import com.example.time.presentation.common.util.Constants.NO_INTERNET
-import com.example.time.presentation.common.util.Constants.SUCCESS
+import com.example.time.app.globalconstants.Constants.BAD_REQUEST
+import com.example.time.app.globalconstants.Constants.INTERNAL_SERVER_ERROR
+import com.example.time.app.globalconstants.Constants.NO_INTERNET
+import com.example.time.app.globalconstants.Constants.SUCCESS
 import com.example.time.presentation.common.util.network.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -40,5 +40,4 @@ class TimeApiNetworkClient @Inject constructor(
             }
         }
     }
-
 }

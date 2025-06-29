@@ -8,14 +8,14 @@ import com.example.time.data.dto.timescreen.TimeDataRequest
 import com.example.time.data.network.NetworkClient
 import com.example.time.domain.model.timescreen.TimeDataModel
 import com.example.time.domain.repositories.timescreen.TimeDataRepository
-import com.example.time.presentation.common.util.Constants.NO_INTERNET
+import com.example.time.app.globalconstants.Constants.NO_INTERNET
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class NetworkTimeDataRepositoryImpl @Inject constructor(
     private val networkClient: NetworkClient
-) : TimeDataRepository {
+): TimeDataRepository {
 
     override suspend fun getTimeData(
         expression: String

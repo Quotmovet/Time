@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.example.time.R
-import com.example.time.navigation.Screens
+import com.example.time.app.navigation.Screens
 import com.example.time.presentation.common.Dimens.LargeIconsSize118
 import com.example.time.presentation.common.Dimens.SmallPadding4
 
