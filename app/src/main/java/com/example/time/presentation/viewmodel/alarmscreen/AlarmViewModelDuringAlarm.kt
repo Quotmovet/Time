@@ -14,6 +14,8 @@ import com.example.time.domain.usecase.timescreen.GetCurrentTimeUseCase
 import com.example.time.presentation.common.util.formater.toCalendarDay
 import com.example.time.presentation.service.alarmscreen.AlarmService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Calendar
@@ -37,6 +39,9 @@ class AlarmViewModelDuringAlarm @Inject constructor(
     private val _alarm = mutableStateOf<AlarmModel?>(null)
     val alarm: State<AlarmModel?> = _alarm
 
+    private val _uiEvents = MutableSharedFlow<AlarmUiEvent>()
+    val uiEvents: SharedFlow<AlarmUiEvent> = _uiEvents
+
     fun getAlarmById(alarmId: Int) {
         viewModelScope.launch {
             _alarm.value = alarmScreenInteractor.getAlarmById(alarmId)
@@ -49,6 +54,7 @@ class AlarmViewModelDuringAlarm @Inject constructor(
                 val today = LocalDate.now().dayOfWeek.toCalendarDay()
                 alarmScreenScheduler.cancelForDay(alarm, today)
                 stopAlarmService()
+                _uiEvents.emit(AlarmUiEvent.Finish)
             }
         }
     }
@@ -61,6 +67,7 @@ class AlarmViewModelDuringAlarm @Inject constructor(
                 }
                 alarmScreenScheduler.schedulePostponeOnce(alarm, newTime.timeInMillis)
                 stopAlarmService()
+                _uiEvents.emit(AlarmUiEvent.Finish)
             }
         }
     }

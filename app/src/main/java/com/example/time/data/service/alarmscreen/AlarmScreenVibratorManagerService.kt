@@ -10,7 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 
 @Suppress("DEPRECATION")
-class AlarmScreenAlarmScreenVibratorManagerService@Inject constructor(
+class AlarmScreenVibratorManagerService@Inject constructor(
     @param:ApplicationContext private val context: Context
 ): AlarmScreenVibratorManager {
     private val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator

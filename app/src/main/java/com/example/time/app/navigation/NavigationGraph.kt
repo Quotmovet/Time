@@ -1,6 +1,7 @@
 package com.example.time.app.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,6 +15,7 @@ import com.example.time.presentation.screens.sleepscreen.SleepScreen
 import com.example.time.presentation.screens.stopwatchscreen.StopwatchScreen
 import com.example.time.presentation.screens.timerscreen.TimerScreen
 import com.example.time.presentation.screens.timescreen.TimeScreen
+import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringAlarm
 
 @Composable
 fun NavGraph(
@@ -38,7 +40,8 @@ fun NavGraph(
             arguments = listOf(navArgument("alarmId") { type = NavType.IntType })
         ) { backStackEntry ->
             val alarmId = backStackEntry.arguments?.getInt("alarmId") ?: return@composable
-            AlarmScreenDuringAlarm(alarmId = alarmId)
+            val viewModel: AlarmViewModelDuringAlarm = hiltViewModel()
+            AlarmScreenDuringAlarm(alarmId = alarmId, viewModel = viewModel)
         }
     }
 }

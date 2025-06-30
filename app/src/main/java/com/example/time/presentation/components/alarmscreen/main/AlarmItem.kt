@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.time.R
 import com.example.time.presentation.common.Dimens.BigIconsSize34
@@ -174,7 +175,7 @@ fun AlarmItem(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = if (name.isNotEmpty()) name else stringResource(R.string.name),
+                                    text = name.ifEmpty { stringResource(R.string.name) },
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier
@@ -405,7 +406,8 @@ private fun FormattedDays(days: String) {
     if (indices.isEmpty()) {
         Text(
             text = stringResource(R.string.day_is_not_selected),
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelMedium
+                .copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.fillMaxWidth()
         )

@@ -1,35 +1,33 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.time.app.receiver.alarmscreen
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
-import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_NAME
-import com.example.time.app.globalconstants.Constants.EXTRA_SOUND_URI
-import com.example.time.presentation.service.alarmscreen.AlarmService
+import com.example.time.domain.recevier.alarmscreen.AlarmReceiverHandler
+import dagger.hilt.android.AndroidEntryPoint
+import jakarta.inject.Inject
 
+@Suppress("DEPRECATION")
+@AndroidEntryPoint
 class AlarmReceiver: BroadcastReceiver() {
+
+    @Inject lateinit var handler: AlarmReceiverHandler
+
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("AlarmReceiver", "Received alarm broadcast")
-
         val alarmId = intent.getIntExtra(EXTRA_ALARM_ID, -1)
-        val soundUri = intent.getStringExtra(EXTRA_SOUND_URI)
-        val alarmName = intent.getStringExtra(EXTRA_ALARM_NAME)
+        val action = intent.action
+        val extras = intent.extras
 
-        if (alarmId == -1 || soundUri == null || alarmName == null) {
-            Log.e("AlarmReceiver", "Invalid alarm data received")
-            return
-        }
+        Log.d("AlarmReceiver", "Received action: $action, alarmId: $alarmId")
+        handler.handleAction(action, alarmId, extras)
 
-        val alarmServiceIntent = Intent(context, AlarmService::class.java).apply {
+        LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(action).apply {
             putExtra(EXTRA_ALARM_ID, alarmId)
-            putExtra(EXTRA_SOUND_URI, soundUri)
-            putExtra(EXTRA_ALARM_NAME, alarmName)
-        }
-
-        ContextCompat.startForegroundService(context, alarmServiceIntent)
-        Log.d("AlarmReceiver", "AlarmService started")
+        })
     }
 }

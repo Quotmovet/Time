@@ -20,6 +20,8 @@
     <string name="sound">Звук</string>
     <string name="vibration">Вибрация</string>
     <string name="choose_time">Выберите время</string>
+    <string name="postpone">Отложить</string>
+    <string name="disable">Отключить</string>
     <string name="ok">Ок</string>
     <string name="name">Название</string>
     <string name="unknown_country">Неизвестная страна</string>

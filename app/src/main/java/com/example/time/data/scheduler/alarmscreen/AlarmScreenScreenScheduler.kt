@@ -16,11 +16,16 @@ import com.example.time.app.globalconstants.Constants.EXTRA_SOUND_URI
 import java.util.Calendar
 import javax.inject.Inject
 import androidx.core.net.toUri
+import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_DATE
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class AlarmScreenScreenScheduler @Inject constructor(
     private val context: Context
 ): AlarmScreenScheduler {
+
+    private val date = SimpleDateFormat("EEE, dd MMM", Locale.getDefault()).format(Date())
 
     override fun schedule(alarm: AlarmModel) {
 
@@ -57,6 +62,7 @@ class AlarmScreenScreenScheduler @Inject constructor(
                 putExtra(EXTRA_ALARM_ID, alarm.id)
                 putExtra(EXTRA_SOUND_URI, alarm.sound)
                 putExtra(EXTRA_ALARM_NAME, alarm.name)
+                putExtra(EXTRA_ALARM_DATE, date)
             }
 
             val pendingIntent = PendingIntent.getBroadcast(
@@ -120,6 +126,7 @@ class AlarmScreenScreenScheduler @Inject constructor(
             putExtra(EXTRA_ALARM_ID, alarm.id)
             putExtra(EXTRA_SOUND_URI, alarm.sound)
             putExtra(EXTRA_ALARM_NAME, alarm.name)
+            putExtra(EXTRA_ALARM_DATE, date)
         }
 
         val requestCode = alarm.id * 1000 + 1 // unique requestCode for each alarmID

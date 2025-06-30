@@ -8,7 +8,7 @@ import com.example.time.domain.contract.alarmscreen.AlarmScreenAlarmPlayer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 
-class AlarmScreenAlarmScreenAlarmPlayerService @Inject constructor(
+class AlarmScreenAlarmPlayerService @Inject constructor(
     @param:ApplicationContext private val context: Context
 ): AlarmScreenAlarmPlayer {
     private var mediaPlayer: MediaPlayer? = null

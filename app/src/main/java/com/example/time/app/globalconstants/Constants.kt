@@ -19,11 +19,15 @@ object Constants {
     const val INTERNAL_SERVER_ERROR = 500
 
     // Alarm
-    const val ALARM_CHANEL_ID = "ALARM_CHANEL_ID"
+    const val ALARM_CHANEL = "ALARM_CHANEL"
+    const val ACTION_DISABLE_ALARM = "ACTION_DISABLE_ALARM"
+    const val ACTION_SNOOZE_ALARM = "ACTION_SNOOZE_ALARM"
+    const val ACTION_TYPE = "ACTION_TYPE"
 
     // Intent
     const val EXTRA_ALARM_ID = "EXTRA_ALARM_ID"
     const val EXTRA_SOUND_URI = "EXTRA_SOUND_URI"
     const val EXTRA_ALARM_NAME = "EXTRA_ALARM_NAME"
+    const val EXTRA_ALARM_DATE = "EXTRA_ALARM_DATE"
 
 }
