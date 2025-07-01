@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -51,7 +52,6 @@ import java.util.Calendar
 fun AlarmScreen(
     viewModel: AlarmScreenViewModel = hiltViewModel()
 ) {
-
     val alarmState by viewModel.alarmState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     var selectedAlarm by remember { mutableStateOf<AlarmModel?>(null) }
@@ -61,18 +61,19 @@ fun AlarmScreen(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         val uri = result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-        val alarm = selectedAlarm
-        if (uri != null && alarm != null) {
-            viewModel.insertAlarm(alarm.copy(sound = uri.toString()))
+        selectedAlarm?.let { alarm ->
+            viewModel.updateAlarmSound(alarm, uri)
             selectedAlarm = null
         }
     }
 
-    val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
-        putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
-        putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.select_alarm_sound)
-        putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
-        putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+    val intent = remember {
+        Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+            putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+            putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.select_alarm_sound)
+            putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+            putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+        }
     }
 
     val shouldShowOverlay = alarmState.size > 3
@@ -94,55 +95,42 @@ fun AlarmScreen(
         Spacer(modifier = Modifier.padding(top = LargePadding60))
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(alarmState.size) { index ->
-                val alarm = alarmState[index]
-
-                val selectedDays = remember(alarm.id) {
-                    alarm.days
-                        .split(",")
-                        .filter { it.isNotBlank() }.mapNotNull { it.trim().toIntOrNull() }
-                        .toSet()
-                }
-
-                var currentDays by remember(alarm.id) { mutableStateOf(selectedDays) }
-                var isVibration by remember(alarm.id) { mutableStateOf(alarm.isVibration) }
-                var alarmName by remember(alarm.id) { mutableStateOf(alarm.name) }
-
+            items(alarmState) { alarm ->
                 Spacer(modifier = Modifier.height(MediumPadding16))
+
                 AlarmItem(
                     id = alarm.id,
                     time = "${alarm.hour}:${alarm.minute.toString().padStart(2, '0')}",
                     days = alarm.days,
-                    name = alarmName,
+                    name = alarm.name,
                     isActivated = alarm.isActivated,
-                    isVibration = isVibration,
-                    selectedDays = currentDays,
+                    isVibration = alarm.isVibration,
+                    selectedDays = alarm.days.split(",")
+                        .mapNotNull { it.toIntOrNull() }
+                        .toSet(),
 
                     onCheckedChange = { isChecked ->
-                        viewModel.insertAlarm(alarm.copy(isActivated = isChecked))
+                        viewModel.updateAlarmActivation(alarm, isChecked)
                         if (isChecked) Toast.makeText(context, R.string.alarm_is_activate, Toast.LENGTH_SHORT).show()
                     },
 
                     onDayToggle = { day ->
-                        val updated = currentDays.toMutableSet().apply {
-                            if (contains(day)) remove(day) else add(day)
-                        }
-                        currentDays = updated
-                        val daysStr = updated.sorted().joinToString(",")
-                        viewModel.insertAlarm(alarm.copy(days = daysStr))
+                        viewModel.updateAlarmDays(alarm, day)
                     },
+
                     onNameChange = { newName ->
-                        alarmName = newName
-                        viewModel.insertAlarm(alarm.copy(name = newName))
+                        viewModel.updateAlarmName(alarm, newName)
                     },
+
                     onSoundChange = {
                         selectedAlarm = alarm
                         launcher.launch(intent)
                     },
-                    onVibrationChange = { newVibration ->
-                        isVibration = newVibration
-                        viewModel.insertAlarm(alarm.copy(isVibration = newVibration))
+
+                    onVibrationChange = { isVibration ->
+                        viewModel.updateAlarmVibration(alarm, isVibration)
                     },
+
                     onDelete = {
                         viewModel.deleteAlarm(alarm)
                         Toast.makeText(context, R.string.alarm_is_delete, Toast.LENGTH_SHORT).show()
@@ -187,18 +175,7 @@ fun AlarmScreen(
                 onDismiss = { showDialog = false },
                 onConfirm = {
                     showDialog = false
-                    viewModel.insertAlarm(
-                        AlarmModel(
-                            id = 0,
-                            hour = timeState.hour,
-                            minute = timeState.minute,
-                            name = "",
-                            isActivated = true,
-                            isVibration = true,
-                            days = "",
-                            sound = ""
-                        )
-                    )
+                    viewModel.createAlarm(timeState.hour, timeState.minute)
                 }
             )
         }

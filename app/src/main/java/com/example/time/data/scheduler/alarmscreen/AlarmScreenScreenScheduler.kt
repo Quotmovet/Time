@@ -25,6 +25,12 @@ class AlarmScreenScreenScheduler @Inject constructor(
     private val context: Context
 ): AlarmScreenScheduler {
 
+    companion object {
+        private const val REQUEST_CODE_OFFSET_PER_DAY = 10
+        private const val REQUEST_CODE_BLOCK_SIZE = 1000
+        private const val REQUEST_CODE_TYPE_ALARM_TRIGGER = 1
+    }
+
     private val date = SimpleDateFormat("EEE, dd MMM", Locale.getDefault()).format(Date())
 
     override fun schedule(alarm: AlarmModel) {
@@ -67,7 +73,7 @@ class AlarmScreenScreenScheduler @Inject constructor(
 
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                alarm.id * 10 + day, // unique requestCode for each alarmID
+                alarm.id * REQUEST_CODE_OFFSET_PER_DAY + day, // unique requestCode for each alarmID
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
@@ -94,7 +100,7 @@ class AlarmScreenScreenScheduler @Inject constructor(
 
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                alarm.id * 10 + day,
+                alarm.id * REQUEST_CODE_OFFSET_PER_DAY + day,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
@@ -110,7 +116,7 @@ class AlarmScreenScreenScheduler @Inject constructor(
 
         val pendingIntent = PendingIntent.getBroadcast(
             context,
-            alarm.id * 10 + dayOfWeek,
+            alarm.id * REQUEST_CODE_OFFSET_PER_DAY + dayOfWeek,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -129,7 +135,7 @@ class AlarmScreenScreenScheduler @Inject constructor(
             putExtra(EXTRA_ALARM_DATE, date)
         }
 
-        val requestCode = alarm.id * 1000 + 1 // unique requestCode for each alarmID
+        val requestCode = alarm.id * REQUEST_CODE_BLOCK_SIZE + REQUEST_CODE_TYPE_ALARM_TRIGGER // unique requestCode for each alarmID
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             requestCode,
