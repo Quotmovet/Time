@@ -46,6 +46,16 @@ android {
     }
 }
 
+ktlint {
+    version.set("12.3.0")
+    android.set(true)
+    outputColorName.set("RED")
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN_GROUP_BY_FILE)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+    }
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
