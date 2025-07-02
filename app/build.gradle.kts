@@ -56,10 +56,21 @@ ktlint {
     }
 }
 
+detekt {
+    buildUponDefaultConfig = true
+    @Suppress("DEPRECATION")
+    reports {
+        xml.required.set(true)
+        html.required.set(false)
+        txt.required.set(false)
+    }
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation (libs.androidx.foundation)
+    ktlint (libs.ktlint.cli)
     implementation(libs.androidx.localbroadcastmanager)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
