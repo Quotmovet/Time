@@ -13,9 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.time.R
-import com.example.time.presentation.common.theme.Theme
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseInOutSine
 import androidx.compose.animation.core.LinearEasing
@@ -62,6 +60,8 @@ fun AlarmOffPostpone(
     var highlightLeft by remember { mutableStateOf(false) }
     var highlightRight by remember { mutableStateOf(false) }
     var isDragging by remember { mutableStateOf(false) }
+    var isPostponeTriggered by remember { mutableStateOf(false) }
+    var isOffTriggered by remember { mutableStateOf(false) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -87,6 +87,18 @@ fun AlarmOffPostpone(
         targetValue = if (highlightRight) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.tertiary,
         animationSpec = tween(durationMillis = 200),
         label = "rightIconColor"
+    )
+
+    val leftTextColor by animateColorAsState(
+        targetValue = if (highlightLeft) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.tertiary,
+        animationSpec = tween(durationMillis = 200),
+        label = "leftTextColor"
+    )
+
+    val rightTextColor by animateColorAsState(
+        targetValue = if (highlightRight) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.tertiary,
+        animationSpec = tween(durationMillis = 200),
+        label = "rightTextColor"
     )
 
     val alarmScale by animateFloatAsState(
@@ -120,20 +132,42 @@ fun AlarmOffPostpone(
     )
 
     val leftScale by animateFloatAsState(
-        targetValue = if (highlightLeft) 1.05f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessHigh
-        ),
+        targetValue = when {
+            isPostponeTriggered -> 15f
+            highlightLeft -> 1.15f
+            else -> 1f
+        },
+        animationSpec = if (isPostponeTriggered) {
+            spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            )
+        } else {
+            spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessHigh
+            )
+        },
         label = "leftScale"
     )
 
     val rightScale by animateFloatAsState(
-        targetValue = if (highlightRight) 1.05f else 1f,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessHigh
-        ),
+        targetValue = when {
+            isOffTriggered -> 15f
+            highlightRight -> 1.15f
+            else -> 1f
+        },
+        animationSpec = if (isOffTriggered) {
+            spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            )
+        } else {
+            spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessHigh
+            )
+        },
         label = "rightScale"
     )
 
@@ -153,7 +187,11 @@ fun AlarmOffPostpone(
                     shape = CircleShape,
                 )
                 .clickable {
-                    onPostponeClick()
+                    coroutineScope.launch {
+                        isPostponeTriggered = true
+                        kotlinx.coroutines.delay(400)
+                        onPostponeClick()
+                    }
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -171,7 +209,7 @@ fun AlarmOffPostpone(
                 Text(
                     text = stringResource(R.string.postpone),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = leftIconColor
+                    color = leftTextColor
                 )
             }
         }
@@ -188,7 +226,11 @@ fun AlarmOffPostpone(
                     shape = CircleShape,
                 )
                 .clickable {
-                    onOff()
+                    coroutineScope.launch {
+                        isOffTriggered = true
+                        kotlinx.coroutines.delay(400)
+                        onOff()
+                    }
                 },
             contentAlignment = Alignment.Center
         ) {
@@ -206,7 +248,7 @@ fun AlarmOffPostpone(
                 Text(
                     text = stringResource(R.string.cancel),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = rightIconColor
+                    color = rightTextColor
                 )
             }
         }
@@ -294,13 +336,5 @@ fun AlarmOffPostpone(
                     .rotate(if (isDragging) 0f else rotationAngle)
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun AlarmScreenDuringAlarmPreview(){
-    Theme {
-        AlarmOffPostpone(onPostponeClick = {}, onOff = {})
     }
 }

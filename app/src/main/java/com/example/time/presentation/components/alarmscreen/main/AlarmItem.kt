@@ -67,27 +67,32 @@ fun AlarmItem(
     name: String,
     isActivated: Boolean,
     isVibration: Boolean,
+    isExpanded: Boolean,
     selectedDays: Set<Int>,
+    onExpandToggle: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
     onDayToggle: (Int) -> Unit,
     onNameChange: (String) -> Unit,
     onSoundChange: (Int) -> Unit,
     onVibrationChange: (Boolean) -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
-    var expanded by remember { mutableStateOf(false) }
-    val rotation by animateFloatAsState(targetValue = if (expanded) 180f else 0f, label = "")
+    val rotation by animateFloatAsState(
+        targetValue = if (isExpanded) 180f else 0f,
+        label = "rotation_animation"
+    )
 
     var showDialog by remember { mutableStateOf(false) }
 
     val animatedPaddingStart by animateDpAsState(
-        targetValue = if (expanded) SmallPadding6 else 0.dp,
+        targetValue = if (isExpanded) SmallPadding6 else 0.dp,
         label = "labelPaddingAnimation"
     )
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = MediumPadding22)
             .clip(RoundedCornerShape(PrimaryCorner))
@@ -98,13 +103,13 @@ fun AlarmItem(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         onClick = {
-            expanded = !expanded
+            onExpandToggle()
         }
     ) {
 
         Column(modifier = Modifier.padding(all = SmallPadding10)) {
 
-            if(!expanded) {
+            if(!isExpanded) {
                 Row(
                     modifier = Modifier.align(alignment = Alignment.End)
                 ) {
@@ -194,17 +199,6 @@ fun AlarmItem(
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onBackground
                     )
-
-                    if (showDialog) {
-                        LabelDialog(
-                            text = name,
-                            onTextChange = { name },
-                            onDismiss = { showDialog = false },
-                            onConfirm = { label ->
-                                showDialog = false
-                            }
-                        )
-                    }
                 }
 
                 Spacer(modifier = Modifier.height(SmallPadding4))
@@ -224,20 +218,20 @@ fun AlarmItem(
                     onToggleSelected = onVibrationChange,
                     onDelete = onDelete
                 )
-
-                if (showDialog) {
-                    LabelDialog(
-                        text = name,
-                        onTextChange = { newName -> onNameChange(newName) },
-                        onDismiss = { showDialog = false },
-                        onConfirm = { label ->
-                            onNameChange(label)
-                            showDialog = false
-                        }
-                    )
-                }
             }
         }
+    }
+
+    if (showDialog) {
+        LabelDialog(
+            text = name,
+            onTextChange = { newName -> onNameChange(newName) },
+            onDismiss = { showDialog = false },
+            onConfirm = { label ->
+                onNameChange(label)
+                showDialog = false
+            }
+        )
     }
 }
 
@@ -252,19 +246,21 @@ private fun TimeRow(
         modifier = Modifier
             .fillMaxWidth()
             .height(BigIconsSize34),
-        verticalAlignment = Alignment.Bottom
+        verticalAlignment = Alignment.Top // Изменено с Bottom на Top
     ) {
         Text(
             text = time,
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.alignByBaseline() // Добавлен alignByBaseline
         )
         Spacer(modifier = Modifier.width(SmallPadding6))
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
-            FormattedDays(days = days)
-        }
+        FormattedDays(
+            days = days,
+            modifier = Modifier
+                .weight(1f)
+                .alignByBaseline() // Добавлен alignByBaseline
+        )
         Switch(
             checked = isActivated,
             onCheckedChange = onCheckedChange,
@@ -280,6 +276,45 @@ private fun TimeRow(
                 uncheckedTrackColor = MaterialTheme.colorScheme.onBackground,
                 uncheckedBorderColor = Color.Transparent
             )
+        )
+    }
+}
+
+@Composable
+private fun FormattedDays(
+    days: String,
+    modifier: Modifier = Modifier
+) {
+    val dayNames = listOf(
+        R.string.Mon, R.string.Tue, R.string.Wed,
+        R.string.Thu, R.string.Fri, R.string.Sat, R.string.Sun
+    )
+
+    val indices = days
+        .split(",")
+        .mapNotNull { it.toIntOrNull() }
+        .filter { it in dayNames.indices }
+        .sorted()
+
+    if (indices.isEmpty()) {
+        Text(
+            text = stringResource(R.string.day_is_not_selected),
+            style = MaterialTheme.typography.labelMedium
+                .copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = modifier
+        )
+    } else {
+        val dayStrings = indices.map { index ->
+            stringResource(id = dayNames[index])
+        }
+
+        val result = dayStrings.joinToString(", ")
+        Text(
+            text = result,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = modifier
         )
     }
 }
@@ -387,41 +422,5 @@ private fun AlarmActionsColumn(
                 modifier = Modifier.padding(start = SmallPadding10)
             )
         }
-    }
-}
-
-@Composable
-private fun FormattedDays(days: String) {
-    val dayNames = listOf(
-        R.string.Mon, R.string.Tue, R.string.Wed,
-        R.string.Thu, R.string.Fri, R.string.Sat, R.string.Sun
-    )
-
-    val indices = days
-        .split(",")
-        .mapNotNull { it.toIntOrNull() }
-        .filter { it in dayNames.indices }
-        .sorted()
-
-    if (indices.isEmpty()) {
-        Text(
-            text = stringResource(R.string.day_is_not_selected),
-            style = MaterialTheme.typography.labelMedium
-                .copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.fillMaxWidth()
-        )
-    } else {
-        val dayStrings = indices.map { index ->
-            stringResource(id = dayNames[index])
-        }
-
-        val result = dayStrings.joinToString(", ")
-        Text(
-            text = result,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }

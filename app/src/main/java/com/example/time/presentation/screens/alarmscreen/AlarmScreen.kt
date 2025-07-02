@@ -6,12 +6,18 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,6 +61,7 @@ fun AlarmScreen(
     val alarmState by viewModel.alarmState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     var selectedAlarm by remember { mutableStateOf<AlarmModel?>(null) }
+    var expandedAlarmId by remember { mutableStateOf<Int?>(null) }
     val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(
@@ -80,34 +87,48 @@ fun AlarmScreen(
 
     val animatedHeight by animateFloatAsState(
         targetValue = if (shouldShowOverlay) 80f else 0f,
-        animationSpec = tween(600, easing = FastOutSlowInEasing)
+        animationSpec = tween(800, easing = FastOutSlowInEasing),
+        label = "overlay_height"
     )
 
     val animatedAlpha by animateFloatAsState(
         targetValue = if (shouldShowOverlay) 1f else 0f,
-        animationSpec = tween(600, easing = FastOutSlowInEasing)
+        animationSpec = tween(800, easing = FastOutSlowInEasing),
+        label = "overlay_alpha"
     )
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Spacer(modifier = Modifier.padding(top = LargePadding60))
-
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(alarmState) { alarm ->
-                Spacer(modifier = Modifier.height(MediumPadding16))
-
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = LargePadding60,
+                bottom = 120.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(MediumPadding16)
+        ) {
+            items(
+                items = alarmState,
+                key = { alarm -> alarm.id }
+            ) { alarm ->
                 AlarmItem(
+                    modifier = Modifier.fillMaxWidth(),
                     id = alarm.id,
                     time = "${alarm.hour}:${alarm.minute.toString().padStart(2, '0')}",
                     days = alarm.days,
                     name = alarm.name,
                     isActivated = alarm.isActivated,
                     isVibration = alarm.isVibration,
+                    isExpanded = expandedAlarmId == alarm.id,
                     selectedDays = alarm.days.split(",")
                         .mapNotNull { it.toIntOrNull() }
                         .toSet(),
+
+                    onExpandToggle = {
+                        expandedAlarmId = if (expandedAlarmId == alarm.id) null else alarm.id
+                    },
 
                     onCheckedChange = { isChecked ->
                         viewModel.updateAlarmActivation(alarm, isChecked)
@@ -122,7 +143,7 @@ fun AlarmScreen(
                         viewModel.updateAlarmName(alarm, newName)
                     },
 
-                    onSoundChange = {
+                    onSoundChange = { id ->
                         selectedAlarm = alarm
                         launcher.launch(intent)
                     },
@@ -133,27 +154,48 @@ fun AlarmScreen(
 
                     onDelete = {
                         viewModel.deleteAlarm(alarm)
+                        if (expandedAlarmId == alarm.id) {
+                            expandedAlarmId = null
+                        }
                         Toast.makeText(context, R.string.alarm_is_delete, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
         }
 
-        Box(
+        AnimatedVisibility(
+            visible = shouldShowOverlay,
+            enter = fadeIn(
+                animationSpec = tween(400, easing = FastOutSlowInEasing)
+            ) + slideInVertically(
+                initialOffsetY = { it },
+                animationSpec = tween(400, easing = FastOutSlowInEasing)
+            ),
+            exit = fadeOut(
+                animationSpec = tween(400, easing = FastOutSlowInEasing)
+            ) + slideOutVertically(
+                targetOffsetY = { it },
+                animationSpec = tween(400, easing = FastOutSlowInEasing)
+            ),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .height(animatedHeight.dp)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.1f * animatedAlpha),
-                            Color.Black.copy(alpha = 0.3f * animatedAlpha)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(animatedHeight.dp)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.1f * animatedAlpha),
+                                Color.Black.copy(alpha = 0.3f * animatedAlpha)
+                            )
                         )
                     )
-                )
-        )
+            )
+        }
 
         AddButtonAlarmScreen(
             modifier = Modifier
