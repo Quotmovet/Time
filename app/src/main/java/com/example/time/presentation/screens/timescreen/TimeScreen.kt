@@ -58,18 +58,15 @@ fun TimeScreen(
     navController: NavController,
     viewModel: TimeScreenViewModel = hiltViewModel()
 ) {
-
-    // Получение сведений о текущем времени
+    // Get the current time and date from the view model
     val currentTime by viewModel.currentTime
     val currentDate by viewModel.currentDate
 
     val selectedTimeZones by viewModel.selectedTimeState.collectAsState()
 
-    // Состояние для текущего количества элементов
     val itemCount = selectedTimeZones.size
     val shouldShowOverlay = itemCount > 4
 
-    // Анимация высоты фона
     val animatedHeight by animateFloatAsState(
         targetValue = if (shouldShowOverlay) 80f else 0f,
         animationSpec = tween(
@@ -78,7 +75,6 @@ fun TimeScreen(
         )
     )
 
-    // Анимация прозрачности фона
     val animatedAlpha by animateFloatAsState(
         targetValue = if (shouldShowOverlay) 1f else 0f,
         animationSpec = tween(
@@ -114,7 +110,7 @@ fun TimeScreen(
                     }
                 )
 
-                // Удаление посредством свайпа
+                // Delete item with swipe
                 SwipeToDismiss(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -153,7 +149,7 @@ fun TimeScreen(
             }
         }
 
-        // Затемнение снизу
+        // Overlay with gradient
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
