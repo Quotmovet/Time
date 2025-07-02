@@ -46,26 +46,6 @@ android {
     }
 }
 
-ktlint {
-    version.set("1.6.0")
-    android.set(true)
-    outputColorName.set("RED")
-    reporters {
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN_GROUP_BY_FILE)
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
-    }
-}
-
-detekt {
-    buildUponDefaultConfig = true
-    @Suppress("DEPRECATION")
-    reports {
-        xml.required.set(true)
-        html.required.set(false)
-        txt.required.set(false)
-    }
-}
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
