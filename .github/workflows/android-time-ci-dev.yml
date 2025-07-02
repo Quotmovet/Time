@@ -40,7 +40,7 @@ jobs:
         run: ./gradlew :app:assembleDebug --stacktrace
 
       - name: Run ktlint check
-        run: ./gradlew ktlintCheck --stacktrace
+        run: ./gradlew :app:ktlintCheck --stacktrace
 
       - name: Run Detekt
         run: ./gradlew detekt --stacktrace
