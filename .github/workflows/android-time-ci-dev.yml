@@ -39,7 +39,7 @@ jobs:
           run: chmod +x gradlew
 
       -   name: Run detekt
-          run: ./gradlew detektAll $commonGradleFlags
+          run: ./gradlew detekt $commonGradleFlags
 
       -   name: Run Reviewdog for Detekt as Github Review
           env:
