@@ -1,4 +1,4 @@
-name: Android-Time CI
+name: Android-Time CI (dev)
 
 on:
   push:
