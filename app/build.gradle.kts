@@ -47,7 +47,7 @@ android {
 }
 
 ktlint {
-    version.set("12.3.0")
+    version.set("1.6.0")
     android.set(true)
     outputColorName.set("RED")
     reporters {
