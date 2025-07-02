@@ -261,7 +261,7 @@ formatting:
         active: true
         autoCorrect: true
         indentSize: 4
-        maxLineLength: 120
+        maxLineLength: 260
     ChainWrapping:
         active: false
         autoCorrect: false
