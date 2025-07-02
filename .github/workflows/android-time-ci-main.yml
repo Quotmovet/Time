@@ -36,14 +36,14 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug --stacktrace
+
       - name: Run ktlint check
-        run: ./gradlew ktlintCheck
+        run: ./gradlew ktlintCheck --stacktrace
 
       - name: Run Detekt
-        run: ./gradlew detekt
+        run: ./gradlew detekt --stacktrace
 
       - name: Run Unit Tests
-        run: ./gradlew :app:testDebugUnitTest
-
-      - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
+        run: ./gradlew :app:testDebugUnitTest --stacktrace
