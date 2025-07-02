@@ -1,10 +1,10 @@
-name: Android-Time CI
+name: Android CI (main)
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -36,9 +36,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew :app:assembleDebug
-
       - name: Run ktlint check
         run: ./gradlew ktlintCheck
 
@@ -47,3 +44,6 @@ jobs:
 
       - name: Run Unit Tests
         run: ./gradlew :app:testDebugUnitTest
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug
