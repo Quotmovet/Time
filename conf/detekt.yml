@@ -280,7 +280,7 @@ formatting:
     ImportOrdering:
         active: true
         autoCorrect: true
-        layout: '*,java.**,javax.**,kotlin.**,kotlinx.android.synthetic.**,^'
+        layout: '*,java.**,javax.**,kotlin.**,kotlinx.time.synthetic.**,^'
     Indentation:
         active: true
         autoCorrect: true
@@ -770,7 +770,7 @@ style:
         active: true
     WildcardImport:
         active: true
-        excludeImports: [ 'java.util.*', 'kotlinx.android.synthetic.*' ]
+        excludeImports: [ 'java.util.*', 'kotlinx.time.synthetic.*' ]
         excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**' ]
 
 libraries:

@@ -9,3 +9,17 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "12.3.0" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
 }
+
+detekt {
+    @Suppress("DEPRECATION")
+    config = files("$rootDir/conf/detekt.yml")
+    buildUponDefaultConfig = false
+    parallel = true
+    autoCorrect = false
+    @Suppress("DEPRECATION")
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        txt.required.set(false)
+    }
+}
