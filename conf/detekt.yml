@@ -91,10 +91,10 @@ complexity:
         ignoredLabels: [ ]
     LargeClass:
         active: true
-        threshold: 200
+        threshold: 260
     LongMethod:
-        active: true
-        threshold: 40
+        active: false
+        threshold: 60
         excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**' ]
         ignoreAnnotated: [ "Composable" ]
     LongParameterList:

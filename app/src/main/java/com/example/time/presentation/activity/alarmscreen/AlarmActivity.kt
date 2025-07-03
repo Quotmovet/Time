@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class AlarmActivity: ComponentActivity() {
+class AlarmActivity : ComponentActivity() {
 
     private val viewModel: AlarmViewModelDuringAlarm by viewModels()
 
@@ -50,36 +50,11 @@ class AlarmActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         handleLockScreenFlags()
-
         val alarmId = intent.getIntExtra(EXTRA_ALARM_ID, -1)
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            alarmActionReceiver,
-            IntentFilter().apply {
-                addAction(ACTION_DISABLE_ALARM)
-                addAction(ACTION_SNOOZE_ALARM)
-            }
-        )
-
-        setContent {
-            Theme(darkTheme = isSystemInDarkTheme(), dynamicColor = false) {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    AlarmScreenDuringAlarm(alarmId = alarmId, viewModel = viewModel)
-                }
-            }
-        }
-
-        // Collect UI events
-        lifecycleScope.launchWhenStarted {
-            viewModel.uiEvents.collect { event ->
-                when (event) {
-                    AlarmUiEvent.Finish -> {
-                        Log.d("AlarmActivity", "Finishing activity from SharedFlow")
-                        finish()
-                    }
-                }
-            }
-        }
+        registerAlarmActions()
+        setupUi(alarmId)
+        collectUiEvents()
     }
 
     override fun onDestroy() {
@@ -99,6 +74,37 @@ class AlarmActivity: ComponentActivity() {
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
             )
+        }
+    }
+
+    private fun registerAlarmActions() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            alarmActionReceiver,
+            IntentFilter().apply {
+                addAction(ACTION_DISABLE_ALARM)
+                addAction(ACTION_SNOOZE_ALARM)
+            }
+        )
+    }
+
+    private fun setupUi(alarmId: Int) {
+        setContent {
+            Theme(darkTheme = isSystemInDarkTheme(), dynamicColor = false) {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    AlarmScreenDuringAlarm(alarmId = alarmId, viewModel = viewModel)
+                }
+            }
+        }
+    }
+
+    private fun collectUiEvents() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.uiEvents.collect { event ->
+                if (event is AlarmUiEvent.Finish) {
+                    Log.d("AlarmActivity", "Finishing activity from SharedFlow")
+                    finish()
+                }
+            }
         }
     }
 }
