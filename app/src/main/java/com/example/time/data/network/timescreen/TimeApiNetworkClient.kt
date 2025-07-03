@@ -12,7 +12,10 @@ import com.example.time.app.globalconstants.Constants.NO_INTERNET
 import com.example.time.app.globalconstants.Constants.SUCCESS
 import com.example.time.presentation.common.util.network.NetworkUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class TimeApiNetworkClient @Inject constructor(
@@ -34,8 +37,17 @@ class TimeApiNetworkClient @Inject constructor(
                 Log.d("Network", "API raw response: $result")
                 ResponseWithResults(listOf(result)).apply { resultCode = SUCCESS }
 
-            } catch (e: Throwable) {
-                Log.e("Network", "API request failed", e)
+            } catch (e: IOException) {
+                Log.e("Network", "Network IO error during API request", e)
+                Response().apply { resultCode = NO_INTERNET }
+            } catch (e: HttpException) {
+                Log.e("Network", "HTTP error during API request: ${e.code()}", e)
+                Response().apply { resultCode = e.code() }
+            } catch (e: TimeoutCancellationException) {
+                Log.e("Network", "Timeout during API request", e)
+                Response().apply { resultCode = INTERNAL_SERVER_ERROR }
+            } catch (e: Exception) {
+                Log.e("Network", "Unexpected error during API request", e)
                 Response().apply { resultCode = INTERNAL_SERVER_ERROR }
             }
         }

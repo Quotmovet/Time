@@ -52,14 +52,10 @@ fun SearchScreen(
     )
 
     LaunchedEffect(searchText) {
-        if (searchText.isNotEmpty()) {
-            searchScreenViewModel.searchDebouncer(searchText)
-        }
+        if (searchText.isNotEmpty()) { searchScreenViewModel.searchDebouncer(searchText) }
     }
 
-    LaunchedEffect(true) {
-        searchScreenViewModel.getSelected()
-    }
+    LaunchedEffect(true) { searchScreenViewModel.getSelected() }
 
     val selectedTimeZone by searchScreenViewModel.selectedTimeState.collectAsState()
 
@@ -76,7 +72,6 @@ fun SearchScreen(
         )
 
         Column {
-
             when {
                 searchText.isEmpty() -> {
                     Spacer(modifier = Modifier.height(LargePadding80))
@@ -88,18 +83,14 @@ fun SearchScreen(
                     Box(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    ) { CircularProgressIndicator() }
                 }
 
                 searchState.isFailed != null -> {
                     Spacer(modifier = Modifier.height(LargePadding80))
                     Text("Ошибка: ${searchState.isFailed}")
                     LazyColumn {
-                        items(5) {
-                            SearchItemPlaceholder()
-                        }
+                        items(5) { SearchItemPlaceholder() }
                     }
                 }
 

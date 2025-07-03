@@ -9,7 +9,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.time.app.navigation.BottomNavItem
-import com.example.time.app.navigation.NavGraph
+import com.example.time.app.navigation.NavigationGraph
 import androidx.compose.runtime.getValue
 import com.example.time.presentation.components.navigation.bottom.BottomNavigationBar
 import com.example.time.presentation.components.navigation.top.TopBarMain
@@ -66,7 +66,7 @@ fun MainScreen() {
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            NavGraph(navController = navController)
+            NavigationGraph(navController = navController)
         }
     }
 }

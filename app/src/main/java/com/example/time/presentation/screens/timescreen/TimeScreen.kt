@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -89,8 +90,7 @@ fun TimeScreen(
             .background(Color.Transparent)
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             item {
                 Spacer(modifier = Modifier.height(LargePadding34))
@@ -150,23 +150,7 @@ fun TimeScreen(
         }
 
         // Overlay with gradient
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .height(animatedHeight.dp)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.1f * animatedAlpha),
-                            Color.Black.copy(alpha = 0.3f * animatedAlpha)
-                        ),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY
-                    )
-                )
-        )
+        AnimatedGradientOverlay(animatedHeight = animatedHeight, animatedAlpha = animatedAlpha)
 
         AddButton(
             modifier = Modifier
@@ -176,4 +160,28 @@ fun TimeScreen(
             navController = navController
         )
     }
+}
+
+@Composable
+fun BoxScope.AnimatedGradientOverlay(
+    animatedHeight: Float,
+    animatedAlpha: Float
+) {
+    Box(
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .height(animatedHeight.dp)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Transparent,
+                        Color.Black.copy(alpha = 0.1f * animatedAlpha),
+                        Color.Black.copy(alpha = 0.3f * animatedAlpha)
+                    ),
+                    startY = 0f,
+                    endY = Float.POSITIVE_INFINITY
+                )
+            )
+    )
 }

@@ -18,7 +18,7 @@ import com.example.time.presentation.screens.timescreen.TimeScreen
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringAlarm
 
 @Composable
-fun NavGraph(
+fun NavigationGraph(
     navController: NavHostController,
     startDestination: String = BottomNavItem.TimeScreen.route
 ) {

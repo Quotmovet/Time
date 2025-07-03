@@ -9,10 +9,11 @@ import com.example.time.R
 import com.example.time.domain.contract.alarmscreen.AlarmScreenSoundUriProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
+import java.io.FileNotFoundException
 
-class AlarmScreenSoundUriProviderService@Inject constructor(
+class AlarmScreenSoundUriProviderService @Inject constructor(
     @param:ApplicationContext private val context: Context
-): AlarmScreenSoundUriProvider {
+) : AlarmScreenSoundUriProvider {
 
     override fun getValidSoundUri(rawUri: String?): Uri {
         if (rawUri.isNullOrEmpty()) return getDefaultAlarmUri()
@@ -20,8 +21,11 @@ class AlarmScreenSoundUriProviderService@Inject constructor(
         return try {
             val uri = rawUri.toUri()
             if (isValidSoundUri(uri)) uri else getDefaultAlarmUri()
-        } catch (e: Exception) {
-            Log.w("SoundUriProvider", "Invalid sound URI: $rawUri", e)
+        } catch (e: IllegalArgumentException) {
+            Log.w("SoundUriProvider", "Invalid URI format: $rawUri", e)
+            getDefaultAlarmUri()
+        } catch (e: SecurityException) {
+            Log.w("SoundUriProvider", "No permission to access URI: $rawUri", e)
             getDefaultAlarmUri()
         }
     }
@@ -29,8 +33,11 @@ class AlarmScreenSoundUriProviderService@Inject constructor(
     private fun isValidSoundUri(uri: Uri): Boolean {
         return try {
             context.contentResolver.openInputStream(uri)?.use { true } ?: false
-        } catch (e: Exception) {
-            Log.w("SoundUriProvider", "Cannot access sound URI: $uri", e)
+        } catch (e: FileNotFoundException) {
+            Log.w("SoundUriProvider", "Sound file not found: $uri", e)
+            false
+        } catch (e: SecurityException) {
+            Log.w("SoundUriProvider", "Access denied to URI: $uri", e)
             false
         }
     }

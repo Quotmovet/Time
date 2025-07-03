@@ -1,5 +1,6 @@
 package com.example.time.presentation.viewmodel.searchscreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.time.data.db.timescreen.converter.toEntityFromModel
@@ -10,12 +11,15 @@ import com.example.time.domain.model.timescreen.TimeDataModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
@@ -74,12 +78,29 @@ class SearchScreenViewModel @Inject constructor(
                 dataSourceTimeInteractor.getDataSourceTime(newSearchText).collect { response ->
                     setTimeState(response)
                 }
+            } catch (e: IOException) {
+                _searchState.value = _searchState.value.copy(
+                    isLoading = false,
+                    isFailed = true,
+                    isEmpty = false
+                )
+                Log.e("SearchViewModel", "IO Exception while fetching time data", e)
+            } catch (e: TimeoutCancellationException) {
+                _searchState.value = _searchState.value.copy(
+                    isLoading = false,
+                    isFailed = true,
+                    isEmpty = false
+                )
+                Log.e("SearchViewModel", "Timeout while fetching time data", e)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _searchState.value = _searchState.value.copy(
                     isLoading = false,
                     isFailed = true,
                     isEmpty = false
                 )
+                Log.e("SearchViewModel", "Unexpected error while fetching time data", e)
             }
         }
     }
