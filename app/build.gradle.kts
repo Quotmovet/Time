@@ -5,8 +5,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
-    id("org.jlleitschuh.gradle.ktlint")
-    id("io.gitlab.arturbosch.detekt")
 }
 
 android {
@@ -50,7 +48,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation (libs.androidx.foundation)
-    ktlint (libs.ktlint.cli)
     implementation(libs.androidx.localbroadcastmanager)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
