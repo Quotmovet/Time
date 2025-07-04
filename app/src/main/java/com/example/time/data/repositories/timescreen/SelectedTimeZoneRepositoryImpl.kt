@@ -8,22 +8,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SelectedTimeZoneRepositoryImpl @Inject constructor (
-    private val appDatabase: AppDatabase
-): SelectedTimeZoneRepository {
-    override suspend fun insertSelectedTimeData(data: TimeDataEntity) {
-        withContext(Dispatchers.IO) {
-            appDatabase.getTimeDataDao().insertSelectedTimeData(data)
+class SelectedTimeZoneRepositoryImpl
+    @Inject
+    constructor(
+        private val appDatabase: AppDatabase,
+    ) : SelectedTimeZoneRepository {
+        override suspend fun insertSelectedTimeData(data: TimeDataEntity) {
+            withContext(Dispatchers.IO) {
+                appDatabase.getTimeDataDao().insertSelectedTimeData(data)
+            }
+        }
+
+        override fun getSelectedTimeData(): Flow<List<TimeDataEntity>> {
+            return appDatabase.getTimeDataDao().getSelectedTimeData()
+        }
+
+        override suspend fun deleteSelectedTimezone(timezone: String) {
+            withContext(Dispatchers.IO) {
+                appDatabase.getTimeDataDao().deleteSelectedTimezone(timezone)
+            }
         }
     }
-
-    override fun getSelectedTimeData(): Flow<List<TimeDataEntity>> {
-        return appDatabase.getTimeDataDao().getSelectedTimeData()
-    }
-
-    override suspend fun deleteSelectedTimezone(timezone: String) {
-        withContext(Dispatchers.IO) {
-            appDatabase.getTimeDataDao().deleteSelectedTimezone(timezone)
-        }
-    }
-}

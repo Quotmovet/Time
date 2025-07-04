@@ -50,11 +50,11 @@ val OnPrimaryContainerD = Gray
 val SecondaryD = MiddleBlue
 val OnSecondaryD = White
 
-val TertiaryD = LightGray
+val TertiaryD = LightBlack
 val OnTertiaryD = LightBlue
 
-val BackgroundD = Black
-val OnBackgroundD = White
+val BackgroundD = White
+val OnBackgroundD = Black
 
 val SurfaceD = LightGray
 val OnSurfaceD = Black

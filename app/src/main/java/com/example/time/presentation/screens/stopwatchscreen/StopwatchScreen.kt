@@ -13,12 +13,12 @@ import com.example.time.presentation.common.Dimens.TextSize24
 fun StopwatchScreen() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = "Stopwatch Screen",
             fontSize = TextSize24,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }

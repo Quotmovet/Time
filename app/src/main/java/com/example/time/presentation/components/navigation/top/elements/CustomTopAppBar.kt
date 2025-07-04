@@ -18,30 +18,32 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.example.time.presentation.common.Dimens.LargePadding64
 import com.example.time.presentation.common.Dimens.SmallPadding4
 import com.example.time.presentation.common.Dimens.SmallPadding8
-import com.example.time.presentation.common.util.sizes.responsiveIconSize
+import com.example.time.presentation.common.util.sizes.main.rememberResponsiveSizes
 
 @Composable
 fun CustomTopAppBar(
     title: String,
     icon: Painter,
-    onIconClick: () -> Unit
+    onIconClick: () -> Unit,
 ) {
-    val iconSize = responsiveIconSize()
+    val iconSize = rememberResponsiveSizes()
 
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(LargePadding64)
-            .padding(horizontal = SmallPadding4),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(LargePadding64)
+                .padding(horizontal = SmallPadding4),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onIconClick) {
             Icon(
                 painter = icon,
-                modifier = Modifier
-                    .size(iconSize)
-                    .padding(SmallPadding4),
-                contentDescription = null
+                modifier =
+                    Modifier
+                        .size(iconSize.iconSize)
+                        .padding(SmallPadding4),
+                contentDescription = null,
             )
         }
 
@@ -50,7 +52,7 @@ fun CustomTopAppBar(
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

@@ -2,8 +2,12 @@
 
 package com.example.time.presentation.screens.timescreen
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,12 +34,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.time.presentation.common.Dimens.LargeIconsSize64
 import com.example.time.presentation.common.Dimens.LargePadding34
-import com.example.time.presentation.common.Dimens.LargePadding45
-import com.example.time.presentation.common.Dimens.LargePadding80
+import com.example.time.presentation.common.Dimens.LargePadding46
 import com.example.time.presentation.common.Dimens.MainSize
 import com.example.time.presentation.common.Dimens.MediumPadding24
 import com.example.time.presentation.common.Dimens.MediumPadding16
@@ -51,62 +57,90 @@ import com.example.time.presentation.viewmodel.timescreen.TimeScreenViewModel
 @Composable
 fun TimeScreen(
     navController: NavController,
-    viewModel: TimeScreenViewModel = hiltViewModel()
+    viewModel: TimeScreenViewModel = hiltViewModel(),
 ) {
-
+    // Get the current time and date from the view model
     val currentTime by viewModel.currentTime
     val currentDate by viewModel.currentDate
 
     val selectedTimeZones by viewModel.selectedTimeState.collectAsState()
 
+    val itemCount = selectedTimeZones.size
+    val shouldShowOverlay = itemCount > 4
+
+    val animatedHeight by animateFloatAsState(
+        targetValue = if (shouldShowOverlay) 80f else 0f,
+        animationSpec =
+            tween(
+                durationMillis = 600,
+                easing = FastOutSlowInEasing,
+            ),
+    )
+
+    val animatedAlpha by animateFloatAsState(
+        targetValue = if (shouldShowOverlay) 1f else 0f,
+        animationSpec =
+            tween(
+                durationMillis = 600,
+                easing = FastOutSlowInEasing,
+            ),
+    )
+
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Color.Transparent),
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = LargePadding80)
+            modifier = Modifier.fillMaxWidth(),
         ) {
             item {
                 Spacer(modifier = Modifier.height(LargePadding34))
                 MainClock(currentTime, currentDate)
-                Spacer(modifier = Modifier.height(LargePadding45))
+                Spacer(modifier = Modifier.height(LargePadding46))
             }
 
             items(selectedTimeZones.size) { timeZoneModel ->
                 val timezoneData = selectedTimeZones[timeZoneModel]
 
-                val dismissState = rememberDismissState(
-                    confirmStateChange = {
-                        if (it == DismissValue.DismissedToStart) {
-                            viewModel.deleteSelectedTimezone(timezoneData.timeZone)
-                            true
-                        } else false
-                    }
-                )
+                val dismissState =
+                    rememberDismissState(
+                        confirmStateChange = {
+                            if (it == DismissValue.DismissedToStart) {
+                                viewModel.deleteSelectedTimezone(timezoneData.timeZone)
+                                true
+                            } else {
+                                false
+                            }
+                        },
+                    )
 
+                // Delete item with swipe
                 SwipeToDismiss(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = MediumPadding22),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MediumPadding22),
                     state = dismissState,
                     directions = setOf(DismissDirection.EndToStart),
                     background = {
                         Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .height(MainSize)
-                                .background(
-                                    color =  MaterialTheme.colorScheme.error,
-                                    shape = RoundedCornerShape(PrimaryCorner)
-                                )
-                                .padding(horizontal = MediumPadding20),
-                            contentAlignment = Alignment.CenterEnd
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .height(MainSize)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.error,
+                                        shape = RoundedCornerShape(PrimaryCorner),
+                                    )
+                                    .padding(horizontal = MediumPadding20),
+                            contentAlignment = Alignment.CenterEnd,
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Delete",
-                                tint = MaterialTheme.colorScheme.onError
+                                tint = MaterialTheme.colorScheme.onError,
                             )
                         }
                     },
@@ -114,21 +148,52 @@ fun TimeScreen(
                         CitiesTimeItem(
                             cityName = timezoneData.cityName,
                             time = timezoneData.time,
-                            offset = formatOffset(timezoneData.offset)
+                            offset = formatOffset(timezoneData.offset),
                         )
-                    }
+                    },
                 )
 
                 Spacer(modifier = Modifier.height(MediumPadding16))
             }
         }
 
+        // Overlay with gradient
+        AnimatedGradientOverlay(animatedHeight = animatedHeight, animatedAlpha = animatedAlpha)
+
         AddButton(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = MediumPadding24)
-                .size(LargeIconsSize64),
-            navController
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = MediumPadding24)
+                    .size(LargeIconsSize64),
+            navController = navController,
         )
     }
+}
+
+@Composable
+fun BoxScope.AnimatedGradientOverlay(
+    animatedHeight: Float,
+    animatedAlpha: Float,
+) {
+    Box(
+        modifier =
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(animatedHeight.dp)
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 0.1f * animatedAlpha),
+                                    Color.Black.copy(alpha = 0.3f * animatedAlpha),
+                                ),
+                            startY = 0f,
+                            endY = Float.POSITIVE_INFINITY,
+                        ),
+                ),
+    )
 }

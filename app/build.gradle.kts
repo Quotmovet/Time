@@ -5,15 +5,20 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+
+    id("com.example.time.plugins.convention.detekt")
+    id("com.example.time.plugins.ktlint")
+    id("com.example.time.plugins.android-application")
 }
 
 android {
     namespace = "com.example.time"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.time"
         minSdk = 29
+        //noinspection OldTargetApi
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -26,7 +31,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -35,6 +40,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
+        @Suppress("DEPRECATION")
         jvmTarget = "11"
     }
     buildFeatures {
@@ -45,30 +51,33 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation (libs.androidx.foundation)
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.localbroadcastmanager)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.runtime.livedata)
     debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.ui.tooling)
+    detektPlugins(libs.detekt.formatting)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.kotlinx.serialization.json)
 
-    //Material&UI
+    // Material&UI
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material)
     implementation(libs.androidx.material3.window.size.class1.android)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation (libs.accompanist.systemuicontroller)
+    implementation(libs.accompanist.systemuicontroller)
 
-    //Compose
+    // Compose
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
-    //Tests
+    // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     implementation(libs.mockito.core)
@@ -78,23 +87,23 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
-    //Splashscreen
+    // Splashscreen
     implementation(libs.androidx.core.splashscreen)
 
-    //time4j
+    // time4j
     implementation(libs.time4j.android)
 
-    //Compose Navigation
-    implementation (libs.androidx.navigation.compose)
+    // Compose Navigation
+    implementation(libs.androidx.navigation.compose)
 
-    //Dagger Hilt
-    implementation (libs.hilt.android)
+    // Dagger Hilt
+    implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    //Retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     implementation(libs.retrofit)
     implementation(libs.okhttp)
 
@@ -103,17 +112,16 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.glide.compose)
 
-    //Datastore
-    implementation (libs.androidx.datastore.preferences)
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
 
-    //Paging 3
-    implementation (libs.androidx.paging.runtime.ktx)
-    implementation (libs.androidx.paging.compose)
+    // Paging 3
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 
-    //Room
-    implementation (libs.androidx.room.runtime)
+    // Room
+    implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    implementation (libs.androidx.room.ktx)
+    implementation(libs.androidx.room.ktx)
     testImplementation(kotlin("test"))
-
 }

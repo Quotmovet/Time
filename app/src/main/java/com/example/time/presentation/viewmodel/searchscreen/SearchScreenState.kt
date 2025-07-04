@@ -6,5 +6,5 @@ data class SearchScreenState(
     val timeZone: List<TimeDataModel> = emptyList(),
     val isLoading: Boolean,
     val isFailed: Boolean?,
-    val isEmpty: Boolean = false
+    val isEmpty: Boolean = false,
 )

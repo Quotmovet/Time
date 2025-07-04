@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.time.presentation.common.Dimens.MediumPadding22
 import com.example.time.presentation.common.Dimens.MediumPadding16
+import com.example.time.presentation.common.Dimens.MediumPadding22
 import com.example.time.presentation.common.Dimens.SmallPadding10
 import com.example.time.presentation.common.Dimens.SmallPadding12
 import com.example.time.presentation.common.Dimens.SmallSize
@@ -25,43 +25,46 @@ import com.example.time.presentation.common.Dimens.SmallSize
 @Composable
 fun SearchItemPlaceholder() {
     Box(
-        modifier = Modifier
-            .height(SmallSize)
-            .padding(horizontal = MediumPadding22),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .height(SmallSize)
+                .padding(horizontal = MediumPadding22),
+        contentAlignment = Alignment.Center,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = SmallPadding12, vertical = SmallPadding10),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = SmallPadding12, vertical = SmallPadding10),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically)
-                    .background(
-                        color = Color.LightGray.copy(alpha = 0.3f),
-                        shape = MaterialTheme.shapes.small
-                    )
-                    .height(MediumPadding16)
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically)
+                        .background(
+                            color = Color.LightGray.copy(alpha = 0.3f),
+                            shape = MaterialTheme.shapes.small,
+                        )
+                        .height(MediumPadding16),
             )
 
             Spacer(modifier = Modifier.width(MediumPadding16))
 
             Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically)
-                    .background(
-                        color = Color.LightGray.copy(alpha = 0.3f),
-                        shape = MaterialTheme.shapes.small
-                    )
-                    .height(14.dp)
-                    .align(Alignment.CenterVertically)
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically)
+                        .background(
+                            color = Color.LightGray.copy(alpha = 0.3f),
+                            shape = MaterialTheme.shapes.small,
+                        )
+                        .height(14.dp)
+                        .align(Alignment.CenterVertically),
             )
         }
     }

@@ -1,8 +1,8 @@
 package com.example.time.data.datasource.timescreen.converter
 
-import com.example.time.presentation.common.util.formater.formatTime
 import com.example.time.data.datasource.timescreen.dto.TimeZoneCsvDto
 import com.example.time.domain.model.timescreen.TimeDataModel
+import com.example.time.presentation.common.util.formater.formatTime
 
 fun TimeZoneCsvDto.toModelFromCsvDto(): TimeDataModel {
     return TimeDataModel(
@@ -11,6 +11,6 @@ fun TimeZoneCsvDto.toModelFromCsvDto(): TimeDataModel {
         country = this.country,
         time = formatTime(this.offset),
         offset = this.offset,
-        isSelected = false
+        isSelected = false,
     )
 }

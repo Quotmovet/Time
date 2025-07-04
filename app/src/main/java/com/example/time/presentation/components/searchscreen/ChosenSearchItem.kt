@@ -27,45 +27,49 @@ import com.example.time.presentation.common.Dimens.SmallSize
 fun ChosenSearchItem(
     city: String,
     time: String,
-    onClick: () -> Unit
-){
+    onClick: () -> Unit,
+) {
     Box(
-        modifier = Modifier
-            .height(SmallSize)
-            .background(color = MaterialTheme.colorScheme.onTertiary)
-            .clickable{ onClick() },
-        contentAlignment = Alignment.Center
-    ){
+        modifier =
+            Modifier
+                .height(SmallSize)
+                .background(color = MaterialTheme.colorScheme.onTertiary)
+                .clickable { onClick() },
+        contentAlignment = Alignment.Center,
+    ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = LargePadding34, vertical = SmallPadding10),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = LargePadding34, vertical = SmallPadding10),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 modifier = Modifier.padding(end = SmallPadding4),
                 painter = painterResource(R.drawable.ic_checkmark),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
             )
             Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically),
                 text = city,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically),
                 text = time,
                 textAlign = TextAlign.End,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

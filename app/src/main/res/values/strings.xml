@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Time</string>
 
+    --Common--
     <string name="search">Search</string>
     <string name="settings">Settings</string>
     <string name="alarm">Alarm</string>
@@ -8,16 +9,52 @@
     <string name="time">Time</string>
     <string name="stopwatch">Stopwatch</string>
     <string name="sleep">Sleep</string>
-
-    <string name="searchCities">Search cities</string>
-
+    <string name="sound">Sound</string>
+    <string name="vibration">Vibration</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="postpone">Postpone</string>
+    <string name="disable">Disable</string>
+    <string name="ok">Ok</string>
+    <string name="name">Name</string>
     <string name="back">Back</string>
 
-    --Сетевые запросы--
-    <string name="badRequest">Bad request type, expected TimeDataRequest</string>
-    <string name="noInternet">No internet</string>
-    <string name="errorNetwork">Error network</string>
-    <string name="errorInternal">Error internal</string>
+    --Time--
+    <string name="unknown_city">Unknown city</string>
+    <string name="unknown_country">Unknown country</string>
+    <string name="search_cities">Search cities</string>
+    <string name="choose_time">Choose time</string>
+
+    --Alarm--
+    <string name="alarm_is_activate">Alarm clock activated</string>
+    <string name="alarm_is_deactivate">Alarm clock deactivated</string>
+    <string name="alarm_is_delete">Alarm delete</string>
+    <string name="alarm_sound_is_change">Alarm sound is change</string>
+    <string name="alarm_notifications">Alarm Notifications</string>
+    <string name="select_alarm_sound">Select alarm sound</string>
+    <string name="day_is_not_selected">Choose day</string>
+
+    --Week days--
+    <string name="M">M</string>
+    <string name="Tu">Tu</string>
+    <string name="W">W</string>
+    <string name="Th">Th</string>
+    <string name="F">F</string>
+    <string name="Sa">Sa</string>
+    <string name="Su">Su</string>
+    <string name="Mon">Mon</string>
+    <string name="Tue">Tue</string>
+    <string name="Wed">Wed</string>
+    <string name="Thu">Thu</string>
+    <string name="Fri">Fri</string>
+    <string name="Sat">Sat</string>
+    <string name="Sun">Sun</string>
+
+    --Network request--
+    <string name="bad_request">Bad request type, expected TimeDataRequest</string>
+    <string name="no_internet">No internet</string>
+    <string name="error_network">Error network</string>
+    <string name="error_internal">Error internal</string>
 
 
 </resources>

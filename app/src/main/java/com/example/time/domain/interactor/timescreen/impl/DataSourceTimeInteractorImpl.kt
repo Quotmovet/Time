@@ -6,10 +6,12 @@ import com.example.time.domain.repositories.timescreen.DataSourceTimeRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class DataSourceTimeInteractorImpl @Inject constructor (
-    private val dataSourceTimeRepository: DataSourceTimeRepository
-): DataSourceTimeInteractor {
-    override suspend fun getDataSourceTime(expression: String): Flow<List<TimeDataModel>> {
-        return dataSourceTimeRepository.getTimeData(expression)
+class DataSourceTimeInteractorImpl
+    @Inject
+    constructor(
+        private val dataSourceTimeRepository: DataSourceTimeRepository,
+    ) : DataSourceTimeInteractor {
+        override suspend fun getDataSourceTime(expression: String): Flow<List<TimeDataModel>> {
+            return dataSourceTimeRepository.getTimeData(expression)
+        }
     }
-}

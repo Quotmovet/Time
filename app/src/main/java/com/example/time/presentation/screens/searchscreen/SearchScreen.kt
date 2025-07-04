@@ -36,9 +36,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun SearchScreen(
     navController: NavController,
-    searchScreenViewModel: SearchScreenViewModel = hiltViewModel()
+    searchScreenViewModel: SearchScreenViewModel = hiltViewModel(),
 ) {
-
     var searchText by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
 
@@ -47,8 +46,8 @@ fun SearchScreen(
             timeZone = emptyList(),
             isLoading = false,
             isFailed = null,
-            isEmpty = false
-        )
+            isEmpty = false,
+        ),
     )
 
     LaunchedEffect(searchText) {
@@ -57,26 +56,23 @@ fun SearchScreen(
         }
     }
 
-    LaunchedEffect(true) {
-        searchScreenViewModel.getSelected()
-    }
+    LaunchedEffect(true) { searchScreenViewModel.getSelected() }
 
     val selectedTimeZone by searchScreenViewModel.selectedTimeState.collectAsState()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = LargePadding80)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(vertical = LargePadding80),
     ) {
-
         SearchField(
             text = searchText,
             onTextChange = { searchText = it },
-            onSearch = { searchScreenViewModel.searchDebouncer(searchText) }
+            onSearch = { searchScreenViewModel.searchDebouncer(searchText) },
         )
 
         Column {
-
             when {
                 searchText.isEmpty() -> {
                     Spacer(modifier = Modifier.height(LargePadding80))
@@ -87,19 +83,15 @@ fun SearchScreen(
                     Spacer(modifier = Modifier.height(LargePadding80))
                     Box(
                         modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                        contentAlignment = Alignment.Center,
+                    ) { CircularProgressIndicator() }
                 }
 
                 searchState.isFailed != null -> {
                     Spacer(modifier = Modifier.height(LargePadding80))
                     Text("Ошибка: ${searchState.isFailed}")
                     LazyColumn {
-                        items(5) {
-                            SearchItemPlaceholder()
-                        }
+                        items(5) { SearchItemPlaceholder() }
                     }
                 }
 
@@ -110,7 +102,7 @@ fun SearchScreen(
                             val timeZoneData = searchState.timeZone[timeZone]
                             val isSelected = selectedTimeZone.any { it.timeZone == timeZoneData.timeZone }
 
-                            if(!isSelected) {
+                            if (!isSelected) {
                                 SearchItem(
                                     timeZoneData.cityName,
                                     timeZoneData.time,
@@ -120,13 +112,13 @@ fun SearchScreen(
                                             searchScreenViewModel.insertSelectedTimeData(timeZoneData)
                                             navController.popBackStack()
                                         }
-                                    }
+                                    },
                                 )
                             } else {
                                 ChosenSearchItem(
                                     timeZoneData.cityName,
                                     timeZoneData.time,
-                                    onClick = { searchScreenViewModel.deleteSelectedTimezone(timeZoneData.timeZone) }
+                                    onClick = { searchScreenViewModel.deleteSelectedTimezone(timeZoneData.timeZone) },
                                 )
                             }
                         }

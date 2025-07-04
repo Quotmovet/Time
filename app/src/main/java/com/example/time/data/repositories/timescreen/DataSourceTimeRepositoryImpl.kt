@@ -10,19 +10,22 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class DataSourceTimeRepositoryImpl @Inject constructor (
-    private val timeZoneCsvDataSource: TimeZoneCsvDataSource
-): DataSourceTimeRepository {
-    override suspend fun getTimeData(expression: String): Flow<List<TimeDataModel>> = flow {
+class DataSourceTimeRepositoryImpl
+    @Inject
+    constructor(
+        private val timeZoneCsvDataSource: TimeZoneCsvDataSource,
+    ) : DataSourceTimeRepository {
+        override suspend fun getTimeData(expression: String): Flow<List<TimeDataModel>> =
+            flow {
+                val rawData = timeZoneCsvDataSource.readTimeZonesFromCsv()
 
-        val rawData = timeZoneCsvDataSource.readTimeZonesFromCsv()
+                val filterData =
+                    rawData
+                        .filter {
+                            it.cityName.contains(expression, ignoreCase = true)
+                        }
+                        .map { it.toModelFromCsvDto() }
 
-        val filterData = rawData
-            .filter {
-            it.cityName.contains(expression, ignoreCase = true)
-            }
-            .map { it.toModelFromCsvDto() }
-
-        emit(filterData)
-    }.flowOn(Dispatchers.IO)
-}
+                emit(filterData)
+            }.flowOn(Dispatchers.IO)
+    }
