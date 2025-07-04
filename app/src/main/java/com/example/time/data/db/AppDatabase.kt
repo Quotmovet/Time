@@ -10,8 +10,10 @@ import com.example.time.data.db.timescreen.entity.TimeDataEntity
 @Database(
     version = 4,
     entities = [TimeDataEntity::class, AlarmEntity::class],
-    exportSchema = false)
-abstract class AppDatabase: RoomDatabase() {
+    exportSchema = false,
+)
+abstract class AppDatabase : RoomDatabase() {
     abstract fun getTimeDataDao(): TimeDataDao
+
     abstract fun getAlarmDao(): AlarmDao
 }

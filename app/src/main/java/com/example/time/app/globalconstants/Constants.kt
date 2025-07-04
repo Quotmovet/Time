@@ -1,7 +1,6 @@
 package com.example.time.app.globalconstants
 
 object Constants {
-
     // Time
     const val ONE_SECOND = 1000L
     const val ONE_MINUTE = 60_000L
@@ -29,5 +28,4 @@ object Constants {
     const val EXTRA_SOUND_URI = "EXTRA_SOUND_URI"
     const val EXTRA_ALARM_NAME = "EXTRA_ALARM_NAME"
     const val EXTRA_ALARM_DATE = "EXTRA_ALARM_DATE"
-
 }

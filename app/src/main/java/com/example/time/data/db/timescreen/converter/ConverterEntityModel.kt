@@ -10,7 +10,7 @@ fun TimeDataModel.toEntityFromModel(): TimeDataEntity {
         country = this.country,
         time = this.time,
         offset = this.offset,
-        isSelected = true
+        isSelected = true,
     )
 }
 
@@ -21,6 +21,6 @@ fun TimeDataEntity.toModelFromEntity(): TimeDataModel {
         country = this.country,
         time = this.time,
         offset = this.offset,
-        isSelected = true
+        isSelected = true,
     )
 }

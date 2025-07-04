@@ -12,7 +12,7 @@ fun AlarmModel.toEntityFromModel(): AlarmEntity {
         isActivated = this.isActivated,
         isVibration = this.isVibration,
         sound = this.sound,
-        name = this.name
+        name = this.name,
     )
 }
 
@@ -25,6 +25,6 @@ fun AlarmEntity.toModelFromEntity(): AlarmModel {
         isActivated = this.isActivated,
         isVibration = this.isVibration,
         sound = this.sound,
-        name = this.name
+        name = this.name,
     )
 }

@@ -31,24 +31,24 @@ import com.example.time.presentation.common.Dimens.PrimaryCorner
 fun SearchField(
     text: String,
     onTextChange: (String) -> Unit,
-    onSearch: () -> Unit = {}
-){
-
+    onSearch: () -> Unit = {},
+) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = MediumPadding22)
-
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MediumPadding22),
     ) {
         OutlinedTextField(
             value = text,
             onValueChange = onTextChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(PrimaryCorner)),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(PrimaryCorner)),
             shape = RoundedCornerShape(PrimaryCorner),
             placeholder = { Text(stringResource(R.string.search)) },
             leadingIcon = {
@@ -57,11 +57,11 @@ fun SearchField(
                         keyboardController?.hide()
                         focusManager.clearFocus()
                         onSearch()
-                    }
+                    },
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_search),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             },
@@ -71,49 +71,47 @@ fun SearchField(
                         onClick = {
                             onTextChange("")
                             focusManager.clearFocus()
-                        }
+                        },
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 }
             },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                    onSearch()
-                },
-                onDone = {
-                    keyboardController?.hide()
-                    focusManager.clearFocus()
-                }
-            ),
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Search,
+                ),
+            keyboardActions =
+                KeyboardActions(
+                    onSearch = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                        onSearch()
+                    },
+                    onDone = {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    },
+                ),
             singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-
-                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-
-                focusedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
-
-                focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onPrimaryContainer,
-
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
-
-                cursorColor = MaterialTheme.colorScheme.primary
-            )
+            colors =
+                TextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.onBackground,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                    cursorColor = MaterialTheme.colorScheme.primary,
+                ),
         )
     }
 }

@@ -15,19 +15,20 @@ import com.example.time.presentation.common.Dimens.SmallPadding4
 @Composable
 fun AddButtonAlarmScreen(
     modifier: Modifier,
-    onClick: () -> Unit)
-{
+    onClick: () -> Unit,
+) {
     IconButton(
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_add_button),
-            modifier = Modifier
-                .padding(SmallPadding4)
-                .size(LargeIconsSize118),
+            modifier =
+                Modifier
+                    .padding(SmallPadding4)
+                    .size(LargeIconsSize118),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground
+            tint = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

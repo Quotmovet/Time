@@ -14,11 +14,13 @@ import jakarta.inject.Inject
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
-class AlarmReceiver: BroadcastReceiver() {
-
+class AlarmReceiver : BroadcastReceiver() {
     @Inject lateinit var handler: AlarmReceiverHandler
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent,
+    ) {
         val alarmId = intent.getIntExtra(EXTRA_ALARM_ID, -1)
         val action = intent.action
         val extras = intent.extras
@@ -26,8 +28,10 @@ class AlarmReceiver: BroadcastReceiver() {
         Log.d("AlarmReceiver", "Received action: $action, alarmId: $alarmId")
         handler.handleAction(action, alarmId, extras)
 
-        LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(action).apply {
-            putExtra(EXTRA_ALARM_ID, alarmId)
-        })
+        LocalBroadcastManager.getInstance(context).sendBroadcast(
+            Intent(action).apply {
+                putExtra(EXTRA_ALARM_ID, alarmId)
+            },
+        )
     }
 }

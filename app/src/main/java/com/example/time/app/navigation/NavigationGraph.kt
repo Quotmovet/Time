@@ -20,11 +20,11 @@ import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringA
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
-    startDestination: String = BottomNavItem.TimeScreen.route
+    startDestination: String = BottomNavItem.TimeScreen.route,
 ) {
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
         composable(BottomNavItem.AlarmScreen.route) { AlarmScreen() }
         composable(BottomNavItem.TimerScreen.route) { TimerScreen() }
@@ -37,7 +37,7 @@ fun NavigationGraph(
 
         composable(
             route = "alarm_screen_during_alarm/{alarmId}",
-            arguments = listOf(navArgument("alarmId") { type = NavType.IntType })
+            arguments = listOf(navArgument("alarmId") { type = NavType.IntType }),
         ) { backStackEntry ->
             val alarmId = backStackEntry.arguments?.getInt("alarmId") ?: return@composable
             val viewModel: AlarmViewModelDuringAlarm = hiltViewModel()

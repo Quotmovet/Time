@@ -23,34 +23,36 @@ import com.example.time.presentation.common.util.sizes.main.rememberResponsiveSi
 @Composable
 fun TopBarMain(
     currentScreen: BottomNavItem,
-    navController: NavController
+    navController: NavController,
 ) {
-
     val iconSize = rememberResponsiveSizes()
 
     TopAppBar(
         title = {
             Text(
                 text = stringResource(id = currentScreen.title),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
         },
         actions = {
-            IconButton( onClick = { navController.navigate(Screens.SettingsScreen.route) }
+            IconButton(
+                onClick = { navController.navigate(Screens.SettingsScreen.route) },
             ) {
                 Icon(
                     painter = painterResource(id = Screens.SettingsScreen.iconResId),
-                    modifier = Modifier
-                        .size(iconSize.iconSize)
-                        .padding(SmallPadding4),
-                    contentDescription = stringResource(id = Screens.SettingsScreen.title)
+                    modifier =
+                        Modifier
+                            .size(iconSize.iconSize)
+                            .padding(SmallPadding4),
+                    contentDescription = stringResource(id = Screens.SettingsScreen.title),
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            titleContentColor = MaterialTheme.colorScheme.onBackground,
-            actionIconContentColor = MaterialTheme.colorScheme.onBackground
-        )
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                titleContentColor = MaterialTheme.colorScheme.onBackground,
+                actionIconContentColor = MaterialTheme.colorScheme.onBackground,
+            ),
     )
 }

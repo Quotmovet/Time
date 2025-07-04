@@ -22,60 +22,61 @@ import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
-class AlarmViewModelDuringAlarm @Inject constructor(
-    application: Application,
-    getCurrentDateUseCase: GetCurrentDateUseCase,
-    getCurrentTimeUseCase: GetCurrentTimeUseCase,
-    private val alarmScreenInteractor: AlarmScreenInteractor,
-    private val alarmScreenScheduler: AlarmScreenScheduler
-): AndroidViewModel(application) {
+class AlarmViewModelDuringAlarm
+    @Inject
+    constructor(
+        application: Application,
+        getCurrentDateUseCase: GetCurrentDateUseCase,
+        getCurrentTimeUseCase: GetCurrentTimeUseCase,
+        private val alarmScreenInteractor: AlarmScreenInteractor,
+        private val alarmScreenScheduler: AlarmScreenScheduler,
+    ) : AndroidViewModel(application) {
+        private val _currentDate = mutableStateOf(getCurrentDateUseCase())
+        val currentDate: State<String> = _currentDate
 
-    private val _currentDate = mutableStateOf(getCurrentDateUseCase())
-    val currentDate: State<String> = _currentDate
+        private val _currentTime = mutableStateOf(getCurrentTimeUseCase())
+        val currentTime: State<String> = _currentTime
 
-    private val _currentTime = mutableStateOf(getCurrentTimeUseCase())
-    val currentTime: State<String> = _currentTime
+        private val _alarm = mutableStateOf<AlarmModel?>(null)
+        val alarm: State<AlarmModel?> = _alarm
 
-    private val _alarm = mutableStateOf<AlarmModel?>(null)
-    val alarm: State<AlarmModel?> = _alarm
+        private val _uiEvents = MutableSharedFlow<AlarmUiEvent>()
+        val uiEvents: SharedFlow<AlarmUiEvent> = _uiEvents
 
-    private val _uiEvents = MutableSharedFlow<AlarmUiEvent>()
-    val uiEvents: SharedFlow<AlarmUiEvent> = _uiEvents
-
-    fun getAlarmById(alarmId: Int) {
-        viewModelScope.launch {
-            _alarm.value = alarmScreenInteractor.getAlarmById(alarmId)
-        }
-    }
-
-    fun dismissToday() {
-        _alarm.value?.let { alarm ->
+        fun getAlarmById(alarmId: Int) {
             viewModelScope.launch {
-                val today = LocalDate.now().dayOfWeek.toCalendarDay()
-                alarmScreenScheduler.cancelForDay(alarm, today)
-                stopAlarmService()
-                _uiEvents.emit(AlarmUiEvent.Finish)
+                _alarm.value = alarmScreenInteractor.getAlarmById(alarmId)
             }
         }
-    }
 
-    fun snoozeToday() {
-        _alarm.value?.let { alarm ->
-            viewModelScope.launch {
-                val newTime = Calendar.getInstance().apply {
-                    add(Calendar.MINUTE, 5)
+        fun dismissToday() {
+            _alarm.value?.let { alarm ->
+                viewModelScope.launch {
+                    val today = LocalDate.now().dayOfWeek.toCalendarDay()
+                    alarmScreenScheduler.cancelForDay(alarm, today)
+                    stopAlarmService()
+                    _uiEvents.emit(AlarmUiEvent.Finish)
                 }
-                alarmScreenScheduler.schedulePostponeOnce(alarm, newTime.timeInMillis)
-                stopAlarmService()
-                _uiEvents.emit(AlarmUiEvent.Finish)
             }
         }
-    }
 
-    private fun stopAlarmService() {
-        val context = getApplication<Application>().applicationContext
-        val stopIntent = Intent(context, AlarmService::class.java)
-        context.stopService(stopIntent)
-    }
+        fun snoozeToday() {
+            _alarm.value?.let { alarm ->
+                viewModelScope.launch {
+                    val newTime =
+                        Calendar.getInstance().apply {
+                            add(Calendar.MINUTE, 5)
+                        }
+                    alarmScreenScheduler.schedulePostponeOnce(alarm, newTime.timeInMillis)
+                    stopAlarmService()
+                    _uiEvents.emit(AlarmUiEvent.Finish)
+                }
+            }
+        }
 
-}
+        private fun stopAlarmService() {
+            val context = getApplication<Application>().applicationContext
+            val stopIntent = Intent(context, AlarmService::class.java)
+            context.stopService(stopIntent)
+        }
+    }

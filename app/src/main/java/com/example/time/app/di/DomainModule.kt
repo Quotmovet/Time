@@ -16,28 +16,17 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DomainModule {
-
     // TimeScreen
     @Binds
-    abstract fun bindTimeZoneInteractor(
-        timeZoneDataInteractor: TimeZoneDataInteractorImpl
-    ): TimeZoneDataInteractor
+    abstract fun bindTimeZoneInteractor(timeZoneDataInteractor: TimeZoneDataInteractorImpl): TimeZoneDataInteractor
 
     @Binds
-    abstract fun bindSelectedTimeZoneInteractor(
-        selectedTimeZoneInteractor: SelectedTimeZoneInteractorImpl
-    ): SelectedTimeZoneInteractor
+    abstract fun bindSelectedTimeZoneInteractor(selectedTimeZoneInteractor: SelectedTimeZoneInteractorImpl): SelectedTimeZoneInteractor
 
     @Binds
-    abstract fun bindDataSourceTimeInteractor(
-        dataSourceTimeInteractor: DataSourceTimeInteractorImpl
-    ): DataSourceTimeInteractor
-
+    abstract fun bindDataSourceTimeInteractor(dataSourceTimeInteractor: DataSourceTimeInteractorImpl): DataSourceTimeInteractor
 
     // AlarmScreen
     @Binds
-    abstract fun bindAlarmScreenInteractor(
-        alarmScreenInteractor: AlarmScreenInteractorImpl
-    ): AlarmScreenInteractor
-
+    abstract fun bindAlarmScreenInteractor(alarmScreenInteractor: AlarmScreenInteractorImpl): AlarmScreenInteractor
 }

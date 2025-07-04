@@ -5,5 +5,5 @@ import androidx.compose.ui.unit.TextUnit
 
 data class ResponsiveSizes(
     val iconSize: Dp,
-    val textSize: TextUnit
+    val textSize: TextUnit,
 )

@@ -24,50 +24,53 @@ import com.example.time.presentation.common.Dimens.SmallPadding12
 fun CitiesTimeItem(
     cityName: String,
     time: String,
-    offset: String
-){
+    offset: String,
+) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(MainSize)
-            .background(
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = RoundedCornerShape(PrimaryCorner)
-            ),
-    ){
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(MainSize)
+                .background(
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    shape = RoundedCornerShape(PrimaryCorner),
+                ),
+    ) {
         Row(
             modifier = Modifier.padding(horizontal = MediumPadding16, vertical = SmallPadding12),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier
-                    .weight(0.7f)
+                modifier =
+                    Modifier
+                        .weight(0.7f),
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = cityName,
                     maxLines = 1,
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = offset,
                     maxLines = 1,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
 
             Text(
-                modifier = Modifier
-                    .weight(0.3f),
+                modifier =
+                    Modifier
+                        .weight(0.3f),
                 text = time,
                 textAlign = TextAlign.End,
                 maxLines = 1,
                 style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

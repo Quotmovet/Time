@@ -10,17 +10,13 @@ import com.example.time.presentation.components.navigation.top.elements.CustomTo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarSecondary(
-    navController: NavController
-) {
-
+fun TopBarSecondary(navController: NavController) {
     val title = Screens.SettingsScreen.title
     val painterIcon = painterResource(id = Screens.BackScreen.iconResId)
 
     CustomTopAppBar(
         title = stringResource(id = title),
         icon = painterIcon,
-        onIconClick = { navController.popBackStack() }
+        onIconClick = { navController.popBackStack() },
     )
-
 }

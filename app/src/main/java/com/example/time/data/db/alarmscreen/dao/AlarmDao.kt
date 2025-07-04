@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AlarmDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlarm(alarm: AlarmEntity)
 
@@ -25,5 +24,4 @@ interface AlarmDao {
 
     @Query("DELETE FROM alarms WHERE id = :id")
     suspend fun deleteAlarmById(id: Int)
-
 }

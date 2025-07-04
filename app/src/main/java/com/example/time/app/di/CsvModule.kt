@@ -12,11 +12,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object CsvModule {
-
     @Provides
     @Singleton
     fun provideTimeZoneCsvDataSource(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): TimeZoneCsvDataSource {
         return TimeZoneCsvDataSource(context)
     }

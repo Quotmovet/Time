@@ -36,9 +36,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun SearchScreen(
     navController: NavController,
-    searchScreenViewModel: SearchScreenViewModel = hiltViewModel()
+    searchScreenViewModel: SearchScreenViewModel = hiltViewModel(),
 ) {
-
     var searchText by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
 
@@ -47,12 +46,14 @@ fun SearchScreen(
             timeZone = emptyList(),
             isLoading = false,
             isFailed = null,
-            isEmpty = false
-        )
+            isEmpty = false,
+        ),
     )
 
     LaunchedEffect(searchText) {
-        if (searchText.isNotEmpty()) { searchScreenViewModel.searchDebouncer(searchText) }
+        if (searchText.isNotEmpty()) {
+            searchScreenViewModel.searchDebouncer(searchText)
+        }
     }
 
     LaunchedEffect(true) { searchScreenViewModel.getSelected() }
@@ -60,15 +61,15 @@ fun SearchScreen(
     val selectedTimeZone by searchScreenViewModel.selectedTimeState.collectAsState()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = LargePadding80)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(vertical = LargePadding80),
     ) {
-
         SearchField(
             text = searchText,
             onTextChange = { searchText = it },
-            onSearch = { searchScreenViewModel.searchDebouncer(searchText) }
+            onSearch = { searchScreenViewModel.searchDebouncer(searchText) },
         )
 
         Column {
@@ -82,7 +83,7 @@ fun SearchScreen(
                     Spacer(modifier = Modifier.height(LargePadding80))
                     Box(
                         modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.Center,
                     ) { CircularProgressIndicator() }
                 }
 
@@ -101,7 +102,7 @@ fun SearchScreen(
                             val timeZoneData = searchState.timeZone[timeZone]
                             val isSelected = selectedTimeZone.any { it.timeZone == timeZoneData.timeZone }
 
-                            if(!isSelected) {
+                            if (!isSelected) {
                                 SearchItem(
                                     timeZoneData.cityName,
                                     timeZoneData.time,
@@ -111,13 +112,13 @@ fun SearchScreen(
                                             searchScreenViewModel.insertSelectedTimeData(timeZoneData)
                                             navController.popBackStack()
                                         }
-                                    }
+                                    },
                                 )
                             } else {
                                 ChosenSearchItem(
                                     timeZoneData.cityName,
                                     timeZoneData.time,
-                                    onClick = { searchScreenViewModel.deleteSelectedTimezone(timeZoneData.timeZone) }
+                                    onClick = { searchScreenViewModel.deleteSelectedTimezone(timeZoneData.timeZone) },
                                 )
                             }
                         }

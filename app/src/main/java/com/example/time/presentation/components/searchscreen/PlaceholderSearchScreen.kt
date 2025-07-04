@@ -20,25 +20,28 @@ import com.example.time.presentation.common.Dimens.MediumPadding22
 @Composable
 fun PlaceholderSearchScreen() {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = MediumPadding22),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MediumPadding22),
+        contentAlignment = Alignment.Center,
     ) {
         Column {
             Icon(
                 painter = painterResource(R.drawable.ic_search),
                 contentDescription = null,
-                modifier = Modifier
-                    .size(LargeIconsSize118),
-                tint = MaterialTheme.colorScheme.tertiary
+                modifier =
+                    Modifier
+                        .size(LargeIconsSize118),
+                tint = MaterialTheme.colorScheme.tertiary,
             )
             Text(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally),
+                modifier =
+                    Modifier
+                        .align(alignment = Alignment.CenterHorizontally),
                 text = stringResource(R.string.search_cities),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.tertiary
+                color = MaterialTheme.colorScheme.tertiary,
             )
         }
     }

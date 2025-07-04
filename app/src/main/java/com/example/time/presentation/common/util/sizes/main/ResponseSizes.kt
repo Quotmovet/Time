@@ -27,23 +27,25 @@ fun rememberResponsiveSizes(): ResponsiveSizes {
     val screenWidthDp = configuration.screenWidthDp
     val fontScale = density.fontScale
 
-    val iconSize = when {
-        screenWidthDp < 320 -> SmallIconsSize28
-        screenWidthDp < 360 -> SmallIconsSize32
-        screenWidthDp < 420 -> BigIconsSize36
-        screenWidthDp < 480 -> BigIconsSize40
-        screenWidthDp < 600 -> BigIconsSize44
-        else -> BigIconsSize52
-    }
+    val iconSize =
+        when {
+            screenWidthDp < 320 -> SmallIconsSize28
+            screenWidthDp < 360 -> SmallIconsSize32
+            screenWidthDp < 420 -> BigIconsSize36
+            screenWidthDp < 480 -> BigIconsSize40
+            screenWidthDp < 600 -> BigIconsSize44
+            else -> BigIconsSize52
+        }
 
-    val baseTextSize = when {
-        screenWidthDp < 320 -> TextSize9
-        screenWidthDp < 360 -> TextSize10
-        screenWidthDp < 420 -> TextSize11
-        screenWidthDp < 480 -> TextSize13
-        screenWidthDp < 600 -> TextSize14
-        else -> TextSize16
-    }
+    val baseTextSize =
+        when {
+            screenWidthDp < 320 -> TextSize9
+            screenWidthDp < 360 -> TextSize10
+            screenWidthDp < 420 -> TextSize11
+            screenWidthDp < 480 -> TextSize13
+            screenWidthDp < 600 -> TextSize14
+            else -> TextSize16
+        }
 
     val fontScaleAdjusted = fontScale.coerceIn(0.8f, 1.3f)
     val adjustedTextSize = baseTextSize * fontScaleAdjusted
@@ -51,7 +53,7 @@ fun rememberResponsiveSizes(): ResponsiveSizes {
     return remember(screenWidthDp, fontScale) {
         ResponsiveSizes(
             iconSize = iconSize,
-            textSize = adjustedTextSize
+            textSize = adjustedTextSize,
         )
     }
 }

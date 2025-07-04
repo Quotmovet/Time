@@ -16,30 +16,31 @@ import com.example.time.presentation.common.Dimens.MediumPadding22
 fun AlarmInformationOnDuring(
     alarmName: String,
     alarmTime: String,
-    alarmDate: String
+    alarmDate: String,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = MediumPadding22),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MediumPadding22),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier.padding(bottom = MediumPadding20),
             text = alarmName,
             style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
             modifier = Modifier.padding(bottom = MediumPadding16),
             text = alarmTime,
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
         Text(
             text = alarmDate,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

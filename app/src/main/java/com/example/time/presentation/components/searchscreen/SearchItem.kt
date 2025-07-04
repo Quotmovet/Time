@@ -23,40 +23,43 @@ import com.example.time.presentation.common.Dimens.SmallSize
 fun SearchItem(
     city: String,
     time: String,
-    onClick: () -> Unit
-){
-
+    onClick: () -> Unit,
+) {
     Box(
-        modifier = Modifier
-            .height(SmallSize)
-            .padding(horizontal = MediumPadding22)
-            .clickable{ onClick() },
-        contentAlignment = Alignment.Center
-    ){
+        modifier =
+            Modifier
+                .height(SmallSize)
+                .padding(horizontal = MediumPadding22)
+                .clickable { onClick() },
+        contentAlignment = Alignment.Center,
+    ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = SmallPadding12, vertical = SmallPadding10),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = SmallPadding12, vertical = SmallPadding10),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically),
                 text = city,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
+                modifier =
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .wrapContentHeight(Alignment.CenterVertically),
                 text = time,
                 textAlign = TextAlign.End,
                 style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

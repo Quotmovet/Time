@@ -15,14 +15,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+    fun provideAppDatabase(
+        @ApplicationContext context: Context,
+    ): AppDatabase {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "time-database"
+            "time-database",
         )
             .fallbackToDestructiveMigration(false)
             .build()
@@ -39,5 +40,4 @@ object DatabaseModule {
     fun provideAlarmDao(database: AppDatabase): AlarmDao {
         return database.getAlarmDao()
     }
-
 }

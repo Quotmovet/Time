@@ -17,17 +17,17 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.TimePickerState
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.example.time.R
 import com.example.time.presentation.common.Dimens.LargePadding30
@@ -40,7 +40,7 @@ import com.example.time.presentation.common.theme.Geist
 fun AlarmClock(
     timeState: TimePickerState,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit
+    onConfirm: () -> Unit,
 ) {
     var showKeyboardInput by remember { mutableStateOf(false) }
 
@@ -53,48 +53,53 @@ fun AlarmClock(
             Text(
                 text = stringResource(R.string.choose_time),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         },
         text = {
             CompositionLocalProvider(
-                LocalTextStyle provides TextStyle(
-                    fontFamily = Geist,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = TextSize48
-                )
+                LocalTextStyle provides
+                    TextStyle(
+                        fontFamily = Geist,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = TextSize48,
+                    ),
             ) {
                 if (showKeyboardInput) {
                     TimeInput(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = LargePadding30),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = LargePadding30),
                         state = timeState,
-                        colors = TimePickerDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.background,
-                            clockDialColor = MaterialTheme.colorScheme.primaryContainer,
-                            timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                            timeSelectorSelectedContentColor = MaterialTheme.colorScheme.primaryContainer,
-                            timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.primary,
-                            periodSelectorBorderColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors =
+                            TimePickerDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                                clockDialColor = MaterialTheme.colorScheme.primaryContainer,
+                                timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                timeSelectorSelectedContentColor = MaterialTheme.colorScheme.primaryContainer,
+                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.primary,
+                                periodSelectorBorderColor = MaterialTheme.colorScheme.primary,
+                            ),
                     )
                 } else {
                     TimePicker(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = SmallPadding4),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = SmallPadding4),
                         state = timeState,
-                        colors = TimePickerDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.background,
-                            clockDialColor = MaterialTheme.colorScheme.primaryContainer,
-                            timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                            timeSelectorSelectedContentColor = MaterialTheme.colorScheme.primaryContainer,
-                            timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.primary,
-                            periodSelectorBorderColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors =
+                            TimePickerDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                                clockDialColor = MaterialTheme.colorScheme.primaryContainer,
+                                timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.tertiary,
+                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                timeSelectorSelectedContentColor = MaterialTheme.colorScheme.primaryContainer,
+                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.primary,
+                                periodSelectorBorderColor = MaterialTheme.colorScheme.primary,
+                            ),
                     )
                 }
             }
@@ -103,7 +108,7 @@ fun AlarmClock(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 IconButton(onClick = {
                     showKeyboardInput = !showKeyboardInput
@@ -111,7 +116,7 @@ fun AlarmClock(
                     Icon(
                         painter = if (showKeyboardInput) clock else keyboard,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
                 }
 
@@ -121,14 +126,14 @@ fun AlarmClock(
                     Text(
                         text = stringResource(R.string.ok),
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
                 TextButton(onClick = onDismiss) {
                     Text(
                         text = stringResource(R.string.cancel),
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             }

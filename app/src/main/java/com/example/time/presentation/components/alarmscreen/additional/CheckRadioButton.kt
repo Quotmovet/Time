@@ -32,40 +32,41 @@ fun CheckRadioButton(
     selected: Boolean,
     onClick: () -> Unit,
 ) {
-
     val activeColor = MaterialTheme.colorScheme.primary
 
     val backgroundColor by animateColorAsState(
         targetValue = Color.Transparent,
         animationSpec = tween(300),
-        label = "Background"
+        label = "Background",
     )
 
-    val borderModifier = if (!selected) {
-        Modifier.border(PrimaryWidth, activeColor, CircleShape)
-    } else {
-        Modifier
-    }
+    val borderModifier =
+        if (!selected) {
+            Modifier.border(PrimaryWidth, activeColor, CircleShape)
+        } else {
+            Modifier
+        }
 
     Box(
-        modifier = Modifier
-            .size(PrimaryIconsSize)
-            .clip(CircleShape)
-            .then(borderModifier)
-            .background(backgroundColor)
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .size(PrimaryIconsSize)
+                .clip(CircleShape)
+                .then(borderModifier)
+                .background(backgroundColor)
+                .clickable { onClick() },
+        contentAlignment = Alignment.Center,
     ) {
         AnimatedVisibility(
             visible = selected,
             enter = fadeIn() + scaleIn(),
-            exit = fadeOut(animationSpec = tween(300)) + scaleOut(animationSpec = tween(300))
+            exit = fadeOut(animationSpec = tween(300)) + scaleOut(animationSpec = tween(300)),
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_checkmark),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(PrimaryIconsSize)
+                modifier = Modifier.size(PrimaryIconsSize),
             )
         }
     }

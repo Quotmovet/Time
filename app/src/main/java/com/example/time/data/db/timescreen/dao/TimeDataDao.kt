@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TimeDataDao {
-
     // All time zone
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllTimeData(data: List<TimeDataEntity>)
@@ -37,5 +36,4 @@ interface TimeDataDao {
     // Update
     @Update
     suspend fun updateTimeData(timeData: TimeDataEntity)
-
 }

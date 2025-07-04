@@ -6,5 +6,5 @@ data class TimeDataModel(
     val country: String,
     val time: String,
     val offset: Int,
-    var isSelected: Boolean
+    var isSelected: Boolean,
 )

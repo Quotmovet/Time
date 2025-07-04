@@ -4,7 +4,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object Dimens {
-
     // Paddings
     val LargePadding80 = 80.dp
     val LargePadding64 = 64.dp
@@ -68,5 +67,4 @@ object Dimens {
 
     // Offset
     val Offset30 = 30.dp
-
 }

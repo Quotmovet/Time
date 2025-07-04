@@ -54,9 +54,7 @@ import com.example.time.presentation.viewmodel.alarmscreen.AlarmScreenViewModel
 import java.util.Calendar
 
 @Composable
-fun AlarmScreen(
-    viewModel: AlarmScreenViewModel = hiltViewModel()
-) {
+fun AlarmScreen(viewModel: AlarmScreenViewModel = hiltViewModel()) {
     val alarmState by viewModel.alarmState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     var selectedAlarm by remember { mutableStateOf<AlarmModel?>(null) }
@@ -64,24 +62,26 @@ fun AlarmScreen(
     val context = LocalContext.current
 
     @Suppress("DEPRECATION")
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val uri = result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-        selectedAlarm?.let { alarm ->
-            viewModel.updateAlarmSound(alarm, uri)
-            selectedAlarm = null
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+        ) { result ->
+            val uri = result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+            selectedAlarm?.let { alarm ->
+                viewModel.updateAlarmSound(alarm, uri)
+                selectedAlarm = null
+            }
         }
-    }
 
-    val intent = remember {
-        Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
-            putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
-            putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.select_alarm_sound)
-            putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
-            putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+    val intent =
+        remember {
+            Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+                putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, R.string.select_alarm_sound)
+                putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+                putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+            }
         }
-    }
 
     val shouldShowOverlay = alarmState.size > 3
 
@@ -105,17 +105,18 @@ fun AlarmScreen(
                 viewModel.deleteAlarm(alarm)
                 if (expandedAlarmId == alarm.id) expandedAlarmId = null
                 Toast.makeText(context, R.string.alarm_is_delete, Toast.LENGTH_SHORT).show()
-            }
+            },
         )
 
         AnimatedOverlay(shouldShowOverlay)
 
         AddButtonAlarmScreen(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = MediumPadding24)
-                .size(LargeIconsSize64),
-            onClick = { showDialog = true }
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = MediumPadding24)
+                    .size(LargeIconsSize64),
+            onClick = { showDialog = true },
         )
 
         if (showDialog) {
@@ -124,7 +125,7 @@ fun AlarmScreen(
                 onConfirm = { hour, minute ->
                     showDialog = false
                     viewModel.createAlarm(hour, minute)
-                }
+                },
             )
         }
     }
@@ -140,12 +141,12 @@ fun AlarmList(
     onNameChange: (AlarmModel, String) -> Unit,
     onSoundChange: (AlarmModel) -> Unit,
     onVibrationChange: (AlarmModel, Boolean) -> Unit,
-    onDelete: (AlarmModel) -> Unit
+    onDelete: (AlarmModel) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(top = LargePadding60, bottom = 120.dp),
-        verticalArrangement = Arrangement.spacedBy(MediumPadding16)
+        verticalArrangement = Arrangement.spacedBy(MediumPadding16),
     ) {
         items(alarms, key = { it.id }) { alarm ->
             AlarmItem(
@@ -164,7 +165,7 @@ fun AlarmList(
                 onNameChange = { onNameChange(alarm, it) },
                 onSoundChange = { onSoundChange(alarm) },
                 onVibrationChange = { onVibrationChange(alarm, it) },
-                onDelete = { onDelete(alarm) }
+                onDelete = { onDelete(alarm) },
             )
         }
     }
@@ -175,35 +176,39 @@ fun BoxScope.AnimatedOverlay(visible: Boolean) {
     val animatedHeight by animateFloatAsState(
         targetValue = if (visible) 80f else 0f,
         animationSpec = tween(800, easing = FastOutSlowInEasing),
-        label = "overlay_height"
+        label = "overlay_height",
     )
     val animatedAlpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(800, easing = FastOutSlowInEasing),
-        label = "overlay_alpha"
+        label = "overlay_alpha",
     )
 
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn(tween(400)) + slideInVertically { it },
         exit = fadeOut(tween(400)) + slideOutVertically { it },
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(animatedHeight.dp)
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.1f * animatedAlpha),
-                            Color.Black.copy(alpha = 0.3f * animatedAlpha)
-                        )
-                    )
-                )
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(animatedHeight.dp)
+                    .background(
+                        brush =
+                            Brush.verticalGradient(
+                                colors =
+                                    listOf(
+                                        Color.Transparent,
+                                        Color.Black.copy(alpha = 0.1f * animatedAlpha),
+                                        Color.Black.copy(alpha = 0.3f * animatedAlpha),
+                                    ),
+                            ),
+                    ),
         )
     }
 }
@@ -212,18 +217,19 @@ fun BoxScope.AnimatedOverlay(visible: Boolean) {
 @Composable
 fun CreateAlarmDialog(
     onDismiss: () -> Unit,
-    onConfirm: (Int, Int) -> Unit
+    onConfirm: (Int, Int) -> Unit,
 ) {
-    val timeState = rememberTimePickerState(
-        initialHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
-        initialMinute = Calendar.getInstance().get(Calendar.MINUTE),
-        is24Hour = true
-    )
+    val timeState =
+        rememberTimePickerState(
+            initialHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+            initialMinute = Calendar.getInstance().get(Calendar.MINUTE),
+            is24Hour = true,
+        )
     AlarmClock(
         timeState = timeState,
         onDismiss = onDismiss,
         onConfirm = {
             onConfirm(timeState.hour, timeState.minute)
-        }
+        },
     )
 }

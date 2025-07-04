@@ -8,5 +8,5 @@ data class AlarmModel(
     val isActivated: Boolean,
     val isVibration: Boolean,
     val sound: String,
-    val name: String
+    val name: String,
 )

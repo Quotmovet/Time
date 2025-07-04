@@ -12,7 +12,7 @@ fun TimeDataDto.toModelFromDto(): TimeDataModel {
         country = parseCountry(this.timeZone),
         time = formatTime(this.hour, this.minute),
         offset = 0,
-        isSelected = false
+        isSelected = false,
     )
 }
 
@@ -33,6 +33,9 @@ private fun parseCountry(timeZone: String): String {
 }
 
 @SuppressLint("DefaultLocale")
-private fun formatTime(hour: Int, minute: Int): String {
+private fun formatTime(
+    hour: Int,
+    minute: Int,
+): String {
     return String.format("%02d:%02d", hour, minute)
 }

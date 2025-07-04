@@ -57,7 +57,7 @@ import com.example.time.presentation.viewmodel.timescreen.TimeScreenViewModel
 @Composable
 fun TimeScreen(
     navController: NavController,
-    viewModel: TimeScreenViewModel = hiltViewModel()
+    viewModel: TimeScreenViewModel = hiltViewModel(),
 ) {
     // Get the current time and date from the view model
     val currentTime by viewModel.currentTime
@@ -70,27 +70,30 @@ fun TimeScreen(
 
     val animatedHeight by animateFloatAsState(
         targetValue = if (shouldShowOverlay) 80f else 0f,
-        animationSpec = tween(
-            durationMillis = 600,
-            easing = FastOutSlowInEasing
-        )
+        animationSpec =
+            tween(
+                durationMillis = 600,
+                easing = FastOutSlowInEasing,
+            ),
     )
 
     val animatedAlpha by animateFloatAsState(
         targetValue = if (shouldShowOverlay) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 600,
-            easing = FastOutSlowInEasing
-        )
+        animationSpec =
+            tween(
+                durationMillis = 600,
+                easing = FastOutSlowInEasing,
+            ),
     )
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Transparent)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Color.Transparent),
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             item {
                 Spacer(modifier = Modifier.height(LargePadding34))
@@ -101,38 +104,43 @@ fun TimeScreen(
             items(selectedTimeZones.size) { timeZoneModel ->
                 val timezoneData = selectedTimeZones[timeZoneModel]
 
-                val dismissState = rememberDismissState(
-                    confirmStateChange = {
-                        if (it == DismissValue.DismissedToStart) {
-                            viewModel.deleteSelectedTimezone(timezoneData.timeZone)
-                            true
-                        } else false
-                    }
-                )
+                val dismissState =
+                    rememberDismissState(
+                        confirmStateChange = {
+                            if (it == DismissValue.DismissedToStart) {
+                                viewModel.deleteSelectedTimezone(timezoneData.timeZone)
+                                true
+                            } else {
+                                false
+                            }
+                        },
+                    )
 
                 // Delete item with swipe
                 SwipeToDismiss(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = MediumPadding22),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MediumPadding22),
                     state = dismissState,
                     directions = setOf(DismissDirection.EndToStart),
                     background = {
                         Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .height(MainSize)
-                                .background(
-                                    color =  MaterialTheme.colorScheme.error,
-                                    shape = RoundedCornerShape(PrimaryCorner)
-                                )
-                                .padding(horizontal = MediumPadding20),
-                            contentAlignment = Alignment.CenterEnd
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .height(MainSize)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.error,
+                                        shape = RoundedCornerShape(PrimaryCorner),
+                                    )
+                                    .padding(horizontal = MediumPadding20),
+                            contentAlignment = Alignment.CenterEnd,
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Delete",
-                                tint = MaterialTheme.colorScheme.onError
+                                tint = MaterialTheme.colorScheme.onError,
                             )
                         }
                     },
@@ -140,9 +148,9 @@ fun TimeScreen(
                         CitiesTimeItem(
                             cityName = timezoneData.cityName,
                             time = timezoneData.time,
-                            offset = formatOffset(timezoneData.offset)
+                            offset = formatOffset(timezoneData.offset),
                         )
-                    }
+                    },
                 )
 
                 Spacer(modifier = Modifier.height(MediumPadding16))
@@ -153,11 +161,12 @@ fun TimeScreen(
         AnimatedGradientOverlay(animatedHeight = animatedHeight, animatedAlpha = animatedAlpha)
 
         AddButton(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = MediumPadding24)
-                .size(LargeIconsSize64),
-            navController = navController
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = MediumPadding24)
+                    .size(LargeIconsSize64),
+            navController = navController,
         )
     }
 }
@@ -165,23 +174,26 @@ fun TimeScreen(
 @Composable
 fun BoxScope.AnimatedGradientOverlay(
     animatedHeight: Float,
-    animatedAlpha: Float
+    animatedAlpha: Float,
 ) {
     Box(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .height(animatedHeight.dp)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black.copy(alpha = 0.1f * animatedAlpha),
-                        Color.Black.copy(alpha = 0.3f * animatedAlpha)
-                    ),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY
-                )
-            )
+        modifier =
+            Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(animatedHeight.dp)
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 0.1f * animatedAlpha),
+                                    Color.Black.copy(alpha = 0.3f * animatedAlpha),
+                                ),
+                            startY = 0f,
+                            endY = Float.POSITIVE_INFINITY,
+                        ),
+                ),
     )
 }

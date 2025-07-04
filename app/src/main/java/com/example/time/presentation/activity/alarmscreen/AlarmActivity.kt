@@ -22,8 +22,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.time.app.globalconstants.Constants.ACTION_DISABLE_ALARM
 import com.example.time.app.globalconstants.Constants.ACTION_SNOOZE_ALARM
-import com.example.time.presentation.common.theme.Theme
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
+import com.example.time.presentation.common.theme.Theme
 import com.example.time.presentation.screens.alarmscreen.AlarmScreenDuringAlarm
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmUiEvent
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringAlarm
@@ -32,20 +32,23 @@ import dagger.hilt.android.AndroidEntryPoint
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
 class AlarmActivity : ComponentActivity() {
-
     private val viewModel: AlarmViewModelDuringAlarm by viewModels()
 
-    private val alarmActionReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val action = intent?.action
-            Log.d("AlarmActivity", "Received local action: $action")
+    private val alarmActionReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(
+                context: Context?,
+                intent: Intent?,
+            ) {
+                val action = intent?.action
+                Log.d("AlarmActivity", "Received local action: $action")
 
-            when (action) {
-                ACTION_DISABLE_ALARM -> viewModel.dismissToday()
-                ACTION_SNOOZE_ALARM -> viewModel.snoozeToday()
+                when (action) {
+                    ACTION_DISABLE_ALARM -> viewModel.dismissToday()
+                    ACTION_SNOOZE_ALARM -> viewModel.snoozeToday()
+                }
             }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +74,8 @@ class AlarmActivity : ComponentActivity() {
             @Suppress("DEPRECATION")
             window.addFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,
             )
         }
     }
@@ -83,7 +86,7 @@ class AlarmActivity : ComponentActivity() {
             IntentFilter().apply {
                 addAction(ACTION_DISABLE_ALARM)
                 addAction(ACTION_SNOOZE_ALARM)
-            }
+            },
         )
     }
 

@@ -76,128 +76,133 @@ fun AlarmItem(
     onSoundChange: (Int) -> Unit,
     onVibrationChange: (Boolean) -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
     val rotation by animateFloatAsState(
         targetValue = if (isExpanded) 180f else 0f,
-        label = "rotation_animation"
+        label = "rotation_animation",
     )
 
     var showDialog by remember { mutableStateOf(false) }
 
     val animatedPaddingStart by animateDpAsState(
         targetValue = if (isExpanded) SmallPadding6 else 0.dp,
-        label = "labelPaddingAnimation"
+        label = "labelPaddingAnimation",
     )
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = MediumPadding22)
-            .clip(RoundedCornerShape(PrimaryCorner))
-            .animateContentSize(animationSpec = tween(300)),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(horizontal = MediumPadding22)
+                .clip(RoundedCornerShape(PrimaryCorner))
+                .animateContentSize(animationSpec = tween(300)),
         shape = RoundedCornerShape(PrimaryCorner),
         elevation = CardDefaults.cardElevation(SmallPadding4),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+            ),
         onClick = {
             onExpandToggle()
-        }
+        },
     ) {
-
         Column(modifier = Modifier.padding(all = SmallPadding10)) {
-
-            if(!isExpanded) {
+            if (!isExpanded) {
                 Row(
-                    modifier = Modifier.align(alignment = Alignment.End)
+                    modifier = Modifier.align(alignment = Alignment.End),
                 ) {
-
-                    if(name != "") {
+                    if (name != "") {
                         Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(SmallIconsSize16)
+                            modifier =
+                                Modifier
+                                    .weight(1f)
+                                    .height(SmallIconsSize16),
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
                                     text = name,
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onBackground,
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .padding(start = animatedPaddingStart)
+                                    modifier =
+                                        Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .padding(start = animatedPaddingStart),
                                 )
                             }
                         }
                     }
 
                     Icon(
-                        modifier = Modifier
-                            .size(SmallIconsSize16)
-                            .rotate(rotation),
+                        modifier =
+                            Modifier
+                                .size(SmallIconsSize16)
+                                .rotate(rotation),
                         painter = painterResource(R.drawable.ic_markdawn),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
                 }
 
                 Spacer(modifier = Modifier.height(SmallPadding4))
                 TimeRow(time, days, isActivated, onCheckedChange)
-
             } else {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight(),
-                    verticalAlignment = Alignment.Top
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                    verticalAlignment = Alignment.Top,
                 ) {
                     Icon(
                         modifier = Modifier.size(SmallIconsSize16),
                         painter = painterResource(R.drawable.ic_label),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(SmallIconsSize16)
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .height(SmallIconsSize16),
                     ) {
                         TextButton(
                             onClick = { showDialog = true },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.CenterStart),
-                            contentPadding = PaddingValues(0.dp)
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .align(Alignment.CenterStart),
+                            contentPadding = PaddingValues(0.dp),
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
                                     text = name.ifEmpty { stringResource(R.string.name) },
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onBackground,
-                                    modifier = Modifier
-                                        .align(Alignment.CenterVertically)
-                                        .padding(start = animatedPaddingStart)
+                                    modifier =
+                                        Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .padding(start = animatedPaddingStart),
                                 )
                             }
                         }
                     }
 
                     Icon(
-                        modifier = Modifier
-                            .size(SmallIconsSize16)
-                            .rotate(rotation),
+                        modifier =
+                            Modifier
+                                .size(SmallIconsSize16)
+                                .rotate(rotation),
                         painter = painterResource(R.drawable.ic_markdawn),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
                 }
 
@@ -207,7 +212,7 @@ fun AlarmItem(
                 Spacer(modifier = Modifier.padding(top = MediumPadding16))
                 WeekDaysRow(
                     selectedDays = selectedDays,
-                    onDayToggle = onDayToggle
+                    onDayToggle = onDayToggle,
                 )
 
                 Spacer(modifier = Modifier.height(MediumPadding24))
@@ -216,7 +221,7 @@ fun AlarmItem(
                     onSoundChange = onSoundChange,
                     isVibration = isVibration,
                     onToggleSelected = onVibrationChange,
-                    onDelete = onDelete
+                    onDelete = onDelete,
                 )
             }
         }
@@ -230,7 +235,7 @@ fun AlarmItem(
             onConfirm = { label ->
                 onNameChange(label)
                 showDialog = false
-            }
+            },
         )
     }
 }
@@ -240,42 +245,46 @@ private fun TimeRow(
     time: String,
     days: String,
     isActivated: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-){
+    onCheckedChange: (Boolean) -> Unit,
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(BigIconsSize34),
-        verticalAlignment = Alignment.Top // Изменено с Bottom на Top
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(BigIconsSize34),
+        verticalAlignment = Alignment.Top, // Изменено с Bottom на Top
     ) {
         Text(
             text = time,
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.alignByBaseline() // Добавлен alignByBaseline
+            modifier = Modifier.alignByBaseline(), // Добавлен alignByBaseline
         )
         Spacer(modifier = Modifier.width(SmallPadding6))
         FormattedDays(
             days = days,
-            modifier = Modifier
-                .weight(1f)
-                .alignByBaseline() // Добавлен alignByBaseline
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .alignByBaseline(), // Добавлен alignByBaseline
         )
         Switch(
             checked = isActivated,
             onCheckedChange = onCheckedChange,
-            modifier = Modifier
-                .size(BigIconsSize34)
-                .padding(top = SmallPadding12)
-                .scale(0.6f),
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colorScheme.onBackground,
-                checkedTrackColor = MaterialTheme.colorScheme.primary,
-                checkedBorderColor = Color.Transparent,
-                uncheckedThumbColor = MaterialTheme.colorScheme.primary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.onBackground,
-                uncheckedBorderColor = Color.Transparent
-            )
+            modifier =
+                Modifier
+                    .size(BigIconsSize34)
+                    .padding(top = SmallPadding12)
+                    .scale(0.6f),
+            colors =
+                SwitchDefaults.colors(
+                    checkedThumbColor = MaterialTheme.colorScheme.onBackground,
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    checkedBorderColor = Color.Transparent,
+                    uncheckedThumbColor = MaterialTheme.colorScheme.primary,
+                    uncheckedTrackColor = MaterialTheme.colorScheme.onBackground,
+                    uncheckedBorderColor = Color.Transparent,
+                ),
         )
     }
 }
@@ -283,38 +292,47 @@ private fun TimeRow(
 @Composable
 private fun FormattedDays(
     days: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    val dayNames = listOf(
-        R.string.Mon, R.string.Tue, R.string.Wed,
-        R.string.Thu, R.string.Fri, R.string.Sat, R.string.Sun
-    )
+    val dayNames =
+        listOf(
+            R.string.Mon,
+            R.string.Tue,
+            R.string.Wed,
+            R.string.Thu,
+            R.string.Fri,
+            R.string.Sat,
+            R.string.Sun,
+        )
 
-    val indices = days
-        .split(",")
-        .mapNotNull { it.toIntOrNull() }
-        .filter { it in dayNames.indices }
-        .sorted()
+    val indices =
+        days
+            .split(",")
+            .mapNotNull { it.toIntOrNull() }
+            .filter { it in dayNames.indices }
+            .sorted()
 
     if (indices.isEmpty()) {
         Text(
             text = stringResource(R.string.day_is_not_selected),
-            style = MaterialTheme.typography.labelMedium
-                .copy(fontWeight = FontWeight.Bold),
+            style =
+                MaterialTheme.typography.labelMedium
+                    .copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = modifier
+            modifier = modifier,
         )
     } else {
-        val dayStrings = indices.map { index ->
-            stringResource(id = dayNames[index])
-        }
+        val dayStrings =
+            indices.map { index ->
+                stringResource(id = dayNames[index])
+            }
 
         val result = dayStrings.joinToString(", ")
         Text(
             text = result,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
@@ -322,18 +340,25 @@ private fun FormattedDays(
 @Composable
 private fun WeekDaysRow(
     selectedDays: Set<Int>,
-    onDayToggle: (Int) -> Unit
+    onDayToggle: (Int) -> Unit,
 ) {
     val responsiveWeekDaySizes = rememberWeekDaySizes()
 
-    val daysList = listOf(
-        R.string.M, R.string.Tu, R.string.W,
-        R.string.Th, R.string.F, R.string.Sa, R.string.Su
-    )
+    val daysList =
+        listOf(
+            R.string.M,
+            R.string.Tu,
+            R.string.W,
+            R.string.Th,
+            R.string.F,
+            R.string.Sa,
+            R.string.Su,
+        )
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        modifier =
+            Modifier
+                .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         daysList.forEachIndexed { index, resId ->
             val isSelected = selectedDays.contains(index)
@@ -341,7 +366,7 @@ private fun WeekDaysRow(
                 letter = stringResource(resId),
                 selected = isSelected,
                 onClick = { onDayToggle(index) },
-                weekDaySizes = responsiveWeekDaySizes
+                weekDaySizes = responsiveWeekDaySizes,
             )
         }
     }
@@ -353,27 +378,29 @@ private fun AlarmActionsColumn(
     onSoundChange: (Int) -> Unit,
     isVibration: Boolean,
     onToggleSelected: (Boolean) -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
 ) {
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .clickable { onSoundChange(id) }
+            modifier =
+                Modifier
+                    .clickable { onSoundChange(id) },
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_bell),
                 contentDescription = null,
                 modifier = Modifier.size(PrimaryIconsSize),
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
             Text(
                 text = stringResource(R.string.sound),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier
-                    .padding(start = SmallPadding10)
-                    .align(Alignment.CenterVertically)
+                modifier =
+                    Modifier
+                        .padding(start = SmallPadding10)
+                        .align(Alignment.CenterVertically),
             )
         }
 
@@ -384,21 +411,22 @@ private fun AlarmActionsColumn(
                 painter = painterResource(R.drawable.ic_vibration),
                 contentDescription = null,
                 modifier = Modifier.size(PrimaryIconsSize),
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
             Text(
                 text = stringResource(R.string.vibration),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier
-                    .padding(start = SmallPadding10)
-                    .weight(1f)
-                    .align(Alignment.CenterVertically)
+                modifier =
+                    Modifier
+                        .padding(start = SmallPadding10)
+                        .weight(1f)
+                        .align(Alignment.CenterVertically),
             )
             CheckRadioButton(
                 selected = isVibration,
                 onClick = { onToggleSelected(!isVibration) },
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier.align(Alignment.CenterVertically),
             )
         }
 
@@ -406,20 +434,21 @@ private fun AlarmActionsColumn(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .clickable { onDelete() }
+            modifier =
+                Modifier
+                    .clickable { onDelete() },
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_clean),
                 contentDescription = null,
                 modifier = Modifier.size(PrimaryIconsSize),
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
             Text(
                 text = stringResource(R.string.delete),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(start = SmallPadding10)
+                modifier = Modifier.padding(start = SmallPadding10),
             )
         }
     }

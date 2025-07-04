@@ -18,14 +18,14 @@ fun rememberWeekDaySizes(): WeekDaySizes {
 
     return remember(screenWidthDp, fontScale) {
         when {
-            screenWidthDp < 320 -> WeekDaySizes( buttonSize = 36.dp )
-            screenWidthDp < 360 -> WeekDaySizes( buttonSize = 40.dp )
-            screenWidthDp < 380 -> WeekDaySizes( buttonSize = 42.dp )
-            screenWidthDp < 400 -> WeekDaySizes( buttonSize = 44.dp )
-            screenWidthDp < 420 -> WeekDaySizes( buttonSize = 48.dp )
-            screenWidthDp < 480 -> WeekDaySizes( buttonSize = 50.dp )
-            screenWidthDp < 600 -> WeekDaySizes( buttonSize = 60.dp )
-            else -> WeekDaySizes( buttonSize = 68.dp )
+            screenWidthDp < 320 -> WeekDaySizes(buttonSize = 36.dp)
+            screenWidthDp < 360 -> WeekDaySizes(buttonSize = 40.dp)
+            screenWidthDp < 380 -> WeekDaySizes(buttonSize = 42.dp)
+            screenWidthDp < 400 -> WeekDaySizes(buttonSize = 44.dp)
+            screenWidthDp < 420 -> WeekDaySizes(buttonSize = 48.dp)
+            screenWidthDp < 480 -> WeekDaySizes(buttonSize = 50.dp)
+            screenWidthDp < 600 -> WeekDaySizes(buttonSize = 60.dp)
+            else -> WeekDaySizes(buttonSize = 68.dp)
         }
     }
 }

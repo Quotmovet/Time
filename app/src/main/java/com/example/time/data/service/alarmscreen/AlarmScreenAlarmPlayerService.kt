@@ -8,30 +8,33 @@ import com.example.time.domain.contract.alarmscreen.AlarmScreenAlarmPlayer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 
-class AlarmScreenAlarmPlayerService @Inject constructor(
-    @param:ApplicationContext private val context: Context
-): AlarmScreenAlarmPlayer {
-    private var mediaPlayer: MediaPlayer? = null
+class AlarmScreenAlarmPlayerService
+    @Inject
+    constructor(
+        @param:ApplicationContext private val context: Context,
+    ) : AlarmScreenAlarmPlayer {
+        private var mediaPlayer: MediaPlayer? = null
 
-    override fun play(uri: Uri) {
-        stop()
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(context, uri)
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .build()
-            )
-            isLooping = true
-            prepare()
-            start()
+        override fun play(uri: Uri) {
+            stop()
+            mediaPlayer =
+                MediaPlayer().apply {
+                    setDataSource(context, uri)
+                    setAudioAttributes(
+                        AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setUsage(AudioAttributes.USAGE_ALARM)
+                            .build(),
+                    )
+                    isLooping = true
+                    prepare()
+                    start()
+                }
+        }
+
+        override fun stop() {
+            mediaPlayer?.stop()
+            mediaPlayer?.release()
+            mediaPlayer = null
         }
     }
-
-    override fun stop() {
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
-    }
-}

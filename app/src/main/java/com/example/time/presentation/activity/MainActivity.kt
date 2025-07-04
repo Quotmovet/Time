@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Theme(
                 darkTheme = isSystemInDarkTheme(),
-                dynamicColor = false
+                dynamicColor = false,
             ) {
                 Surface {
                     MainScreen()

@@ -18,7 +18,7 @@ import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringA
 @Composable
 fun AlarmScreenDuringAlarm(
     alarmId: Int,
-    viewModel: AlarmViewModelDuringAlarm
+    viewModel: AlarmViewModelDuringAlarm,
 ) {
     val alarm by viewModel.alarm
     val currentDate by viewModel.currentDate
@@ -29,16 +29,15 @@ fun AlarmScreenDuringAlarm(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
-
         Spacer(modifier = Modifier.height(150.dp))
 
         if (alarm != null) {
             AlarmInformationOnDuring(
                 alarmName = alarm?.name ?: stringResource(R.string.alarm),
                 alarmTime = currentTime,
-                alarmDate = currentDate
+                alarmDate = currentDate,
             )
 
             Spacer(modifier = Modifier.height(215.dp))
@@ -49,7 +48,7 @@ fun AlarmScreenDuringAlarm(
                 },
                 onOff = {
                     viewModel.dismissToday()
-                }
+                },
             )
         }
     }

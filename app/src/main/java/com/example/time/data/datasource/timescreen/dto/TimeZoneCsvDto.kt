@@ -5,5 +5,5 @@ data class TimeZoneCsvDto(
     val cityName: String,
     val country: String,
     val offset: Int,
-    var isSelected: Boolean
+    var isSelected: Boolean,
 )

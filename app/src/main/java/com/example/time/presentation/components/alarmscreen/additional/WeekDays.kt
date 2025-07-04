@@ -22,32 +22,33 @@ fun WeekDays(
     letter: String,
     selected: Boolean,
     onClick: () -> Unit,
-    weekDaySizes: WeekDaySizes
+    weekDaySizes: WeekDaySizes,
 ) {
     val backgroundColor by animateColorAsState(
         targetValue = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onPrimaryContainer,
         animationSpec = tween(500, easing = FastOutSlowInEasing),
-        label = "BackgroundColor"
+        label = "BackgroundColor",
     )
 
     val textColor by animateColorAsState(
         targetValue = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onPrimary,
         animationSpec = tween(500, easing = FastOutSlowInEasing),
-        label = "TextColor"
+        label = "TextColor",
     )
 
     Box(
-        modifier = Modifier
-            .size(weekDaySizes.buttonSize)
-            .clip(CircleShape)
-            .background(backgroundColor)
-            .clickable { onClick() },
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .size(weekDaySizes.buttonSize)
+                .clip(CircleShape)
+                .background(backgroundColor)
+                .clickable { onClick() },
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = letter,
             color = textColor,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
         )
     }
 }
