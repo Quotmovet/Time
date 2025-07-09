@@ -2,7 +2,7 @@ package com.example.time.data.datasource.timescreen.converter
 
 import com.example.time.data.datasource.timescreen.dto.TimeZoneCsvDto
 import com.example.time.domain.model.timescreen.TimeDataModel
-import com.example.time.presentation.common.util.formater.formatTime
+import com.example.time.presentation.ui.common.util.formater.formatTime
 
 fun TimeZoneCsvDto.toModelFromCsvDto(): TimeDataModel {
     return TimeDataModel(

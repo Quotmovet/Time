@@ -6,7 +6,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import com.example.time.R
-import com.example.time.domain.contract.alarmscreen.AlarmScreenSoundUriProvider
+import com.example.time.domain.usecase.alarmscreen.AlarmScreenSoundUriProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 import java.io.FileNotFoundException

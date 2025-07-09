@@ -11,8 +11,9 @@ import com.example.time.domain.model.alarmscreen.AlarmModel
 import com.example.time.domain.scheduler.alarmscreen.AlarmScreenScheduler
 import com.example.time.domain.usecase.timescreen.GetCurrentDateUseCase
 import com.example.time.domain.usecase.timescreen.GetCurrentTimeUseCase
-import com.example.time.presentation.common.util.formater.toCalendarDay
 import com.example.time.presentation.service.alarmscreen.AlarmService
+import com.example.time.presentation.state.alarmscreen.AlarmUiEvent
+import com.example.time.presentation.ui.common.util.formater.toCalendarDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

@@ -14,7 +14,7 @@ import com.example.time.app.globalconstants.Constants.ACTION_TYPE
 import com.example.time.app.globalconstants.Constants.ALARM_CHANEL
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
 import com.example.time.app.receiver.alarmscreen.AlarmReceiver
-import com.example.time.domain.contract.alarmscreen.AlarmScreenNotificationCreator
+import com.example.time.domain.usecase.alarmscreen.AlarmScreenNotificationCreator
 import com.example.time.presentation.activity.alarmscreen.AlarmActivity
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject

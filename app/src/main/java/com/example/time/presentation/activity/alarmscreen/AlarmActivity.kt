@@ -23,9 +23,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.time.app.globalconstants.Constants.ACTION_DISABLE_ALARM
 import com.example.time.app.globalconstants.Constants.ACTION_SNOOZE_ALARM
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
-import com.example.time.presentation.common.theme.Theme
-import com.example.time.presentation.screens.alarmscreen.AlarmScreenDuringAlarm
-import com.example.time.presentation.viewmodel.alarmscreen.AlarmUiEvent
+import com.example.time.presentation.state.alarmscreen.AlarmUiEvent
+import com.example.time.presentation.ui.common.theme.Theme
+import com.example.time.presentation.ui.screens.alarmscreen.AlarmScreenDuringAlarm
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringAlarm
 import dagger.hilt.android.AndroidEntryPoint
 

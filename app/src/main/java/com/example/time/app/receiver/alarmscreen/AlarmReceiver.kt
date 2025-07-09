@@ -8,7 +8,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
-import com.example.time.domain.recevier.alarmscreen.AlarmReceiverHandler
+import com.example.time.domain.receiver.alarmscreen.AlarmReceiverHandler
 import dagger.hilt.android.AndroidEntryPoint
 import jakarta.inject.Inject
 

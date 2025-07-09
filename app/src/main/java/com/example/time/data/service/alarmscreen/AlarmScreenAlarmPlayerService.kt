@@ -4,7 +4,7 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
-import com.example.time.domain.contract.alarmscreen.AlarmScreenAlarmPlayer
+import com.example.time.domain.usecase.alarmscreen.AlarmScreenAlarmPlayer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 

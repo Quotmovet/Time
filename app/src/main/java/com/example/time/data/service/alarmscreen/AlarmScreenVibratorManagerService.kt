@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import com.example.time.domain.contract.alarmscreen.AlarmScreenVibratorManager
+import com.example.time.domain.usecase.alarmscreen.AlarmScreenVibratorManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
 

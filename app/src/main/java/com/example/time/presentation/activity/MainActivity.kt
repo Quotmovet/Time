@@ -5,8 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Surface
-import com.example.time.presentation.common.theme.Theme
-import com.example.time.presentation.screens.navigation.MainScreen
+import com.example.time.presentation.ui.common.theme.Theme
+import com.example.time.presentation.ui.screens.navigation.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

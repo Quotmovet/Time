@@ -7,14 +7,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.time.presentation.screens.alarmscreen.AlarmScreen
-import com.example.time.presentation.screens.alarmscreen.AlarmScreenDuringAlarm
-import com.example.time.presentation.screens.searchscreen.SearchScreen
-import com.example.time.presentation.screens.settingsscreen.SettingsScreen
-import com.example.time.presentation.screens.sleepscreen.SleepScreen
-import com.example.time.presentation.screens.stopwatchscreen.StopwatchScreen
-import com.example.time.presentation.screens.timerscreen.TimerScreen
-import com.example.time.presentation.screens.timescreen.TimeScreen
+import com.example.time.presentation.ui.screens.alarmscreen.AlarmScreen
+import com.example.time.presentation.ui.screens.alarmscreen.AlarmScreenDuringAlarm
+import com.example.time.presentation.ui.screens.searchscreen.SearchScreen
+import com.example.time.presentation.ui.screens.settingsscreen.SettingsScreen
+import com.example.time.presentation.ui.screens.sleepscreen.SleepScreen
+import com.example.time.presentation.ui.screens.stopwatchscreen.StopwatchScreen
+import com.example.time.presentation.ui.screens.timerscreen.TimerScreen
+import com.example.time.presentation.ui.screens.timescreen.TimeScreen
 import com.example.time.presentation.viewmodel.alarmscreen.AlarmViewModelDuringAlarm
 
 @Composable

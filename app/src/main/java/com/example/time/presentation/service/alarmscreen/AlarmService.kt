@@ -8,9 +8,9 @@ import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_DATE
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_ID
 import com.example.time.app.globalconstants.Constants.EXTRA_ALARM_NAME
 import com.example.time.app.globalconstants.Constants.EXTRA_SOUND_URI
-import com.example.time.domain.contract.alarmscreen.AlarmScreenNotificationCreator
-import com.example.time.domain.contract.alarmscreen.AlarmScreenSoundUriProvider
-import com.example.time.domain.usecase.alarmscreen.PlayAlarmUseCase
+import com.example.time.domain.usecase.alarmscreen.AlarmScreenNotificationCreator
+import com.example.time.domain.usecase.alarmscreen.AlarmScreenSoundUriProvider
+import com.example.time.domain.usecase.alarmscreen.impl.PlayAlarmUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import jakarta.inject.Inject
 

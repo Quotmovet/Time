@@ -11,7 +11,7 @@ import com.example.time.domain.interactor.timescreen.SelectedTimeZoneInteractor
 import com.example.time.domain.model.timescreen.TimeDataModel
 import com.example.time.domain.usecase.timescreen.GetCurrentDateUseCase
 import com.example.time.domain.usecase.timescreen.GetCurrentTimeUseCase
-import com.example.time.presentation.common.util.formater.formatTime
+import com.example.time.presentation.ui.common.util.formater.formatTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

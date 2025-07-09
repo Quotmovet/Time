@@ -7,6 +7,7 @@ import com.example.time.data.db.timescreen.converter.toModelFromEntity
 import com.example.time.domain.interactor.timescreen.SelectedTimeZoneInteractor
 import com.example.time.domain.interactor.timescreen.TimeZoneDataInteractor
 import com.example.time.domain.model.timescreen.TimeDataModel
+import com.example.time.presentation.state.timescreen.SearchScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -71,7 +72,8 @@ class ViewModelForAPI
 
         // Request
         fun searchRequest(newSearchText: String) {
-            _searchState.value = SearchScreenState(emptyList(), isLoading = true, isFailed = null, isEmpty = false)
+            _searchState.value =
+                SearchScreenState(emptyList(), isLoading = true, isFailed = null, isEmpty = false)
 
             viewModelScope.launch {
                 timeZoneDataInteractor.getTimeZone(newSearchText).collect { response ->

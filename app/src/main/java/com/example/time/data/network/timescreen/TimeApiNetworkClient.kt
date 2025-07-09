@@ -10,7 +10,7 @@ import com.example.time.data.dto.Response
 import com.example.time.data.dto.timescreen.ResponseWithResults
 import com.example.time.data.dto.timescreen.TimeDataRequest
 import com.example.time.data.network.NetworkClient
-import com.example.time.presentation.common.util.network.NetworkUtils
+import com.example.time.presentation.ui.common.util.network.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withContext
